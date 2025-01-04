@@ -65,9 +65,32 @@ export const Appitizer = {
     Ap1,Ap2,Ap3,Ap4,Ap5,Ap6,Ap7
 }
 
+export const menu_list = [
+    {
+        menu_name: "Main Dish",
+        menu_image: M1
+    },
+    {
+        menu_name: "Healthy",
+        menu_image: H1
+    },
+    {
+        menu_name: "Drinks",
+        menu_image: D1
+    },
+    {
+        menu_name: "Dessert",
+        menu_image: Des1
+    },
+    {
+        menu_name: "Appitizer",
+        menu_image: Ap1
+    }
+]
+
 export const Foods = [
     {
-        _id: "aaaaa",
+        _id: "1",
         name: "Beef Steak with Peppercorn Sauce",
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
         price: 209,
@@ -77,7 +100,7 @@ export const Foods = [
         recommend: true
     },      
     {
-        _id: "aaaaa",
+        _id: "2",
         name: "Creamy Mushroom Risotto",
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
         price: 159,

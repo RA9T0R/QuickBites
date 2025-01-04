@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Healthy } from '../assets/img/assets';
+import { Healthy } from '../assets/assets';
 
 const Navbar = () => {
 
