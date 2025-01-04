@@ -64,3 +64,26 @@ export const Appitizer = {
     appitizer,
     Ap1,Ap2,Ap3,Ap4,Ap5,Ap6,Ap7
 }
+
+export const Foods = [
+    {
+        _id: "aaaaa",
+        name: "Beef Steak with Peppercorn Sauce",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
+        price: 209,
+        image: [M1],
+        category: "MainDish",
+        date: 1716634345448,
+        recommend: true
+    },      
+    {
+        _id: "aaaaa",
+        name: "Creamy Mushroom Risotto",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
+        price: 159,
+        image: [M2],
+        category: "MainDish",
+        date: 1716634345448,
+        recommend: true
+    }
+]
