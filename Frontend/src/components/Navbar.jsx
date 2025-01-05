@@ -4,11 +4,13 @@ import { BiSolidFoodMenu } from "react-icons/bi";
 import { MdDarkMode } from "react-icons/md";
 import { FaConciergeBell } from "react-icons/fa";
 import Table from './Table';
+import { StoreContext } from '../context/StoreContext';
 
 
 const Navbar = () => {
 
   const [visible,setVisible] = useState(false);
+  const {getCartCount} = useContext(StoreContext);
 
   return (
     
@@ -24,10 +26,10 @@ const Navbar = () => {
             <button>
               <FaConciergeBell className='size-5 sm:size-8 fill-slate-500' />
             </button>
-            <Link to='/orderSummary' className='relative'>
+            <Link to='/cart' className='relative'>
               <BiSolidFoodMenu className='size-5 sm:size-8 fill-slate-500'/>
               <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]
-                ">10</p>
+                ">{getCartCount()}</p>
             </Link>
             <button>
               <MdDarkMode className='size-5 sm:size-8 fill-slate-500'/>

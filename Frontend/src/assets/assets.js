@@ -41,8 +41,11 @@ import Ap5 from './Appitizer/Ap5.jpg'
 import Ap6 from './Appitizer/Ap6.jpg'
 import Ap7 from './Appitizer/Ap7.jpg'
 
+import Home from './Home.jpg'
+import Recommend from './Recommend.png'
+
 export const assets = {
-    
+    Home
 }
 export const Main = {
     main,
@@ -67,32 +70,42 @@ export const Appitizer = {
 
 export const menu_list = [
     {
-        menu_name: "Main Dish",
-        menu_image: M1
+        menu_name: "Recommend",
+        menu_image: Recommend,
+        menu_main: Recommend
+    },
+    {
+        menu_name: "MainDish",
+        menu_image: M1,
+        menu_main: main
     },
     {
         menu_name: "Healthy",
-        menu_image: H1
+        menu_image: H1,
+        menu_main: healthy
     },
     {
         menu_name: "Drinks",
-        menu_image: D1
+        menu_image: D1,
+        menu_main: drinks
     },
     {
         menu_name: "Dessert",
-        menu_image: Des1
+        menu_image: Des1,
+        menu_main: dessert
     },
     {
         menu_name: "Appitizer",
-        menu_image: Ap1
+        menu_image: Ap1,
+        menu_main: appitizer
     }
 ]
 
-export const Foods = [
+export const foods_list = [
     {
         _id: "1",
         name: "Beef Steak with Peppercorn Sauce",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 209,
         image: [M1],
         category: "MainDish",
@@ -102,10 +115,50 @@ export const Foods = [
     {
         _id: "2",
         name: "Creamy Mushroom Risotto",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 159,
         image: [M2],
         category: "MainDish",
+        date: 1716634345448,
+        recommend: false
+    },
+    {
+        _id: "8",
+        name: "Avocado Toast with Poached Egg",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
+        price: 109,
+        image: [H1],
+        category: "Healthy",
+        date: 1716634345448,
+        recommend: true
+    },
+    {
+        _id: "14",
+        name: "Chicken Lettuce Wraps",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
+        price: 69,
+        image: [D1],
+        category: "Drinks",
+        date: 1716634345448,
+        recommend: true
+    },
+    {
+        _id: "21",
+        name: "Banoffee Pie",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
+        price: 80,
+        image: [Des1],
+        category: "Dessert",
+        date: 1716634345448,
+        recommend: true
+    },
+    {
+        _id: "27",
+        name: "Chicken Satay with Peanut Sauce",
+        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
+        price: 159,
+        image: [Ap1],
+        category: "Appitizer",
         date: 1716634345448,
         recommend: true
     }
