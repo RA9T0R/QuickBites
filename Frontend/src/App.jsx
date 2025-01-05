@@ -13,9 +13,10 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] overflow-hidden'>
       <ToastContainer position='top-right' autoClose={2000}/>
       <Navbar />
+      <hr />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
