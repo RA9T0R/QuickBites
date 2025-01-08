@@ -4,7 +4,7 @@ const Table = ({ Number }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="group relative">
+    <div className="group relative z-10">
       {/* Dropdown Button */}
       <button
         onClick={() => setIsOpen(prev => !prev)}

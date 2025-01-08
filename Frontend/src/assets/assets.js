@@ -41,11 +41,27 @@ import Ap5 from './Appitizer/Ap5.jpg'
 import Ap6 from './Appitizer/Ap6.jpg'
 import Ap7 from './Appitizer/Ap7.jpg'
 
-import Home from './Home.jpg'
-import Recommend from './Recommend.png'
+import Home from './Picture/Home.jpg'
+import Recommend from './Picture/Recommend.png'
+import QuickBLogo from './Picture/QuickBlogo.png'
+import menu from './Picture/menu.png'
+import shoppingBag from './Picture/shoppingBag.png'
+import bell from './Picture/bell.png'
+import moon from './Picture/moon.png'
+import sun from './Picture/sun.png'
+import pan from './Picture/pan.png'
+import fire from './Picture/fire.png'
+import star from './Picture/star.png'
+import minus from './Picture/minus.png'
+import add from './Picture/add.png'
+import left from './Picture/left.png'
+import glass from './Picture/glass.png'
+import bin from './Picture/bin.png'
+import cart from './Picture/cart.png'
 
 export const assets = {
-    Home
+    Home,QuickBLogo,menu,shoppingBag,glass,bin,
+    bell,moon,sun,pan,fire,star,add,minus,left,cart
 }
 export const Main = {
     main,
@@ -108,6 +124,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 209,
         image: [M1],
+        rate:4.5,
+        time:[10,20], //Start and End
+        Kcal:100,
         category: "MainDish",
         date: 1716634345448,
         recommend: true
@@ -118,6 +137,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 159,
         image: [M2],
+        rate:4.5,
+        time:[10,20],
+        Kcal:100,
         category: "MainDish",
         date: 1716634345448,
         recommend: false
@@ -128,6 +150,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 109,
         image: [H1],
+        rate:4.5,
+        time:[10,20],
+        Kcal:100,
         category: "Healthy",
         date: 1716634345448,
         recommend: true
@@ -138,6 +163,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 69,
         image: [D1],
+        rate:4.5,
+        time:[10,20],
+        Kcal:100,
         category: "Drinks",
         date: 1716634345448,
         recommend: true
@@ -148,6 +176,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 80,
         image: [Des1],
+        rate:4.5,
+        time:[10,20],
+        Kcal:100,
         category: "Dessert",
         date: 1716634345448,
         recommend: true
@@ -158,6 +189,9 @@ export const foods_list = [
         description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline ",
         price: 159,
         image: [Ap1],
+        rate:4.5,
+        time:[10,20],
+        Kcal:100,
         category: "Appitizer",
         date: 1716634345448,
         recommend: true

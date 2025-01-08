@@ -1,6 +1,5 @@
 import {Routes,Route} from 'react-router-dom'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer'
 
 import Home from './pages/Home'
 import Cart from './pages/Cart'
@@ -13,18 +12,16 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] overflow-hidden'>
+    <div className='px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden'>
       <ToastContainer position='top-right' autoClose={2000}/>
       <Navbar />
-      <hr />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/orderSummary' element={<OrderSummary/>}/>
         <Route path='/invoice' element={<Invoice/>}/>
-        <Route path='/food/:foodId' element={<Food/>}/>
+        <Route path='/:food/:foodId' element={<Food/>}/>
       </Routes>
-      <Footer/>
     </div>
   )
 }

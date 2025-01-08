@@ -1,80 +1,131 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { StoreContext } from '../context/StoreContext'
-import { FaCirclePlus } from "react-icons/fa6";
-import { FaMinusCircle } from "react-icons/fa";
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams,Link } from 'react-router-dom';
+import { StoreContext } from '../context/StoreContext';
+
+import { assets } from '../assets/assets';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const Food = () => {
-  const {foodId} = useParams();
-  const {foods_list,addToCart} = useContext(StoreContext)
-  const [itemsCount,setItemsCount] = useState(0);
+  const { foodId } = useParams();
+  const { foods_list, setToCart, cartItems} = useContext(StoreContext);
+  const [itemsCount, setItemsCount] = useState(cartItems[foodId] || 0);
   const [productData, setProductData] = useState(false);
-  const [image,setImage] = useState('');
 
   const fetchProductData = async () => {
     foods_list.map((item) => {
-      if(item._id == foodId){
+      if (item._id == foodId) {
         setProductData(item);
-        setImage(item.image[0]);
         return null;
       }
-    })
-  }
-
+    });
+  };
+  
   useEffect(() => {
     fetchProductData();
-  },[foodId,foods_list])
+  }, [foodId, foods_list]);
 
-  return( productData  ?  (
-    <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
-      {/* Product Data */}
-      <div className='flex gap-2 sm:gap-12 flex-col sm:flex-row'>
-        {/* Product Image */}
-        <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
-          <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scrool justify-between sm:justify-normal sm:w-[18.7%] w-full">
-            {
-              productData.image.map((item,index) => (
-                  <img onClick={() => setImage(item)} src={item} key={index} className = 'w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer hover:border-2 border-gray-400' alt="" />
-              ))
-            }
-          </div>
-          <div className='w-full sm:w-[80%]'>
-            <img className='w-full h-auto' src={image} alt="" />
+  return productData ? (
+    <div className="my-2 transition-opacity ease-in duration-500 opacity-100">
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
+        {/* Swiper for Product Images */}
+        <div className="relative rounded-2xl overflow-hidden">
+          <Swiper
+            pagination={{
+              dynamicBullets: true,
+            }}
+            modules={[Pagination]}
+            spaceBetween={10}
+            slidesPerView={1}
+            className="flex items-center justify-center"
+          >
+            {productData.image.map((item, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={item}
+                  className="object-cover"
+                  alt={`Product Image ${index + 1}`}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Fixed Controls */}
+          <div className="absolute top-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 bg-white/80 px-4 py-2 rounded-full shadow-md z-10 sm:gap-4 sm:px-4 sm:py-2">
+            <div className='size-8 md:size-12 bg-white shadow-lg rounded-full p-2'>
+              <img
+                src={assets.minus}
+                alt="Minus Button"
+                onClick={() => {
+                  itemsCount > 0 && setItemsCount((prev) => prev - 1);
+                }}
+                className="bg w-12 text-2xl cursor-pointer text-red-500 hover:text-red-700"
+              />
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 md:w-12 md:h-12 bg-black shadow-lg rounded-xl">
+              <p className="text-lg md:text-2xl text-white font-extrabold">{itemsCount || 0}</p>
+            </div>
+
+            <div className='size-8 md:size-12 bg-white shadow-lg rounded-full p-2'>
+              <img
+                src={assets.add}
+                alt="Add Button"
+                onClick={() => setItemsCount((prev) => prev + 1)}
+                className="w-12 text-2xl cursor-pointer text-green-500 hover:text-green-700"
+              />
+            </div>
+            
           </div>
         </div>
 
         {/* Product Information */}
-        <div className="flex-1">
-          <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
-          <div className="flex items-center gap-1 mt-2">
-            {/* Something */}
+        <div>
+          <h1 className="font-bold text-3xl sm:text-4xl mt-2">{productData.name} : ฿ {productData.price}</h1>
+          <p className="mt-5 text-gray-500">{productData.description}</p>
+
+          <div className="flex text-center justify-around w-full mt-5">
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+              <img className="w-8 sm:w-10" src={assets.star} alt="" /> {productData.rate}
+            </p>
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+              <img className="w-10 sm:w-12" src={assets.pan} alt="" /> {productData.time[0]} - {productData.time[1]} min
+            </p>
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+              <img className="w-10 sm:w-12" src={assets.fire} alt="" /> {productData.Kcal} Kcal
+            </p>
           </div>
-          <p className='mt-5 text-3xl font-medium text-orange-500'>฿{productData.price}</p>
-          <p className='mt-5 text-gray-500 md:w-4/5'>{productData.description}</p>
-          <div className='flex flex-col gap-4 my-2'>
-              {/* Something */}
-          </div>
-          <div className='flex gap-5'>
-            <div className='flex gap-5 justify-center items-center'>
-              <FaCirclePlus
-                onClick={() => setItemsCount(prev => prev+1)}
-                className='text-2xl cursor-pointer text-green-500 hover:text-green-700'
-              />
-              <p className="select-none">{itemsCount || 0}</p>
-              <FaMinusCircle
-                onClick={() => {
-                  itemsCount > 0 && setItemsCount(prev => prev-1);
-                }}
-                className='text-2xl cursor-pointer text-red-500 hover:text-red-700'
-              />
+
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_4fr] gap-4 sm:gap-6 mt-5">
+            {/* Total Price Section */}
+            <div className="flex flex-col text-center justify-center">
+              <p className="text-sm sm:text-base text-gray-500">Total Price</p>
+              <p className="text-4xl sm:text-5xl font-medium text-orange-500">
+                ฿ {productData.price * itemsCount || 0}
+              </p>
             </div>
-            <button onClick={() => addToCart(productData._id,itemsCount)} className='select-none bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button>
+            
+            {/* Add to Cart Button */}
+            <Link to={`/`} className='flex'>
+              <button
+                onClick={() => setToCart(productData._id, itemsCount)}
+                className="w-full bg-orange-400 text-white px-6 sm:px-8 py-3 text-lg sm:text-xl rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300 "
+              >
+                ADD TO CART
+              </button>
+            </Link>
           </div>
-          <hr className='my-5 border-none h-[1.5px] w-full bg-gray-800'/>
+
+
         </div>
       </div>
-    </div>  
-  ) : <div className='opacity-0'></div>)
-}
+    </div>
+  ) : (
+    <div className="opacity-0"></div>
+  );
+};
 
-export default Food
+export default Food;

@@ -1,35 +1,64 @@
-import React from 'react';
-import { menu_list } from '../assets/assets';
+import React,{useContext} from 'react';
+import { menu_list,assets } from '../assets/assets';
+import { StoreContext } from '../context/StoreContext';
 
 const ExploreMenu = ({ category, setCategory }) => {
+
+  const {search,setSearch} = useContext(StoreContext)
+
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="flex flex-col gap-2 sm:py-5 px-4 sm:px-8 ">
       {/* Header */}
-      <div className='w-full sm:w-1/2 mt-5 text-center sm:text-start'>
-        <h2 className='mb-5 font-bold sm:font-semibold text-2xl sm:text-4xl'>สำรวจเมนูของเรา</h2>
-        <p className='hidden sm:block mb-5 font-medium text-lg'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis repellendus reiciendis architecto, earum perferendis veniam soluta ut minus tenetur rerum?</p>
+      <div className='w-full my-5 gap-5 sm:font-semibold text-4xl sm:text-7xl text-start sm:text-center'>
+        <p className=''>Find The <b>Best</b> <br/> <b>Food</b> Around You</p>
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex items-center justify-center sm:py-5">
+        <div className="flex items-center bg-gray-100 shadow-lg rounded-full overflow-hidden w-full max-w-2xl">
+          <input
+            value={search} onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            placeholder="Search for food..."
+            className="flex-grow px-4 py-2 sm:px-6 sm:py-4 bg-gray-100 text-gray-700 text-lg focus:outline-none"
+          />
+          <button className="px-4 py-2 sm:px-6 sm:py-4 bg-orange-500 text-white text-lg font-semibold rounded-full flex items-center justify-center">
+            <img className='w-6 sm:w-10' src={assets.glass} alt="Search" />
+          </button>
+        </div>
+      </div>
+
+
+      <div className='w-full my-5 gap-5 font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center'>
+        <p className=''>Discover Good Food</p>
       </div>
 
       {/* Scrollable Menu */}
-      <div className="flex w-full overflow-x-auto py-2">
+      <div className="flex w-full overflow-x-auto">
         <div className="flex gap-6 sm:gap-8 lg:gap-10 mx-auto max-w-screen-xl">
           {menu_list.map((item, index) => (
-            <div onClick={() =>setCategory((prev) => (prev === item.menu_name ? 'All' : item.menu_name))}
-              key={index} className="flex flex-col text-center gap-4 flex-shrink-0 w-20 sm:w-36 md:w-40">
-              {/* Image Container */}
-              <div className="relative w-full h-20 sm:h-36 md:h-40 overflow-hidden rounded-full">
+            <div
+              key={index}
+              onClick={() => setCategory((prev) => (prev === item.menu_name ? 'All' : item.menu_name))}
+              className={`flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-xl shadow-lg transition-all ease-in-out cursor-pointer  ${
+                category === item.menu_name ? 'bg-slate-950 text-white' : 'text-gray-700'
+              }`}>
+              {/* Circular Image */}
+              <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
                 <img
-                  className={`${category === item.menu_name ? 'border-4 border-rose-700' : ''} transition-all ease-in-out hover:scale-110 w-full h-full object-cover rounded-full`}
+                  className="w-full h-full object-cover"
                   src={item.menu_image}
                   alt={item.menu_name}
                 />
               </div>
-              <p className="text-xs sm:text-sm md:text-base lg:text-lg uppercase font-bold text-gray-700">{item.menu_name}</p>
+              {/* Text Section */}
+              <div className="flex flex-col">
+                <p className="text-md sm:lg md:text-xl font-bold uppercase">{item.menu_name}</p>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <hr className='my-5 border-none h-[1.5px] w-full bg-gray-800'/>
     </div>
   );
 };
