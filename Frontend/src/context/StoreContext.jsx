@@ -18,16 +18,6 @@ const StoreContextProvider = (props) => {
             setCartItems(cartData);
         }
     }
-    // const addToCart = (itemId,itemsCount) => {
-    //     let cartData = structuredClone(cartItems);
-    //     if (!cartData[itemId]) {
-    //         cartData[itemId] = itemsCount;
-    //     } else {
-    //         cartData[itemId] += itemsCount;
-    //     }
-
-    //     setCartItems(cartData);
-    // }
 
     const getCartCount = () => {
         let count = 0;

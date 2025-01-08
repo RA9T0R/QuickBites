@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (
-    <div className='px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden'>
+    <div className='px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden bg-BG min-h-screen'>
       <ToastContainer position='top-right' autoClose={2000}/>
       <Navbar />
       <Routes>

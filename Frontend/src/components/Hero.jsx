@@ -8,7 +8,7 @@ const Hero = ({ category }) => {
   const menuItem = menu_list.find(item => item.menu_name === category);
 
   return (
-    <div className="hidden md:flex relative flex-col sm:flex-row border border-gray-400 rounded-lg overflow-hidden">
+    <div className="hidden md:flex relative flex-col sm:flex-row shadow-lg shadow-Text/20  rounded-lg overflow-hidden">
       {/* Image Section */}
       <img
         src={menuItem ? menuItem.menu_main : assets.Home}

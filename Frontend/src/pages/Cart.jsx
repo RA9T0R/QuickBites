@@ -32,7 +32,7 @@ const Cart = () => {
 
   return (
     <div className="flex flex-col max-w-full p-6 space-y-4 sm:p-8 ">
-      <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3">
+      <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3 text-Text">
         <h1><b>My</b> Cart List</h1>
       </div>
 
@@ -41,7 +41,7 @@ const Cart = () => {
           <div>
             {cartData.map((item, index) => (
               <div key={index}
-                className="py-4 border-t border-b text-gray-700 flex justify-between items-center gap-2">
+                className="py-4 border-t border-b text-Text/70 flex justify-between items-center gap-2">
                 <div className="flex gap-3 md:gap-6 w-full">
                   <img src={item.image[0]} className="w-28 sm:w-44 rounded-lg" alt="" />
                   <div className='flex flex-col justify-center'>
@@ -80,7 +80,7 @@ const Cart = () => {
             ))}
           </div>
         ) : (
-          <div className='flex items-center justify-center mt-10 text-2xl font-light text-gray-500'>
+          <div className='flex items-center justify-center mt-10 text-2xl font-light text-Text-/50'>
             <p>Your cart is empty.</p>
           </div>
         )}
@@ -90,7 +90,7 @@ const Cart = () => {
         <div className="w-full sm:w-[450px] mt-10">
           <CartTotal/>
           <div className="w-full flex justify-center text-end">
-            <Link onClick={() => placeOrder()} to="/orderSummary" className="w-[90%] text-center select-none rounded-lg bg-orange-400 text-white text-sm my-8 px-8 py-3">
+            <Link onClick={() => placeOrder()} to="/orderSummary" className="w-[90%] text-center select-none rounded-lg bg-Button text-white text-sm my-8 px-8 py-3">
                 CHECKOUT
             </Link>
           </div>

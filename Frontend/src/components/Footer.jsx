@@ -6,7 +6,7 @@ const Footer = () => {
   return (
       <footer className='my-10 mt-40 text-sm'>
         <hr />
-        <p className='py-5 text-sm text-center'>Copyright &copy; {year} - All rights reserved</p>
+        <p className='py-5 text-sm text-center text-Text'>Copyright &copy; {year} - All rights reserved</p>
       </footer>
   )
 }

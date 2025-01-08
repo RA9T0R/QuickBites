@@ -84,17 +84,17 @@ const Food = () => {
 
         {/* Product Information */}
         <div>
-          <h1 className="font-bold text-3xl sm:text-4xl mt-2">{productData.name} : ฿ {productData.price}</h1>
-          <p className="mt-5 text-gray-500">{productData.description}</p>
+          <h1 className="font-bold text-3xl sm:text-4xl mt-2 text-Text">{productData.name} : ฿ {productData.price}</h1>
+          <p className="mt-5 text-Text/50">{productData.description}</p>
 
           <div className="flex text-center justify-around w-full mt-5">
-            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center text-Text">
               <img className="w-8 sm:w-10" src={assets.star} alt="" /> {productData.rate}
             </p>
-            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center text-Text">
               <img className="w-10 sm:w-12" src={assets.pan} alt="" /> {productData.time[0]} - {productData.time[1]} min
             </p>
-            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center">
+            <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center text-Text">
               <img className="w-10 sm:w-12" src={assets.fire} alt="" /> {productData.Kcal} Kcal
             </p>
           </div>
@@ -102,8 +102,8 @@ const Food = () => {
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_4fr] gap-4 sm:gap-6 mt-5">
             {/* Total Price Section */}
             <div className="flex flex-col text-center justify-center">
-              <p className="text-sm sm:text-base text-gray-500">Total Price</p>
-              <p className="text-4xl sm:text-5xl font-medium text-orange-500">
+              <p className="text-sm sm:text-base text-Text/50">Total Price</p>
+              <p className="text-4xl sm:text-5xl font-medium text-Highlight">
                 ฿ {productData.price * itemsCount || 0}
               </p>
             </div>
@@ -112,7 +112,7 @@ const Food = () => {
             <Link to={`/`} className='flex'>
               <button
                 onClick={() => setToCart(productData._id, itemsCount)}
-                className="w-full bg-orange-400 text-white px-6 sm:px-8 py-3 text-lg sm:text-xl rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300 "
+                className="w-full bg-Button text-white px-6 sm:px-8 py-3 text-lg sm:text-xl rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300 "
               >
                 ADD TO CART
               </button>

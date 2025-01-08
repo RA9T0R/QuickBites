@@ -28,18 +28,18 @@ const OrderSummary = () => {
   };
 
   return (
-    <div className="p-6 mt-2 bg-white shadow-xl border-y rounded-lg relative pb-20 md:pb-28">
-      <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3">
+    <div className="p-6 mt-5 bg-BG shadow-xl shadow-Text/20 border-t rounded-lg relative pb-20 md:pb-28">
+      <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3 text-Text">
         <h1><b>Order</b> Summary</h1>
       </div>
       {orderData.length === 0 ? (
-        <div className='flex items-center justify-center mt-10 text-2xl text-gray-500 font-light'>
+        <div className='flex items-center justify-center mt-10 text-2xl text-Text/50 font-light'>
           <p>No orders placed yet.</p>
         </div>
       ) : (
         <div>
           {orderData.map((order, index) => (
-            <div key={index} className="mb-4 border-b pb-4">
+            <div key={index} className="mb-4 border-b pb-4 text-Text">
               <h3 className="font-medium text-lg">Order #{index + 1}</h3>
               <ul className="mt-2">
                 {order.items.map((item, idx) => {
@@ -69,11 +69,11 @@ const OrderSummary = () => {
 
       {/* Grand Total section at the bottom */}
       {getTotalFoodCount() > 0 && (
-        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 border bg-white shadow-xl rounded-lg z-50">
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 bg-BG shadow-xl shadow-Text/20 rounded-lg z-50">
           <Link to='/' onClick={() => clearOrders()} className='flex items-center justify-center'>
             <button
               onClick={handleCheckBill}
-              className="flex items-center justify-between w-full md:w-[50%] bg-orange-400 text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
+              className="flex items-center justify-between w-full md:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
             > 
               <p className='text-xl md:text-2xl lg:text-3xl'>{getTotalFoodCount()} Order</p>
               <p className='text-xl md:text-2xl lg:text-3xl'>Check Bill</p>

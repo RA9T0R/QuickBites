@@ -7,11 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary': "#ECEEFF",
-        "coral-red": "#FF6452",
-        "slate-gray": "#6D6D6D",
-        "pale-blue": "#F5F6FF",
-        "white-400": "rgba(255, 255, 255, 0.80)"
+        BG : "rgba(var(--bg))",
+        BG_sec : "rgba(var(--bg-sec))",
+        BG_Black : "rgba(var(--black))",
+        Text : "rgba(var(--text))",
+        Button : "rgba(var(--button))",
+        Highlight : "rgba(var(--highlight-text))"
       },
     },
   },

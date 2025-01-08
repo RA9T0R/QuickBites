@@ -7,12 +7,12 @@ const FoodItem = ({ id, name,time,Kcal, price, image }) => {
   const { cartItems } = useContext(StoreContext);
 
   return (
-    <Link className="shadow-lg text-gray-700 cursor-pointer mt-5 rounded-3xl" to={`/food/${id}`}>
+    <Link className="shadow-lg shadow-Text/20 text-Text cursor-pointer mt-5 rounded-3xl" to={`/food/${id}`}>
       <div className="relative rounded-t-3xl overflow-hidden">
         <img src={image} className="w-full h-40 sm:h-52 hover:scale-110 transition-all ease-in-out"alt={name}/>
         {cartItems[id] && (
-          <div className="absolute top-2 start-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full border shadow-lg flex items-center justify-center">
-            <p className="text-xl font-black text-gray-700">{cartItems[id]}</p>
+          <div className="absolute top-2 start-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-BG rounded-full border shadow-lg flex items-center justify-center">
+            <p className="text-xl font-black text-Text">{cartItems[id]}</p>
           </div>
         )}
       </div>

@@ -9,27 +9,27 @@ const ExploreMenu = ({ category, setCategory }) => {
   return (
     <div className="flex flex-col gap-2 sm:py-5 px-4 sm:px-8 ">
       {/* Header */}
-      <div className='w-full my-5 gap-5 sm:font-semibold text-4xl sm:text-7xl text-start sm:text-center'>
+      <div className='w-full my-5 gap-5 sm:font-semibold text-4xl sm:text-7xl text-start sm:text-center text-Text'>
         <p className=''>Find The <b>Best</b> <br/> <b>Food</b> Around You</p>
       </div>
 
       {/* Search Bar */}
       <div className="flex items-center justify-center sm:py-5">
-        <div className="flex items-center bg-gray-100 shadow-lg rounded-full overflow-hidden w-full max-w-2xl">
+        <div className="flex items-center bg-gray-100 shadow-lg shadow-Text/20 rounded-full overflow-hidden w-full max-w-2xl">
           <input
             value={search} onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search for food..."
             className="flex-grow px-4 py-2 sm:px-6 sm:py-4 bg-gray-100 text-gray-700 text-lg focus:outline-none"
           />
-          <button className="px-4 py-2 sm:px-6 sm:py-4 bg-orange-500 text-white text-lg font-semibold rounded-full flex items-center justify-center">
+          {/* <div className="px-4 py-2 sm:px-6 sm:py-4 bg-orange-500 text-white text-lg font-semibold rounded-full flex items-center justify-center">
             <img className='w-6 sm:w-10' src={assets.glass} alt="Search" />
-          </button>
+          </div> */}
         </div>
       </div>
 
 
-      <div className='w-full my-5 gap-5 font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center'>
+      <div className='w-full my-5 gap-5 font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center text-Text'>
         <p className=''>Discover Good Food</p>
       </div>
 
@@ -40,8 +40,8 @@ const ExploreMenu = ({ category, setCategory }) => {
             <div
               key={index}
               onClick={() => setCategory((prev) => (prev === item.menu_name ? 'All' : item.menu_name))}
-              className={`flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-xl shadow-lg transition-all ease-in-out cursor-pointer  ${
-                category === item.menu_name ? 'bg-slate-950 text-white' : 'text-gray-700'
+              className={`flex items-center gap-2 bg-BG px-2 py-1 rounded-xl shadow-lg shadow-Text/20  transition-all ease-in-out cursor-pointer  ${
+                category === item.menu_name ? 'bg-BG_Black text-BG' : 'text-Text'
               }`}>
               {/* Circular Image */}
               <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
@@ -52,7 +52,7 @@ const ExploreMenu = ({ category, setCategory }) => {
                 />
               </div>
               {/* Text Section */}
-              <div className="flex flex-col">
+              <div className="flex flex-col ">
                 <p className="text-md sm:lg md:text-xl font-bold uppercase">{item.menu_name}</p>
               </div>
             </div>

@@ -7,7 +7,7 @@ const CartTotal = () => {
   return (
     <div className='w-full'>
       <div className='flex flex-col gap-2 mt-2 text-sm'>
-        <div className='flex justify-between text-xl'>
+        <div className='flex justify-between text-xl text-Text'>
            <p>Subtotal</p>
            <p>{currency} {getCartAmount()}.00</p>
         </div>
