@@ -28,12 +28,12 @@ const OrderSummary = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-xl border-y rounded-lg relative pb-20">
+    <div className="p-6 mt-2 bg-white shadow-xl border-y rounded-lg relative pb-20 md:pb-28">
       <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3">
         <h1><b>Order</b> Summary</h1>
       </div>
       {orderData.length === 0 ? (
-        <div className='flex items-center justify-center mt-10 text-2xl font-light'>
+        <div className='flex items-center justify-center mt-10 text-2xl text-gray-500 font-light'>
           <p>No orders placed yet.</p>
         </div>
       ) : (

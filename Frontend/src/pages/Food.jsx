@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 const Food = () => {
   const { foodId } = useParams();
   const { foods_list, setToCart, cartItems} = useContext(StoreContext);
-  const [itemsCount, setItemsCount] = useState(cartItems[foodId] || 0);
+  const [itemsCount, setItemsCount] = useState(cartItems[foodId] || 1);
   const [productData, setProductData] = useState(false);
 
   const fetchProductData = async () => {

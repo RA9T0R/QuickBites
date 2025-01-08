@@ -80,7 +80,9 @@ const Cart = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500">Your cart is empty.</p>
+          <div className='flex items-center justify-center mt-10 text-2xl font-light text-gray-500'>
+            <p>Your cart is empty.</p>
+          </div>
         )}
       </div>
 
