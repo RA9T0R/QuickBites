@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../context/StoreContext';
 
+import { Trash2 } from 'lucide-react';
+
 import { assets } from '../assets/assets';
 import CartTotal from '../components/CartTotal';
 import { Link } from 'react-router-dom';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Cart = () => {
   const {foods_list, cartItems, updateQuantity, removeItem,placeOrder } = useContext(StoreContext);
@@ -28,6 +33,7 @@ const Cart = () => {
         .filter((item) => item !== null);
       setCartData(tempData);
     }
+    AOS.init();
   }, [cartItems, foods_list]);
 
   return (
@@ -41,8 +47,8 @@ const Cart = () => {
           <div>
             {cartData.map((item, index) => (
               <div key={index}
-                className="py-4 border-t border-b text-Text/70 flex justify-between items-center gap-2">
-                <div className="flex gap-3 md:gap-6 w-full">
+                className="py-4 border-t border-b text-Text/80 flex justify-between items-center gap-2">
+                <div data-aos="fade-right" className="flex gap-3 md:gap-6 w-full">
                   <img src={item.image[0]} className="w-28 sm:w-44 rounded-lg" alt="" />
                   <div className='flex flex-col justify-center'>
                     <p className="text-md md:text-2xl font-bold">{item.name}</p>
@@ -52,12 +58,13 @@ const Cart = () => {
                   </div>
                 </div>
                 
-                <div className='md:w-[25%] p-2 flex flex-col items-center'>
+                <div data-aos="fade-left" className='md:w-[25%] p-2 flex flex-col items-center'>
                   <p className='text-lg md:text-2xl '>{item.quantity*item.price}</p>
-                  <img className='w-4 md:w-10 cursor-pointer' onClick={() => removeItem(item.id)}  src={assets.bin}alt="Bin" />
+                  <Trash2 className='size-4 md:size-10 cursor-pointer' onClick={() => removeItem(item.id)}/>
+                  {/* <img className='w-4 md:w-10 cursor-pointer' onClick={() => removeItem(item.id)}  src={assets.bin}alt="Bin" /> */}
                 </div>
 
-                <div className='md:w-[25%] flex flex-col gap-2 items-center justify-center'>
+                <div   data-aos="fade-left" className='md:w-[25%] flex flex-col gap-2 items-center justify-center'>
                   <div className='flex flex-col gap-3 items-center'>
                     <div className='size-6 md:size-10 bg-white shadow-lg rounded-full p-2'>
                       <img onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -80,7 +87,7 @@ const Cart = () => {
             ))}
           </div>
         ) : (
-          <div className='flex items-center justify-center mt-10 text-2xl font-light text-Text-/50'>
+          <div className='flex items-center justify-center mt-10 text-2xl font-light text-Text/50'>
             <p>Your cart is empty.</p>
           </div>
         )}

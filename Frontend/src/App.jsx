@@ -6,6 +6,9 @@ import Cart from './pages/Cart'
 import OrderSummary from './pages/OrderSummary'
 import Invoice from './pages/Invoice'
 import Food from './pages/Food'
+import Table from './pages/Table'
+import About from './pages/About'
+import Contact from './pages/Contact'
 
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -18,6 +21,9 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/table' element={<Table/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route path='/contact' element={<Contact/>}/>
         <Route path='/orderSummary' element={<OrderSummary/>}/>
         <Route path='/invoice' element={<Invoice/>}/>
         <Route path='/:food/:foodId' element={<Food/>}/>

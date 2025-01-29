@@ -1,7 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import { StoreContext } from '../context/StoreContext';
 import { toast } from 'react-toastify'; 
 import { Link } from 'react-router-dom'; 
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const OrderSummary = () => {
   const { orderData, currency, getTotalFoodCount, clearOrders } = useContext(StoreContext);
@@ -27,6 +30,10 @@ const OrderSummary = () => {
     });
   };
 
+  useEffect(() => {
+    AOS.init();
+  },[]);
+
   return (
     <div className="p-6 mt-5 bg-BG shadow-xl shadow-Text/20 border-t rounded-lg relative pb-20 md:pb-28">
       <div className="w-full font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center mb-3 text-Text">
@@ -39,7 +46,7 @@ const OrderSummary = () => {
       ) : (
         <div>
           {orderData.map((order, index) => (
-            <div key={index} className="mb-4 border-b pb-4 text-Text">
+            <div data-aos="fade-up" key={index} className="mb-4 border-b pb-4 text-Text">
               <h3 className="font-medium text-lg">Order #{index + 1}</h3>
               <ul className="mt-2">
                 {order.items.map((item, idx) => {

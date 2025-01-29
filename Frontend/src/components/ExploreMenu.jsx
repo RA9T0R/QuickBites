@@ -10,7 +10,7 @@ const ExploreMenu = ({ category, setCategory }) => {
     <div className="flex flex-col gap-2 sm:py-5 px-4 sm:px-8 ">
       {/* Header */}
       <div className='w-full my-5 gap-5 sm:font-semibold text-4xl sm:text-7xl text-start sm:text-center text-Text'>
-        <p className=''>Find The <b>Best</b> <br/> <b>Food</b> Around You</p>
+        <p className=''>Discover The <br/> <b>Best</b>  <b>Food</b></p>
       </div>
 
       {/* Search Bar */}
@@ -29,8 +29,8 @@ const ExploreMenu = ({ category, setCategory }) => {
       </div>
 
 
-      <div className='w-full my-5 gap-5 font-bold sm:font-semibold text-2xl sm:text-5xl text-start sm:text-center text-Text'>
-        <p className=''>Discover Good Food</p>
+      <div className='w-full my-5 gap-5 font-bold sm:font-semibold text-xl sm:text-5xl text-start sm:text-center text-Text'>
+        <p >No waiters, no waiting <b> Just great food!</b></p>
       </div>
 
       {/* Scrollable Menu */}

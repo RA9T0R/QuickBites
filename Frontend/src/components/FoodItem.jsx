@@ -1,13 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { StoreContext } from '../context/StoreContext';
 import { assets } from '../assets/assets';
 
+
+import { CookingPot,Flame   } from 'lucide-react';
+
 const FoodItem = ({ id, name,time,Kcal, price, image }) => {
   const { cartItems } = useContext(StoreContext);
 
+
   return (
-    <Link className="shadow-lg shadow-Text/20 text-Text cursor-pointer mt-5 rounded-3xl" to={`/food/${id}`}>
+    <Link className="shadow-lg shadow-Text/20 text-Text cursor-pointer mt-5 rounded-3xl " to={`/food/${id}`}>
       <div className="relative rounded-t-3xl overflow-hidden">
         <img src={image} className="w-full h-40 sm:h-52 hover:scale-110 transition-all ease-in-out"alt={name}/>
         {cartItems[id] && (
@@ -24,10 +28,12 @@ const FoodItem = ({ id, name,time,Kcal, price, image }) => {
         {/* Details Section */}
         <div className="flex text-center justify-between w-full px-0 lg:px-5 ">
           <p className="text-xs font-light flex items-center gap-1 text-center justify-center">
-            <img className="w-5" src={assets.pan} alt="" /> {time[0]} - {time[1]} min
+            <CookingPot className='size-5'/> {time[0]} - {time[1]} min
+            {/* <img className="w-5" src={assets.pan} alt="" /> {time[0]} - {time[1]} min */}
           </p>
           <p className="text-xs font-light flex items-center gap-1 text-center justify-center">
-            <img className="w-5" src={assets.fire} alt="" /> {Kcal} Kcal
+            <Flame className='size-5'/> {Kcal} Kcal
+            {/* <img className="w-5" src={assets.fire} alt="" /> */}
           </p>
         </div>
         
@@ -36,9 +42,6 @@ const FoodItem = ({ id, name,time,Kcal, price, image }) => {
           <b>฿</b> {price}
         </p>
       </div>
-
-
-
     </Link>
   );
 };
