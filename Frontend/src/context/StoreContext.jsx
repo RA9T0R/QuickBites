@@ -98,9 +98,6 @@ const StoreContextProvider = (props) => {
         setOrderData([]);
     };
       
-      
-    
-    
     
     const contextvalue = {
         foods_list,cartItems,setCartItems,setToCart,search,setSearch,

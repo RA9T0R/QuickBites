@@ -4,7 +4,7 @@ import { StoreContext } from '../context/StoreContext';
 import { assets } from '../assets/assets';
 
 
-import { CookingPot,Flame   } from 'lucide-react';
+import { AlarmClock,Flame   } from 'lucide-react';
 
 const FoodItem = ({ id, name,time,Kcal, price, image }) => {
   const { cartItems } = useContext(StoreContext);
@@ -28,7 +28,7 @@ const FoodItem = ({ id, name,time,Kcal, price, image }) => {
         {/* Details Section */}
         <div className="flex text-center justify-between w-full px-0 lg:px-5 ">
           <p className="text-xs font-light flex items-center gap-1 text-center justify-center">
-            <CookingPot className='size-5'/> {time[0]} - {time[1]} min
+            <AlarmClock className='size-5'/> {time[0]} - {time[1]} min
             {/* <img className="w-5" src={assets.pan} alt="" /> {time[0]} - {time[1]} min */}
           </p>
           <p className="text-xs font-light flex items-center gap-1 text-center justify-center">

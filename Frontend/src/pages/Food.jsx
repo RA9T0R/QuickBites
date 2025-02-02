@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams,Link } from 'react-router-dom';
 import { StoreContext } from '../context/StoreContext';
 
-import { Star,CookingPot,Flame   } from 'lucide-react';
+import { Star,AlarmClock,Flame   } from 'lucide-react';
 
 import { assets } from '../assets/assets';
 
@@ -37,7 +37,7 @@ const Food = () => {
   return productData ? (
     <div className="my-2 transition-opacity ease-in duration-500 opacity-100">
       {/* Product Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-12">
         {/* Swiper for Product Images */}
         <div data-aos="fade-right" className="relative rounded-2xl overflow-hidden">
           <Swiper
@@ -72,7 +72,7 @@ const Food = () => {
               {/* <img className="w-8 sm:w-10" src={assets.star} alt="" />  */}
             </p>
             <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center text-Text">
-              <CookingPot className="size-8 sm:size-10"/>  {productData.time[0]} - {productData.time[1]} min
+              <AlarmClock className="size-8 sm:size-10"/>  {productData.time[0]} - {productData.time[1]} min
               {/* <img className="w-10 sm:w-12" src={assets.pan} alt="" /> */}
             </p>
             <p className="text-sm sm:text-lg flex items-center gap-1 text-center justify-center text-Text">
@@ -80,7 +80,7 @@ const Food = () => {
               {/* <img className="w-10 sm:w-12" src={assets.fire} alt="" /> {productData.Kcal} Kcal */}
             </p>
           </div>
-          <div className="grid grid-cols-[1fr_4fr] gap-4 sm:gap-6 mt-5">
+          <div className="grid grid-cols-[1fr_4fr] gap-4 sm:gap-6 mt-5 ">
 
             <div className="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full shadow-md z-10 sm:gap-4 sm:px-4 sm:py-2">
               <div className='size-8 md:size-12 bg-white shadow-lg rounded-full p-2'>
@@ -111,12 +111,12 @@ const Food = () => {
             <Link to={`/`} className='flex'>
               <button
                 onClick={() => setToCart(productData._id, itemsCount)}
-                className="flex items-center justify-between w-full bg-Button text-white px-6 sm:px-12 py-3 text-lg sm:text-xl rounded-full hover:bg-orange-500 active:bg-orange-700 transition duration-300"
+                className="flex items-center justify-between w-full bg-Button text-white px-3 sm:px-5 xl:px-7 2xl:px-9 py-3 text-lg sm:text-xl rounded-full hover:bg-orange-500 active:bg-orange-700 transition duration-300"
               >
-                <p className="text-md sm:text-3xl font-medium text-white">
+                <p className="text-md sm:text-2xl md:text-3xl xl:text-2xl font-medium text-white">
                   ฿ {productData.price * itemsCount || 0}
                 </p>
-                <p className='text-md sm:text-3xl font-medium text-white'>
+                <p className='text-md sm:text-2xl md:text-3xl xl:text-2xl font-medium text-white'>
                    ADD TO CART
                 </p>
               </button>

@@ -58,9 +58,10 @@ import left from './Picture/left.png'
 import glass from './Picture/glass.png'
 import bin from './Picture/bin.png'
 import cart from './Picture/cart.png'
+import logo from './Picture/QB_logo2.png'
 
 export const assets = {
-    Home,QuickBLogo,menu,shoppingBag,glass,bin,
+    Home,QuickBLogo,menu,shoppingBag,glass,bin,logo,
     bell,moon,sun,pan,fire,star,add,minus,left,cart
 }
 export const Main = {
@@ -369,7 +370,7 @@ export const foods_list = [
         _id: "20",
         name: "Plain Water",
         description: "Pure and refreshing water to hydrate and cleanse the palate.",
-        price: 209,
+        price: 29,
         image: [D3],
         rate:4.8,
         time:[5,10],
