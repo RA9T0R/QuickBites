@@ -7,7 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const OrderSummary = () => {
-  const { orderData, currency, getTotalFoodCount, clearOrders } = useContext(StoreContext);
+  const { orderData, currency, getTotalFoodCount, clearOrders,updateStatus } = useContext(StoreContext);
 
   const calculateTotalPrice = () => {
     return orderData.reduce((total, order) => {
@@ -19,7 +19,6 @@ const OrderSummary = () => {
     const totalAmount = calculateTotalPrice().toFixed(2);
     const totalFoodCount = getTotalFoodCount();
 
-    // Display a toast message with order summary
     toast.info(`Bill checked! Grand Total: ${currency} ${totalAmount} | Total Food: ${totalFoodCount}`, {
       position: "top-right", 
       autoClose: 5000, 
@@ -46,19 +45,25 @@ const OrderSummary = () => {
       ) : (
         <div>
           {orderData.map((order, index) => (
-            <div data-aos="fade-up" key={index} className="mb-4 border-b pb-4 text-Text">
+            <div key={index} className="mb-4 border-b pb-4 text-Text">
               <h3 className="font-medium text-lg">Order #{index + 1}</h3>
               <ul className="mt-2">
                 {order.items.map((item, idx) => {
-                  const itemInfo = item;
                   return (
-                    <li key={idx} className="flex justify-between py-2 md:pr-20">
-                      <div className="flex items-center justify-center ">
-                        <img src={itemInfo.image[0]} alt={itemInfo.name} className="w-24 sm:w-44 object-cover mr-4 rounded-lg" />
-                        <span className='text-sm md:w-full md:text-2xl'>{itemInfo.name} (x{item.quantity})</span>
+                    <li data-aos="fade-up"  key={idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-2 md:pr-20">
+                      <div className="flex items-center justify-center">
+                        <img src={item.image[0]} alt={item.name} className="w-32 sm:w-44 object-cover mr-4 rounded-lg" />
+                        <div className='flex flex-col gap-2'>
+                          <span className='text-md md:text-lg md:w-full lg:text-2xl'>{item.name} (x{item.quantity})</span>
+                          <span className={`w-20 sm:w-28 md:w-36 text-md md:text-lg lg:text-2xl text-center select-none badge-${item.status.toLowerCase()}`}>{item.status}</span>
+                          <p className="text-md md:text-lg lg:text-xl truncate max-w-44 sm:max-w-60 md:max-w-80 lg:max-w-96">
+                            <b>Additional  </b> : {item.requirement ? item.requirement : 'No Req'}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-end max-md:w-[25%] ">
-                        <p className='text-sm md:text-2xl'>{currency} {item.totalPrice.toFixed(2)}</p>
+
+                      <div className="flex items-center mt-2 sm:justify-end max-md:w-[25%] whitespace-nowrap">
+                        <p className='text-md md:text-lg lg:text-2xl'>{currency} {item.totalPrice.toFixed(2)}</p>
                       </div>
                     </li>
                   );
@@ -80,7 +85,7 @@ const OrderSummary = () => {
           <Link to='/' onClick={() => clearOrders()} className='flex items-center justify-center'>
             <button
               onClick={handleCheckBill}
-              className="flex items-center justify-between w-full md:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
+              className="flex items-center justify-between w-full md:w-[60%] lg:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
             > 
               <p className='text-xl md:text-2xl lg:text-3xl'>{getTotalFoodCount()} Order</p>
               <p className='text-xl md:text-2xl lg:text-3xl'>Check Bill</p>

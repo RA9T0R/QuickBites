@@ -47,3 +47,30 @@ b{
         color:rgba(var(--bg));
     }
 }
+.badge-ordering {
+    background-color: yellow;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.badge-cooking {
+    background-color: orange;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.badge-done {
+    background-color: green;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.badge-served {
+    background-color: blue;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+}

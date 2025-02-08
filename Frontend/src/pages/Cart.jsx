@@ -25,7 +25,8 @@ const Cart = () => {
               name: product.name,
               price: product.price,
               image: product.image,
-              quantity: cartItems[id],
+              requirement: cartItems[id]?.requirement,
+              quantity: cartItems[id]?.quantity,
             };
           }
           return null;
@@ -57,7 +58,7 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div data-aos="fade-left" className='md:w-[25%] p-2 flex flex-col items-center'>
                   <p className='text-lg md:text-2xl '>{item.quantity*item.price}</p>
                   <Trash2 className='size-4 md:size-10 cursor-pointer' onClick={() => removeItem(item.id)}/>

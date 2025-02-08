@@ -1,114 +1,158 @@
-import { createContext, useState } from "react";
-import {foods_list} from '../assets/assets'
+import { createContext, useState, useEffect } from 'react';
+import { foods_list } from '../assets/assets';
+import { useSearchParams } from 'react-router-dom';
 
-export const StoreContext = createContext(null)
+export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-    const currency = '฿';
-    const [cartItems , setCartItems] = useState({});
-    const [orderData, setOrderData] = useState([]); 
-    const [search,setSearch] = useState('');
+  const currency = '฿';
+  const [cartItems, setCartItems] = useState({});
+  const [orderData, setOrderData] = useState([]);
+  const [search, setSearch] = useState('');
+  const [tableNumber, setTableNumber] = useState(null);
 
-    const setToCart = (itemId,itemsCount) => {
-        let cartData = structuredClone(cartItems);
-        if(itemsCount == 0){
-            removeItem(itemId);
-        }else{
-            cartData[itemId] = itemsCount;
-            setCartItems(cartData);
-        }
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const tableFromURL = searchParams.get('table');
+
+    if (tableFromURL && tableNumber !== tableFromURL) {
+      setTableNumber(tableFromURL);
+    } else if (!tableNumber) {
+      setTableNumber('1');
     }
+  }, [searchParams, tableNumber]);
 
-    const getCartCount = () => {
-        let count = 0;
-        for (let itemId in cartItems) {
-            count += cartItems[itemId];
-        }
-        return count;
+  useEffect(() => {
+    if (tableNumber) {
+      localStorage.setItem('tableNumber', tableNumber);
     }
+  }, [tableNumber]);
 
-    const updateQuantity = async(itemId,quantity) => {
-        let cartData = structuredClone(cartItems);
-        if (cartData[itemId]) {
-            cartData[itemId] = quantity;
-            setCartItems(cartData);
-        }
+  const setToCart = (itemId, itemsCount, requirement = '') => {
+    console.log("Adding to cart:", { itemId, itemsCount, requirement });
+
+    let cartData = structuredClone(cartItems);
+
+    if (itemsCount === 0) {
+      console.log("Removing item:", itemId);
+      removeItem(itemId);
+    } else {
+      cartData[itemId] = { quantity:itemsCount, requirement };
+      setCartItems(cartData);
     }
+  };
 
-    const removeItem = (id) => {
-        setCartItems((prevCart) => {
-          const updatedCart = { ...prevCart };
-          delete updatedCart[id];
-          return updatedCart;
-        });
+  const getCartCount = () => {
+    return Object.values(cartItems).reduce((acc, item) => acc + item.quantity, 0);
+  };
+
+  const updateQuantity = (itemId, quantity) => {
+    if (cartItems[itemId]) {
+      setCartItems((prevCart) => ({
+        ...prevCart,
+        [itemId]: { ...prevCart[itemId], quantity },
+      }));
+    }
+  };
+
+  const removeItem = (id) => {
+    setCartItems((prevCart) => {
+      const updatedCart = { ...prevCart };
+      delete updatedCart[id];
+      return updatedCart;
+    });
+  };
+
+  const getCartAmount = () => {
+    return Object.entries(cartItems).reduce((totalAmount, [itemId, { quantity }]) => {
+      const itemInfo = foods_list.find((food) => food._id === itemId);
+      if (itemInfo) {
+        totalAmount += itemInfo.price * quantity;
+      }
+      return totalAmount;
+    }, 0);
+  };
+
+  const placeOrder = () => {
+    const order = {
+        orderId: new Date().getTime(),
+        tableNumber,
+        items: Object.keys(cartItems).map((itemId) => {
+          const itemInfo = foods_list.find((food) => food._id === itemId);
+          return {
+            itemId,
+            name: itemInfo.name,
+            price: itemInfo.price,
+            image: itemInfo.image,
+            quantity: cartItems[itemId].quantity,
+            totalPrice: itemInfo.price * cartItems[itemId].quantity,
+            requirement: cartItems[itemId]?.requirement || '',
+            status: "Ordering",
+          };
+        }),
       };
-
-    const getCartAmount = () => {
-        let totalAmount = 0;
     
-        for (const itemId in cartItems) {
-            const itemInfo = foods_list.find((food) => food._id === itemId);
-    
-            if (itemInfo) {
-                try {
-                    totalAmount += itemInfo.price * cartItems[itemId];
-                } catch (e) {
-                    console.error(`Error calculating total amount for item ID ${itemId}: ${e.message}`);
-                }
-            }
-        }
-        return totalAmount;
-    };
+      setOrderData((prevOrders) => [...prevOrders, order]);
+      setCartItems({});
+  };
 
-    const placeOrder = () => {
-        const order = {
-            orderId: new Date().getTime(), // You can use a timestamp as a unique order ID
-            items: Object.keys(cartItems).map(itemId => {
-                const itemInfo = foods_list.find(food => food._id === itemId);
-                return {
-                    itemId,
-                    name: itemInfo.name,
-                    price: itemInfo.price,
-                    image : itemInfo.image,
-                    quantity: cartItems[itemId],
-                    totalPrice: itemInfo.price * cartItems[itemId],
-                };
-            }),
-        };
-    
-        setOrderData((prevOrders) => [...prevOrders, order]);  // Add the new order
-        setCartItems({});  // Clear the cart
-    };
-
-    const getTotalFoodCount = () => {
-        let totalFoodCount = 0;
-      
-        // Loop through each order
-        orderData.forEach(order => {
-          // Loop through each item in the order and add the quantity to the total
-          order.items.forEach(item => {
-            totalFoodCount += item.quantity;
-          });
+  const updateStatus = (orderId, itemId, newStatus) => {
+    const updatedOrders = orderData.map((order) => {
+      if (order.orderId === orderId) {
+        const updatedItems = order.items.map((item) => {
+          if (item.itemId === itemId) {
+            return { ...item, status: newStatus };
+          }
+          return item;
         });
-      
-        return totalFoodCount;
-    };
+        return { ...order, items: updatedItems };
+      }
+      return order;
+    });
 
-    const clearOrders = () => {
-        setOrderData([]);
-    };
-      
-    
-    const contextvalue = {
-        foods_list,cartItems,setCartItems,setToCart,search,setSearch,
-        getCartCount,updateQuantity,removeItem,getCartAmount,
-        currency,placeOrder,orderData,getTotalFoodCount,clearOrders
-    }
-    return (
-        <StoreContext.Provider value={contextvalue}>
-            {props.children}
-        </StoreContext.Provider>
-    )
-}
+    setOrderData(updatedOrders);
+  };
 
-export default StoreContextProvider
+  const getTotalFoodCount = () => {
+    return orderData.reduce((totalFoodCount, order) => {
+      order.items.forEach((item) => {
+        totalFoodCount += item.quantity;
+      });
+      return totalFoodCount;
+    }, 0);
+  };
+
+  const clearOrders = () => {
+    setOrderData([]);
+  };
+
+  const contextValue = {
+    foods_list,
+    cartItems,
+    setCartItems,
+    setToCart,
+    search,
+    setSearch,
+    getCartCount,
+    updateQuantity,
+    removeItem,
+    getCartAmount,
+    currency,
+    placeOrder,
+    updateStatus,
+    orderData,
+    getTotalFoodCount,
+    clearOrders,
+    tableNumber,
+    setTableNumber,
+  };
+
+  return (
+    <StoreContext.Provider value={contextValue}>
+      {props.children}
+    </StoreContext.Provider>
+  );
+};
+
+export default StoreContextProvider;

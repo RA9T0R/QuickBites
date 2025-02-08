@@ -2,6 +2,8 @@ import React,{useContext} from 'react';
 import { menu_list,assets } from '../assets/assets';
 import { StoreContext } from '../context/StoreContext';
 
+import {ChefHat } from 'lucide-react' 
+
 const ExploreMenu = ({ category, setCategory }) => {
 
   const {search,setSearch} = useContext(StoreContext)
@@ -42,17 +44,15 @@ const ExploreMenu = ({ category, setCategory }) => {
               onClick={() => setCategory((prev) => (prev === item.menu_name ? 'All' : item.menu_name))}
               className={`flex items-center gap-2 bg-BG px-2 py-1 rounded-xl shadow-lg shadow-Text/20  transition-all ease-in-out cursor-pointer  ${
                 category === item.menu_name ? 'bg-BG_Black text-BG' : 'text-Text'
-              }`}>
-              {/* Circular Image */}
+              }`}
+            >
+              {/* Icon Section */}
               <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
-                <img
-                  className="w-full h-full object-cover"
-                  src={item.menu_image}
-                  alt={item.menu_name}
-                />
+                {React.createElement(item.menu_image || ChefHat, { className: `w-full h-full object-center ${item.color}` })} 
               </div>
+
               {/* Text Section */}
-              <div className="flex flex-col ">
+              <div className="flex flex-col">
                 <p className="text-md sm:lg md:text-xl font-bold uppercase">{item.menu_name}</p>
               </div>
             </div>

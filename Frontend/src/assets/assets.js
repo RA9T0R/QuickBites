@@ -59,10 +59,18 @@ import glass from './Picture/glass.png'
 import bin from './Picture/bin.png'
 import cart from './Picture/cart.png'
 import logo from './Picture/QB_logo2.png'
+import beef from './Picture/beef.png'
+import salad from './Picture/salad.png'
+import glassWater from './Picture/glass-water.png'
+import cake from './Picture/cake.png'
+import cookie from './Picture/cookie.png'
+
+import { Beef, Salad, GlassWater, Cake, Cookie, Star } from 'lucide-react';
 
 export const assets = {
     Home,QuickBLogo,menu,shoppingBag,glass,bin,logo,
-    bell,moon,sun,pan,fire,star,add,minus,left,cart
+    bell,moon,sun,pan,fire,star,add,minus,left,cart,
+    beef,salad,glassWater,cake,cookie
 }
 export const Main = {
     main,
@@ -88,33 +96,39 @@ export const Appitizer = {
 export const menu_list = [
     {
         menu_name: "Recommend",
-        menu_image: Recommend,
-        menu_main: Recommend
+        menu_image: Star,
+        menu_main: Recommend,
+        color: 'text-violet-500'
     },
     {
         menu_name: "MainDish",
-        menu_image: M1,
-        menu_main: main
+        menu_image: Beef,
+        menu_main: main,
+        color: 'text-orange-500'
     },
     {
         menu_name: "Healthy",
-        menu_image: H1,
-        menu_main: healthy
+        menu_image: Salad,
+        menu_main: healthy,
+        color: 'text-green-500'
     },
     {
         menu_name: "Drinks",
-        menu_image: D1,
-        menu_main: drinks
+        menu_image: GlassWater,
+        menu_main: drinks,
+        color: 'text-red-500'
     },
     {
         menu_name: "Dessert",
-        menu_image: Des1,
-        menu_main: dessert
+        menu_image: Cake,
+        menu_main: dessert,
+        color: 'text-pink-500'
     },
     {
         menu_name: "Appitizer",
-        menu_image: Ap1,
-        menu_main: appitizer
+        menu_image: Cookie,
+        menu_main: appitizer,
+        color: 'text-yellow-500'
     }
 ]
 
@@ -234,7 +248,7 @@ export const foods_list = [
         Kcal:250,
         category: "Healthy",
         date: 1716634345448,
-        recommend: false
+        recommend: true
     },
     {
         _id: "10",
@@ -312,7 +326,7 @@ export const foods_list = [
         Kcal:100,
         category: "Drinks",
         date: 1716634345448,
-        recommend: false
+        recommend: true
     },
     {
         _id: "16",
@@ -402,7 +416,7 @@ export const foods_list = [
         Kcal:350,
         category: "Dessert",
         date: 1716634345448,
-        recommend: false
+        recommend: true
     },
     {
         _id: "23",
@@ -480,7 +494,7 @@ export const foods_list = [
         Kcal:290,
         category: "Appitizer",
         date: 1716634345448,
-        recommend: false
+        recommend: true
     },
     {
         _id: "29",
