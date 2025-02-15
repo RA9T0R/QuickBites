@@ -18,8 +18,8 @@ import 'aos/dist/aos.css';
 const Food = () => {
   const { foodId } = useParams();
   const { foods_list, setToCart, cartItems} = useContext(StoreContext);
-  const [itemsCount, setItemsCount] = useState(cartItems[foodId]?.quantity || 1);
-  const [requirement, setRequirement] = useState(cartItems[foodId]?.requirement || "");
+  const [itemsCount, setItemsCount] = useState();
+  const [requirement, setRequirement] = useState();
   const [productData, setProductData] = useState(null);
   const currentIndex = productData ? foods_list.findIndex((item) => item._id === productData._id) : -1;
 
@@ -43,6 +43,8 @@ const Food = () => {
   useEffect(() => {
     fetchProductData();
     AOS.init();
+    setItemsCount(cartItems[foodId]?.quantity || 1);
+    setRequirement(cartItems[foodId]?.requirement || "");
   }, [foodId]); 
   
 

@@ -64,13 +64,14 @@ import salad from './Picture/salad.png'
 import glassWater from './Picture/glass-water.png'
 import cake from './Picture/cake.png'
 import cookie from './Picture/cookie.png'
+import qr_code from './Picture/qr_code.png'
 
 import { Beef, Salad, GlassWater, Cake, Cookie, Star } from 'lucide-react';
 
 export const assets = {
     Home,QuickBLogo,menu,shoppingBag,glass,bin,logo,
     bell,moon,sun,pan,fire,star,add,minus,left,cart,
-    beef,salad,glassWater,cake,cookie
+    beef,salad,glassWater,cake,cookie,qr_code
 }
 export const Main = {
     main,

@@ -1,3 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Outfit:wght@100..900&family=Prata&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.light{
+    --main-bg : 245,245,245;
+    --bg: 255, 255, 255;
+    --bg-sec: 251, 146, 60;
+    --bg-card:215, 213, 226;
+    --text: 51, 51, 51;
+    --button: 255, 174, 0;
+    --highlight-text: 255, 69, 0;
+    --black: 0, 0, 0;
+}
+.dark{
+    --main-bg : 9,9,9;
+    --bg: 38,38,38; 
+    --bg-sec: 195, 90, 4;
+    --bg-card:31, 29, 43;
+    --text: 235, 235, 235; 
+    --button: 255, 174, 0; 
+    --highlight-text: 255, 120, 85; 
+    --black: 255, 255, 255;
+}
+
+*{
+    @apply transition-colors duration-100;
+    font-family: Outfit;
+}
+.Kanit{
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+::-webkit-scrollbar{
+    display: none;
+}

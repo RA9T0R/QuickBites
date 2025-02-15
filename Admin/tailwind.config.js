@@ -5,7 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        Main_BG : "rgba(var(--main-bg))",
+        BG : "rgba(var(--bg))",
+        BG_sec : "rgba(var(--bg-sec))",
+        BG_Card : "rgba(var(--bg-card))",
+        BG_Black : "rgba(var(--black))",
+        Text : "rgba(var(--text))",
+        Button : "rgba(var(--button))",
+        Highlight : "rgba(var(--highlight-text))"
+      },
+    },
   },
   plugins: [],
 }

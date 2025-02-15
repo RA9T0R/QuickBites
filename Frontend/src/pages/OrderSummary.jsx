@@ -1,13 +1,16 @@
-import React, { useContext,useEffect } from 'react';
+import React, { useContext,useEffect, useState } from 'react';
 import { StoreContext } from '../context/StoreContext';
 import { toast } from 'react-toastify'; 
 import { Link } from 'react-router-dom'; 
+import { X } from 'lucide-react';
+import { assets } from '../assets/assets';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const OrderSummary = () => {
-  const { orderData, currency, getTotalFoodCount, clearOrders,updateStatus } = useContext(StoreContext);
+  const { orderData, currency, getTotalFoodCount, clearOrders,updateStatus,tableNumber } = useContext(StoreContext);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
   const calculateTotalPrice = () => {
     return orderData.reduce((total, order) => {
@@ -15,7 +18,10 @@ const OrderSummary = () => {
     }, 0);
   };
 
+
+
   const handleCheckBill = () => {
+    clearOrders();
     const totalAmount = calculateTotalPrice().toFixed(2);
     const totalFoodCount = getTotalFoodCount();
 
@@ -82,16 +88,52 @@ const OrderSummary = () => {
       {/* Grand Total section at the bottom */}
       {getTotalFoodCount() > 0 && (
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 bg-BG shadow-xl shadow-Text/20 rounded-lg z-50">
-          <Link to='/' onClick={() => clearOrders()} className='flex items-center justify-center'>
+          <div className='flex items-center justify-center'>
             <button
-              onClick={handleCheckBill}
+              onClick={() => setIsPaymentOpen(true)}
               className="flex items-center justify-between w-full md:w-[60%] lg:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
             > 
               <p className='text-xl md:text-2xl lg:text-3xl'>{getTotalFoodCount()} Order</p>
               <p className='text-xl md:text-2xl lg:text-3xl'>Check Bill</p>
               <p className='text-xl md:text-2xl lg:text-3xl'>{currency} {calculateTotalPrice().toFixed(2)}</p>
             </button>
-          </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Pop up payment */}
+      {isPaymentOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-96">
+            <div className='flex items-center justify-between mb-5'>
+              <h1 className="text-3xl font-bold ">Payment Details</h1>
+              <div onClick={() => setIsPaymentOpen(false)} className="w-7 h-7 sm:w-8 sm:h-8 bg-red-500 hover:bg-red-400 rounded-lg shadow-lg shadow-Text/20 flex items-center justify-center cursor-pointer">
+                <X className="size-6 sm:size-7 text-white" alt="Shopping Bag" />
+              </div>
+            </div>
+
+            <div className='flex flex-col items-center justify-center'>
+              <img src={assets.qr_code} alt="" />
+              <p className="text-xl">Table : {tableNumber}</p>
+            </div>
+            <hr />
+            <div className="flex justify-between my-2 text-2xl">
+              <p><strong>Total Amount</strong> </p>
+              <b>{currency} {calculateTotalPrice().toFixed(2)}</b>
+            </div>
+
+            <div className="flex justify-between my-2 text-2xl">
+              <p><strong>Total Food</strong> </p>
+              <b>{getTotalFoodCount()}</b>
+            </div>
+            <hr />
+
+            <div className="flex justify-center gap-4 mt-6">
+              <Link to='/ThankYou' onClick={() => handleCheckBill()} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                Confirm Payment
+              </Link>
+            </div>
+          </div>
         </div>
       )}
     </div>

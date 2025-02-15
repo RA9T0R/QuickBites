@@ -12,7 +12,8 @@ const FoodItem = ({ id, name, time, Kcal, price, image }) => {
         <img src={image} className="w-full h-40 sm:h-52 hover:scale-110 transition-all ease-in-out" alt={name} />
         {cartItems[id] && (
           <div className="absolute top-2 start-1/2 transform -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-BG rounded-full border shadow-lg flex items-center justify-center">
-            <p className="text-xl font-black text-Text">{cartItems[id]?.quantity || 0}</p>  {/* Display quantity */}
+            <p className="text-xl font-black text-Text">{cartItems[id]?.quantity || 0}</p>  {/* Display quantity  */}
+             
           </div>
         )}
       </div>

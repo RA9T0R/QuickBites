@@ -9,6 +9,7 @@ import Food from './pages/Food';
 import Table from './pages/Table';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Thank from './pages/Thank';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +20,7 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { tableNumber} = useContext(StoreContext); // Access tableNumber from context
+  const hideNavbarRoutes = ["/ThankYou"];
 
   // Update URL and context when the table number is set or changes
   useEffect(() => {
@@ -31,18 +33,19 @@ const App = () => {
   }, [tableNumber, location.search, navigate]);
 
   return (
-    <div className='px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden bg-BG min-h-screen'>
-      <ToastContainer position='top-right' autoClose={2000} />
-      <Navbar />
+    <div className="px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden bg-BG min-h-screen">
+      <ToastContainer position="top-right" autoClose={2000} />
+      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/table/:tableNumber' element={<Table />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/orderSummary' element={<OrderSummary />} />
-        <Route path='/invoice' element={<Invoice />} />
-        <Route path='/:food/:foodId' element={<Food />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/table/:tableNumber" element={<Table />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/orderSummary" element={<OrderSummary />} />
+        <Route path="/invoice" element={<Invoice />} />
+        <Route path="/:food/:foodId" element={<Food />} />
+        <Route path="/ThankYou" element={<Thank />} />
       </Routes>
     </div>
   );
