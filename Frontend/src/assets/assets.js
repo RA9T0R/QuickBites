@@ -1,15 +1,27 @@
 import main from './Main/main.jpg'
 import M1 from './Main/M1.jpg'
+import M1_1 from './Main/M1_1.jpg'
+import M1_2 from './Main/M1_2.jpg'
 import M2 from './Main/M2.jpg'
+import M2_1 from './Main/M2_1.jpg'
+import M2_2 from './Main/M2_2.jpg'
 import M3 from './Main/M3.jpg'
+import M3_1 from './Main/M3_1.jpg'
+import M3_2 from './Main/M3_2.jpg'
 import M4 from './Main/M4.jpg'
+import M4_1 from './Main/M4_1.jpg'
 import M5 from './Main/M5.jpg'
 import M6 from './Main/M6.jpg'
+import M6_1 from './Main/M6_1.jpg'
+import M6_2 from './Main/M6_2.jpg'
 import M7 from './Main/M7.jpg'
+import M7_1 from './Main/M7_1.jpg'
+import M7_2 from './Main/M7_2.jpg'
 
 import healthy from './Healthy/Healthy.jpg'
 import H1 from './Healthy/H1.jpg'
 import H2 from './Healthy/H2.jpg'
+import H2_1 from './Healthy/H2_1.jpg'
 import H3 from './Healthy/H3.jpg'
 import H4 from './Healthy/H4.jpg'
 import H5 from './Healthy/H5.jpg'
@@ -75,11 +87,11 @@ export const assets = {
 }
 export const Main = {
     main,
-    M1,M2,M3,M4,M5,M6,M7
+    M1,M1_1,M1_2,M2,M2_1,M2_2,M3,M3_1,M3_2,M4,M4_1,M5,M6,M6_1,M6_2,M7,M7_1,M7_2
 }
 export const Healthy = {
     healthy,
-    H1,H2,H3,H4,H5,H6
+    H1,H2,H3,H4,H5,H6,H2_1
 }
 export const Drinks = {
     drinks,
@@ -139,7 +151,7 @@ export const foods_list = [
         name: "Beef Steak with Peppercorn Sauce",
         description: "Juicy beef steak served with a rich, creamy, and slightly spicy peppercorn sauce, perfect with mashed potatoes or vegetables. ",
         price: 259,
-        image: [M1],
+        image: [M1,M1_1,M1_2],
         rate:4.7,
         time:[15,25], //Start and End
         Kcal:530,
@@ -152,7 +164,7 @@ export const foods_list = [
         name: "Creamy Mushroom Risotto",
         description: "A rich and creamy Italian rice dish cooked with sautÃ©ed mushrooms, Parmesan cheese, and a hint of white wine for a savory flavor.",
         price: 209,
-        image: [M2],
+        image: [M2,M2_1,M2_2],
         rate:4.8,
         time:[15,20],
         Kcal:420,
@@ -165,7 +177,7 @@ export const foods_list = [
         name: "Grilled Salmon with Lemon Butter Sauce",
         description: "Perfectly grilled salmon topped with a zesty, buttery lemon sauce for a refreshing and savory flavor.",
         price: 239,
-        image: [M3],
+        image: [M3_1,M3_2],
         rate:4.6,
         time:[15,25],
         Kcal:490,
@@ -178,7 +190,7 @@ export const foods_list = [
         name: "Pan-Seared Pork Chop with Apple Sauce",
         description: "Juicy pork chop seared to perfection, served with a sweet and tangy apple sauce.",
         price: 219,
-        image: [M4],
+        image: [M4,M4_1],
         rate:4.4,
         time:[15,20],
         Kcal:450,
@@ -204,7 +216,7 @@ export const foods_list = [
         name: "Seafood Paella",
         description: "A Spanish rice dish packed with saffron, shrimp, mussels, and other fresh seafood.",
         price: 289,
-        image: [M6],
+        image: [M6_1,M6,M6_2],
         rate:4.6,
         time:[10,15], 
         Kcal:400,
@@ -217,7 +229,7 @@ export const foods_list = [
         name: "Spaghetti Carbonara",
         description: "Classic Italian pasta tossed with creamy egg sauce, crispy pancetta, and Parmesan cheese.",
         price: 199,
-        image: [M7],
+        image: [M7_1,M7,M7_2],
         rate:4.7,
         time:[10,20],
         Kcal:400,
@@ -243,7 +255,7 @@ export const foods_list = [
         name: "Chicken Lettuce Wraps",
         description: "Tender chicken with flavorful seasoning, wrapped in crisp lettuce leaves.",
         price: 149,
-        image: [H2],
+        image: [H2,H2_1],
         rate:4.6,
         time:[15,20],
         Kcal:250,
