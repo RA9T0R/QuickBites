@@ -11,15 +11,19 @@ const App = () => {
 
   return (
     <div className="bg-Main_BG min-h-screen">
+      {/* Navbar */}
       <Navbar expanded={expanded} setExpanded={setExpanded} />
 
-      <div className="flex pt-16">
+      <div className="flex pt-20">
+        {/* Sidebar */}
         <Sidebar expanded={expanded} />
 
         {/* Main Content */}
-        <div className={`flex-1 p-4 overflow-auto transition-all duration-300  ${
-          expanded ? 'ml-64' : 'ml-24'
-        }`}>
+        <div
+          className={`flex-1 p-4 overflow-auto transition-all duration-300 ${
+            expanded ? 'md:ml-64' : 'md:ml-24'
+          }`}
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
@@ -31,3 +35,4 @@ const App = () => {
 };
 
 export default App;
+

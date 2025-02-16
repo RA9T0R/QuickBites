@@ -13,29 +13,21 @@ const Sidebar = ({ expanded }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out border-r-[1px] ${
+      className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out bg-BG hidden md:flex flex-col flex-grow-0 border-r-[1px] border-Text/10 ${
         expanded ? 'w-64' : 'w-24'
-      } bg-BG flex flex-col`}
+      }`}
     >
 
-      {/* Sidebar Header */}
-      <Link to="/" className="flex items-center gap-4 p-3 font-medium text-Text">
-        <div className="p-3">
-          <Airplay className="size-11" />
-        </div>
-        {expanded && <h1 className="text-Text text-xl font-semibold">QuickBites</h1>}
-      </Link>
-
       {/* Menu */}
-      <div className="flex-1 flex flex-col p-3 gap-3 text-Text">
+      <div className="flex-1 flex flex-col p-3 gap-3 text-Text mt-20">
         {sidemenu.map((item, index) => {
           const Icon = item.icon;
           return (
             <Link
               key={index}
               to={item.path}
-              className={`flex gap-4 pl-4 p-3 items-center rounded transition-colors hover:bg-Text/30 ${
-                activeMenu === item.path ? "text-Highlight" : ""
+              className={`flex gap-4 pl-4 p-3 items-center rounded-xl transition-colors hover:bg-Text/20 ${
+                activeMenu === item.path ? "text-Highlight bg-Text/20" : ""
               }`}
             >
               <Icon className="size-8" />
@@ -57,3 +49,4 @@ const Sidebar = ({ expanded }) => {
 };
 
 export default Sidebar;
+
