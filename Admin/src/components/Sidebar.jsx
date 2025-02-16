@@ -12,48 +12,46 @@ const Sidebar = ({ expanded }) => {
   }, [location.pathname]);
 
   return (
-    <div>
-      <div
-        className={`hidden sm:flex transition-all duration-300 ease-in-out overflow-hidden border-r-[1px]  ${
-          expanded ? "w-64" : "w-24"
-        } min-h-full bg-BG flex flex-col`}
-      >
-        {/* Sidebar Header */}
-        <Link to="/" className="flex items-center gap-4 p-3 font-medium text-Text">
-          <div className="p-3">
-            <Airplay className="size-11" />
-          </div>
-          {expanded && <h1 className="text-Text text-xl font-semibold">QuickBites</h1>}
-        </Link>
+    <div
+      className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out border-r-[1px] ${
+        expanded ? 'w-64' : 'w-24'
+      } bg-BG flex flex-col`}
+    >
 
-        {/* Menu */}
-        <div className="flex-1 flex flex-col p-3 gap-3 text-Text">
-          {sidemenu.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={index}
-                to={item.path}
-                className={`flex gap-4 pl-4 p-3 items-center rounded transition-colors hover:bg-Text/30 ${
-                  activeMenu === item.path ? "text-Highlight" : ""
-                }`}
-              >
-                <Icon className="size-8" />
-                {expanded && <span>{item.title}</span>}
-              </Link>
-            );
-          })}
+      {/* Sidebar Header */}
+      <Link to="/" className="flex items-center gap-4 p-3 font-medium text-Text">
+        <div className="p-3">
+          <Airplay className="size-11" />
         </div>
+        {expanded && <h1 className="text-Text text-xl font-semibold">QuickBites</h1>}
+      </Link>
 
-
-        {/* Log Out Button at Bottom */}
-        <Link to="/logout" className="flex items-center gap-4 p-3 font-medium text-Text mt-auto rounded">
-          <div className="p-3">
-            <LogOut className="size-11" />
-          </div>
-          {expanded && <h1 className="text-Text text-xl font-semibold">Log Out</h1>}
-        </Link>
+      {/* Menu */}
+      <div className="flex-1 flex flex-col p-3 gap-3 text-Text">
+        {sidemenu.map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={index}
+              to={item.path}
+              className={`flex gap-4 pl-4 p-3 items-center rounded transition-colors hover:bg-Text/30 ${
+                activeMenu === item.path ? "text-Highlight" : ""
+              }`}
+            >
+              <Icon className="size-8" />
+              {expanded && <span>{item.title}</span>}
+            </Link>
+          );
+        })}
       </div>
+
+      {/* Log Out Button */}
+      <Link to="/logout" className="flex items-center gap-4 p-3 font-medium text-Text mt-auto rounded">
+        <div className="p-3">
+          <LogOut className="size-11" />
+        </div>
+        {expanded && <h1 className="text-Text text-xl font-semibold">Log Out</h1>}
+      </Link>
     </div>
   );
 };

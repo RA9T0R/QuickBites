@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        '17': 'repeat(17, minmax(0, 1fr))',
+      },
+      gridTemplateRows: {
+        '17': 'repeat(17, minmax(0, 1fr))',
+      },
       colors: {
         Main_BG : "rgba(var(--main-bg))",
         BG : "rgba(var(--bg))",
