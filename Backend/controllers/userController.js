@@ -35,7 +35,7 @@ const staffLogin = async (req, res) => {
         const {name,email,password} = req.body;
 
         const exists = await staffModel.findOne({email});
-        if (exist) {
+        if (exists) {
             return res.json({success:false, message:"Staff already exists"})
         }
         if (!validator.isEmail(email)){
