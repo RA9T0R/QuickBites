@@ -7,6 +7,6 @@ const staffSchema = new mongoose.Schema({
     
 },{minimize:false})
 
-const staffModel = mongoose.models.user || mongoose.model('staff',staffSchema);
+const staffModel = mongoose.models.staff || mongoose.model('staff',staffSchema);
 
 export default staffModel;
