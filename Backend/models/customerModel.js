@@ -6,6 +6,6 @@ const customerSchema = new mongoose.Schema({
     QRcode: {type : Object, default:{}}
 },{minimize:false})
 
-const customerModel = mongoose.models.user || mongoose.model('customer',customerSchema);
+const customerModel = mongoose.models.customer || mongoose.model('customer',customerSchema);
 
 export default customerModel;
