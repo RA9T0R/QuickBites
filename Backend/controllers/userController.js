@@ -1,7 +1,7 @@
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
-import staffModel from "../models/staffModel";
+import staffModel from "../models/staffModel.js";
 
 
 const createToken = (id) => {
