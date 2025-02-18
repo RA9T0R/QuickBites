@@ -5,6 +5,7 @@ import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import userRouter from './routes/userRoute.js';
 import productRouter from './routes/productRoute.js';
+import orderRoute from './routes/orderRoute.js';
 
 // App Config
 const app = express();
@@ -27,3 +28,6 @@ app.get('/',(req,res)=>{
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
+
+
+app.use('/api',orderRoute);
