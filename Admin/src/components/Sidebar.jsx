@@ -12,7 +12,7 @@ const Sidebar = ({ expanded }) => {
   }, [location.pathname]);
 
   return (
-    <div
+    <aside
       className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out bg-BG hidden md:flex flex-col flex-grow-0 border-r-[1px] border-Text/10 ${
         expanded ? 'w-64' : 'w-24'
       }`}
@@ -38,13 +38,13 @@ const Sidebar = ({ expanded }) => {
       </div>
 
       {/* Log Out Button */}
-      <Link to="/logout" className="flex items-center gap-4 p-3 font-medium text-Text mt-auto rounded">
+      <Link to="/logout" className="flex items-center gap-4 m-3 font-medium text-Text mt-auto rounded-xl hover:bg-Text/20">
         <div className="p-3">
           <LogOut className="size-11" />
         </div>
         {expanded && <h1 className="text-Text text-xl font-semibold">Log Out</h1>}
       </Link>
-    </div>
+    </aside>
   );
 };
 

@@ -3,9 +3,10 @@ import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
-import userRouter from './routes/userRoute.js';
+import userRouter from './routes/employeeRoute.js';
 import productRouter from './routes/productRoute.js';
-import orderRoute from './routes/orderRoute.js';
+import orderRouter from './routes/orderRoute.js';
+import employeeRouter from './routes/employeeRoute.js';
 
 // App Config
 const app = express();
@@ -20,6 +21,9 @@ app.use(cors());
 // API Endpoints
 app.use('/api/user', userRouter);
 app.use('/api/product',productRouter);
+app.use('/api/order',orderRouter);
+app.use('/api/employee',employeeRouter);
+
 
 app.get('/',(req,res)=>{
     res.send("API IS WORK");
@@ -29,5 +33,3 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
 
-
-app.use('/api',orderRoute);

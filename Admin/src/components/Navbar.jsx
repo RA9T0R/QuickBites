@@ -38,7 +38,7 @@ const Navbar = ({ expanded, setExpanded }) => {
     }, [visible]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-20 bg-BG z-50 flex items-center px-6 border-b-[1px] border-Text/10">
+    <nav className="fixed top-0 left-0 w-full h-20 bg-BG z-50 flex items-center px-6 border-b-[1px] border-Text/10">
       <button
         onClick={() => {
           if (window.innerWidth < 768) { //md
@@ -122,7 +122,7 @@ const Navbar = ({ expanded, setExpanded }) => {
           </Link>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

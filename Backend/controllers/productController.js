@@ -68,6 +68,59 @@ const removeProduct = async (req,res) => {
     }
 }
 
+const updateProduct = async (req, res) => {
+    try {
+        console.log(req.body)
+
+        const { productId, name, description, price, rate, time, Kcal, category, recommend } = req.body;
+
+        // Handle images if they are updated
+        const image1 = req.files && req.files.image1 && req.files.image1[0];
+        const image2 = req.files && req.files.image2 && req.files.image2[0];
+        const image3 = req.files && req.files.image3 && req.files.image3[0];
+        const image4 = req.files && req.files.image4 && req.files.image4[0];
+
+        const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
+
+        // Upload new images if they are provided
+        let imageUrl = [];
+        if (images.length > 0) {
+            imageUrl = await Promise.all(
+                images.map(async (item) => {
+                    let result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
+                    return result.secure_url;
+                })
+            );
+        }
+
+        // Prepare the updated product data
+        const updatedData = {
+            name,
+            description,
+            price: Number(price),
+            rate,
+            time: JSON.parse(time),
+            Kcal,
+            category,
+            recommend: recommend === "true" ? true : false,
+            image: imageUrl.length > 0 ? imageUrl : undefined // only include the image array if images are updated
+        };
+
+        // Find the product by its ID and update it
+        const updatedProduct = await productModel.findByIdAndUpdate(productId, updatedData, { new: true });
+
+        if (!updatedProduct) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        res.json({ success: true, message: "Product Updated", updatedProduct });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+
 // function for single product info
 const singleProducts = async (req,res) => {
     try {
@@ -81,4 +134,4 @@ const singleProducts = async (req,res) => {
     }
 }
 
-export {addProduct,listProducts,removeProduct,singleProducts}
+export {addProduct,listProducts,removeProduct,singleProducts,updateProduct}
