@@ -1,4 +1,7 @@
-import { Home, LayoutDashboard, Settings, User, ShoppingCart } from "lucide-react";
+import { Home, LayoutDashboard, ShoppingCart, PackagePlus, CookingPot, ChartLine, UserPlus} from "lucide-react";
+import upload from "./picture/upload.jpg"
+
+export const assets = {upload}
 
 export const sidemenu = [
   {
@@ -7,23 +10,28 @@ export const sidemenu = [
     path: "/",
   },
   {
-    title: "Menu",
+    title: "View Menu",
     icon: ShoppingCart,
-    path: "/menu",
+    path: "/view_menu",
+  },
+  {
+    title: "Create Menu",
+    icon: PackagePlus,
+    path: "/create",
   },
   {
     title: "Order",
-    icon: User,
+    icon: CookingPot,
     path: "/order",
   },
   {
     title: "Analytics",
-    icon: Settings,
+    icon: ChartLine,
     path: "/analytics",
   },
   {
-    title: "Something",
-    icon: Home,
-    path: "/something",
+    title: "Add Employee",
+    icon: UserPlus,
+    path: "/add_employee",
   },
 ];

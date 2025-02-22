@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import OrderSummary from './pages/OrderSummary';
-import Invoice from './pages/Invoice';
 import Food from './pages/Food';
 import Table from './pages/Table';
 import About from './pages/About';
@@ -43,7 +42,6 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/orderSummary" element={<OrderSummary />} />
-        <Route path="/invoice" element={<Invoice />} />
         <Route path="/:food/:foodId" element={<Food />} />
         <Route path="/ThankYou" element={<Thank />} />
       </Routes>

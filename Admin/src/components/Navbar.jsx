@@ -3,7 +3,7 @@ import { Link,useLocation } from "react-router-dom";
 import { sidemenu } from "../assets/assets";
 import { Sun, Moon ,AlignLeft , AlignJustify ,User,Bell,Airplay,LogOut  } from 'lucide-react';
 
-const Navbar = ({ expanded, setExpanded }) => {
+const Navbar = ({ expanded, setExpanded, setToken }) => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [darkMode, setDarkMode] = useState(false);
@@ -114,12 +114,12 @@ const Navbar = ({ expanded, setExpanded }) => {
           <hr />
           
           {/* Log Out Button */}
-          <Link to="/logout" className="flex items-center gap-4 p-3 font-medium text-Text mt-auto rounded">
+          <div onClick={() => setToken("")} className="cursor-pointer flex items-center gap-4 p-3 font-medium text-Text mt-auto rounded">
             <div className="pl-4 p-3">
               <LogOut className="size-8" />
             </div>
             <h1 className="text-Text text-xl font-semibold">Log Out</h1>
-          </Link>
+          </div>
         </div>
       </div>
     </nav>

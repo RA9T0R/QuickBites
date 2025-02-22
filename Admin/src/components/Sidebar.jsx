@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Airplay, LogOut } from "lucide-react";
 import { sidemenu } from "../assets/assets";
 
-const Sidebar = ({ expanded }) => {
+const Sidebar = ({expanded, setToken}) => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
 
@@ -38,12 +38,12 @@ const Sidebar = ({ expanded }) => {
       </div>
 
       {/* Log Out Button */}
-      <Link to="/logout" className="flex items-center gap-4 m-3 font-medium text-Text mt-auto rounded-xl hover:bg-Text/20">
+      <div onClick={() => setToken("")} className="cursor-pointer flex items-center gap-4 m-3 font-medium text-Text mt-auto rounded-xl hover:bg-Text/20">
         <div className="p-3">
           <LogOut className="size-11" />
         </div>
         {expanded && <h1 className="text-Text text-xl font-semibold">Log Out</h1>}
-      </Link>
+      </div>
     </aside>
   );
 };
