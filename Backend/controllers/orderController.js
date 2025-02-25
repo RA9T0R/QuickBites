@@ -42,12 +42,12 @@ const listOrders = async (req,res) => {
 }
 
 const listOrdersByTable = async (req,res) => {
-    const { table } = req.params;
+    const { tableNumber } = req.params;
 
     try {
-        const orders = await orderModel.find({ table: table });
+        const orders = await orderModel.find({ tableNumber: tableNumber });
         if (orders.length === 0) {
-            return res.json({ success: false, message: `No orders found for ${table}` });
+            return res.json({ success: false, message: `No orders found for ${tableNumber}` });
         }
         res.json({ success: true, orders: orders });
     } catch (error) {

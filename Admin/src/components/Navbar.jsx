@@ -3,7 +3,7 @@ import { Link,useLocation } from "react-router-dom";
 import { sidemenu } from "../assets/assets";
 import { Sun, Moon ,AlignLeft , AlignJustify ,User,Bell,Airplay,LogOut  } from 'lucide-react';
 
-const Navbar = ({ expanded, setExpanded, setToken }) => {
+const Navbar = ({ expanded, setExpanded, setToken, role }) => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [darkMode, setDarkMode] = useState(false);
@@ -12,6 +12,13 @@ const Navbar = ({ expanded, setExpanded, setToken }) => {
   useEffect(() => {
     setActiveMenu(location.pathname);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('themeMode');
+    if (savedTheme === 'dark') {
+      setDarkMode(true);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('themeMode', darkMode ? 'dark' : 'light');
@@ -53,27 +60,28 @@ const Navbar = ({ expanded, setExpanded, setToken }) => {
       </button>
 
 
-      <Link to="/" className="flex items-center gap-4 p-3 font-medium text-Text">
+      <Link to="/" className="flex items-center gap-4 font-medium text-Text">
         <div className="p-3">
-          <Airplay className="size-11" />
+          <Airplay className="size-8 md:size-11" />
         </div>
         <h1 className="hidden sm:block text-Text text-xl font-semibold">QuickBites</h1>
       </Link>
 
       <div className="flex items-center gap-4 ml-auto">
+        {role === "admin" && <h1 className="md:text-2xl font-bold text-Text md:mr-10">Admin Dashboard</h1> || <h1 className="md:text-2xl font-bold text-Text md:mr-10">Employee Dashboard</h1>}
         <div onClick={() => setDarkMode(!darkMode)} className="cursor-pointer">
-          <div className="w-12 h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-            {darkMode ? <Sun className="size-8 text-Text" /> : <Moon className="size-8 text-Text" />}
+          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+            {darkMode ? <Sun className="md:size-8 text-Text" /> : <Moon className="md:size-8 text-Text" />}
           </div>
         </div>
         <div className="cursor-pointer">
-          <div className="w-12 h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-            <Bell className="size-8 text-Text" />
+          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+            <Bell className="md:size-8 text-Text" />
           </div>
         </div>
         <div className="cursor-pointer">
-          <div className="w-12 h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-            <User className="size-8 text-Text" />
+          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+            <User className="md:size-8 text-Text" />
           </div>
         </div>
       </div>
@@ -94,7 +102,9 @@ const Navbar = ({ expanded, setExpanded, setToken }) => {
 
           {/* Menu */}
           <div onClick={() => setVisible(false)} className="flex-1 flex flex-col p-3 gap-3 ">
-            {sidemenu.map((item, index) => {
+            {sidemenu
+              .filter((item) => item.role === "all" || item.role === role)
+              .map((item, index) => {
               const Icon = item.icon;
               return (
                 <Link
