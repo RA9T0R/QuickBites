@@ -6,7 +6,7 @@ const orderRouter = express.Router();
 
 orderRouter.post('/add',upload.none(), addOrder);
 orderRouter.get('/list',listOrders);
-orderRouter.get('/list/:table',listOrdersByTable);
+orderRouter.get('/list/:tableNumber',listOrdersByTable);
 orderRouter.post('/remove',removeOrder);
 orderRouter.post('/update',updateOrder);
 
