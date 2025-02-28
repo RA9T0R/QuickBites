@@ -70,17 +70,17 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
       <div className="flex items-center gap-4 ml-auto">
         {role === "admin" && <h1 className="md:text-2xl font-bold text-Text md:mr-10">Admin Dashboard</h1> || <h1 className="md:text-2xl font-bold text-Text md:mr-10">Employee Dashboard</h1>}
         <div onClick={() => setDarkMode(!darkMode)} className="cursor-pointer">
-          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
             {darkMode ? <Sun className="md:size-8 text-Text" /> : <Moon className="md:size-8 text-Text" />}
           </div>
         </div>
         <div className="cursor-pointer">
-          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
             <Bell className="md:size-8 text-Text" />
           </div>
         </div>
         <div className="cursor-pointer">
-          <div className="size-10 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
             <User className="md:size-8 text-Text" />
           </div>
         </div>

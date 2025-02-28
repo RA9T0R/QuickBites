@@ -152,19 +152,19 @@ const CreateMenu = ({token,role}) => {
         <p className="text-Text mb-2">Upload Image</p>
         <div className="flex gap-2">
           <label htmlFor="image1">
-            <img className="w-20" src={!image1 ? assets.upload : URL.createObjectURL(image1)} alt="" />
+            <img className="w-20 cursor-pointer" src={!image1 ? assets.upload : URL.createObjectURL(image1)} alt="" />
             <input onChange={(e)=>setImage1(e.target.files[0])} type="file" id='image1' hidden/>
           </label>
           <label htmlFor="image2">
-            <img className="w-20" src={!image2 ? assets.upload : URL.createObjectURL(image2)} alt="" />
+            <img className="w-20 cursor-pointer" src={!image2 ? assets.upload : URL.createObjectURL(image2)} alt="" />
             <input onChange={(e)=>setImage2(e.target.files[0])} type="file" id='image2' hidden/>
           </label>
           <label htmlFor="image3">
-            <img className="w-20" src={!image3 ? assets.upload : URL.createObjectURL(image3)} alt="" />
+            <img className="w-20 cursor-pointer" src={!image3 ? assets.upload : URL.createObjectURL(image3)} alt="" />
             <input onChange={(e)=>setImage3(e.target.files[0])} type="file" id='image3' hidden/>
           </label>
           <label htmlFor="image4">
-            <img className="w-20" src={!image4 ? assets.upload : URL.createObjectURL(image4)} alt="" />
+            <img className="w-20 cursor-pointer" src={!image4 ? assets.upload : URL.createObjectURL(image4)} alt="" />
             <input onChange={(e)=>setImage4(e.target.files[0])} type="file" id='image4' hidden/>
           </label>
         </div>
