@@ -1,20 +1,15 @@
 import { createContext, useState, useEffect } from 'react';
-// import { foods_list } from '../assets/assets';
+import { foods_list } from '../assets/assets';
 import { useSearchParams } from 'react-router-dom';
-import axiot from 'axios';
-import {toast} from 'react-toastify';
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-
   const currency = '฿';
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [cartItems, setCartItems] = useState({});
   const [orderData, setOrderData] = useState([]);
   const [search, setSearch] = useState('');
   const [tableNumber, setTableNumber] = useState(null);
-  const [foods_list,setFoods_list] = useState([]);
 
   const [searchParams] = useSearchParams();
 
@@ -132,24 +127,6 @@ const StoreContextProvider = (props) => {
     setOrderData([]);
   };
 
-  const getFoodData = async () => {
-    try {
-      const response = await axiot.get(backendURL + '/api/product/list')
-      if(response.data.success){
-        setFoods_list(response.data.product)
-      }else{
-        toast.error(response.data.message)
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error.message)
-    }
-  }
-
-  useEffect(() => {
-    getFoodData();
-  },[])
-
   const contextValue = {
     foods_list,
     cartItems,
@@ -169,7 +146,6 @@ const StoreContextProvider = (props) => {
     clearOrders,
     tableNumber,
     setTableNumber,
-    backendURL,
   };
 
   return (

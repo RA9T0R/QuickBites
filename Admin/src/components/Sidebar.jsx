@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Airplay, LogOut } from "lucide-react";
 import { sidemenu } from "../assets/assets";
 
-const Sidebar = ({expanded, setToken, role}) => {
+const Sidebar = ({expanded, setToken}) => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
 
@@ -20,9 +20,7 @@ const Sidebar = ({expanded, setToken, role}) => {
 
       {/* Menu */}
       <div className="flex-1 flex flex-col p-3 gap-3 text-Text mt-20">
-        {sidemenu
-          .filter((item) => item.role === "all" || item.role === role)
-          .map((item, index) => {
+        {sidemenu.map((item, index) => {
           const Icon = item.icon;
           return (
             <Link

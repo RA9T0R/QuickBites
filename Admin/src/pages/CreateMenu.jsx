@@ -4,18 +4,7 @@ import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from "../assets/assets.js"
 
-const CreateMenu = ({token,role}) => {
-  if (role !== "admin") {
-    return (
-      <div className="flex justify-center items-center mt-6">
-        <div className="bg-red-100 text-red-700 border border-red-500 rounded-lg px-6 py-4">
-          <p className="text-center font-semibold">Access Denied</p>
-          <p className="text-center text-sm">Admins only.</p>
-        </div>
-      </div>
-    );
-  }
-  
+const CreateMenu = ({token}) => {
 
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);

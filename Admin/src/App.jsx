@@ -9,33 +9,29 @@ import Order from "./pages/Order"
 import Analytics from "./pages/Analytics"
 import Login from "./pages/Login"
 import CreateMenu from "./pages/CreateMenu"
-import Table from './pages/Table'
 
 import { ToastContainer } from 'react-toastify'
-import AddEmployee from './pages/AddEmployee'
 
 export const backendURL = import.meta.env.VITE_BACKEND_URL
 
 const App = () => {
   const [expanded, setExpanded] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "");
-  const [role, setRole] = useState(localStorage.getItem("role") ? localStorage.getItem("role") : "");
   useEffect(() => {
     localStorage.setItem("token", token)
-    localStorage.setItem("role", role)
-  }, [token,role])
+  }, [token])
   
   return (
     <div className="bg-Main_BG min-h-screen">
       <ToastContainer/>
-      {token === "" ? <Login setToken={setToken} setRole={setRole} /> : 
+      {token === "" ? <Login setToken={setToken} /> : 
       <>
         {/* Navbar */}
-        <Navbar expanded={expanded} setExpanded={setExpanded} setToken={setToken} role={role} />
+        <Navbar expanded={expanded} setExpanded={setExpanded} setToken={setToken} />
 
         <div className="flex pt-20">
           {/* Sidebar */}
-          <Sidebar expanded={expanded} setToken={setToken} role={role} />
+          <Sidebar expanded={expanded} setToken={setToken} />
 
           {/* Main Content */}
           <div
@@ -44,13 +40,10 @@ const App = () => {
           >
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/create" element={<CreateMenu token={token} role={role}/>} />
-              <Route path="/analytics" element={<Analytics role={role}/>} />
-              <Route path="/add_employee" element={<AddEmployee role={role}/>} />
-              <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
-              <Route path="/view_menu" element={<Menu />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/create" element={<CreateMenu token={token} />} />
               <Route path="/order" element={<Order />} />
-              <Route path="/Table/:tableNumber" element={<Table />} />
+              <Route path="/analytics" element={<Analytics />} />
             </Routes>
           </div>
         </div>

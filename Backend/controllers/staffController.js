@@ -8,41 +8,6 @@ const createToken = (id) => {
     return jwt.sign({id},process.env.JWT_SECRET);
 }
 
-const login = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-  
-      // If the email matches the admin's email, process admin login
-      if (email === process.env.ADMIN_EMAIL) {
-        if (password === process.env.ADMIN_PASSWORD) {
-          const token = jwt.sign(email + password, process.env.JWT_SECRET);
-          return res.json({ success: true, token, role: "admin" });
-        } else {
-          return res.json({ success: false, message: "Invalid admin credentials" });
-        }
-      }
-  
-      // Otherwise, process staff login
-      const staff = await staffModel.findOne({ email });
-      if (!staff) {
-        return res.json({ success: false, message: "Staff doesn't exist" });
-      }
-  
-      const isMatch = await bcrypt.compare(password, staff.password);
-      if (isMatch) {
-        const token = createToken(staff._id);
-        return res.json({ success: true, token, role: "staff" });
-      } else {
-        return res.json({ success: false, message: "Invalid staff credentials" });
-      }
-    } catch (error) {
-      console.log(error);
-      return res.json({ success: false, message: error.message });
-    }
-  };
-  
-
-
 //Route for admin login
 const adminLogin = async (req, res) => {
     try {
@@ -51,7 +16,7 @@ const adminLogin = async (req, res) => {
 
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
             const token = jwt.sign(email+password,process.env.JWT_SECRET);
-            res.json({success:true,token,role:"admin"})
+            res.json({success:true,token})
         } else {
             res.json({success:false,message:"Invalid credentials"})
         }
@@ -72,7 +37,7 @@ const loginStaff = async (req, res) => {
         const isMatch = await bcrypt.compare(password,staff.password);
         if (isMatch){
             const token = createToken(staff._id)
-            res.json({success:true,token,role:"staff"})
+            res.json({success:true,token})
         }else{
             res.json({success:false,message:"Invalid credentials"})
         }
@@ -122,4 +87,4 @@ const registerStaff = async (req, res) => {
     }
 }
 
-export {adminLogin,loginStaff,registerStaff,login};
+export {adminLogin,loginStaff,registerStaff};

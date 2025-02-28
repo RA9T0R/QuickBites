@@ -1,11 +1,10 @@
 import express from 'express';
-import { adminLogin,registerStaff,loginStaff,login } from '../controllers/staffController.js';
+import { adminLogin,registerStaff,loginStaff } from '../controllers/staffController.js';
 
 const employeeRouter = express.Router();
 
-// employeeRouter.post('/admin', adminLogin);
-// employeeRouter.post('/loginStaff', loginStaff);
+employeeRouter.post('/admin', adminLogin);
 employeeRouter.post('/registerStaff', registerStaff);
-employeeRouter.post('/login', login);
+employeeRouter.post('/loginStaff', loginStaff);
 
 export default employeeRouter;
