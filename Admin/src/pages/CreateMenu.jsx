@@ -15,7 +15,6 @@ const CreateMenu = ({token,role}) => {
       </div>
     );
   }
-  
 
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
@@ -77,9 +76,80 @@ const CreateMenu = ({token,role}) => {
 
   return (
     <form onSubmit={onSubmitHandler} className="flex flex-col w-full items-start gap-3">
-      <div>
-        <p className="mb-2">Upload Image</p>
 
+      <div className="w-full flex flex-col text-Text">
+        <p className="mb-2">Dish Name</p>
+        <input onChange={(e)=>setName(e.target.value)} value={name} className="w-full max-w-[500px] px-3 py-2" type="text" placeholder="Name" required />
+      </div>
+
+      <div className="w-full flex flex-col text-Text">
+        <p className="mb-2">Description</p>
+        <textarea onChange={(e)=>setDescription(e.target.value)} value={description} className="w-full max-w-[500px] px-3 py-2" type="text" placeholder="Description" required />
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
+
+        <div>
+          <p className="mb-2 w-full flex flex-col text-Text">Category</p>
+          <select onChange={(e) => setCategory(e.target.value)} value={category} className="w-full px-3 py-2">
+            <option value="MainDish">MainDish</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Drinks">Drinks</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Appitizer">Appitizer</option>
+          </select>
+        </div>
+
+        <div>
+          <p className="mb-2 w-full flex flex-col text-Text">Price</p>
+          <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full px-3 py-2 sm:w-[120px]" type="Number" placeholder="0" />
+        </div>
+
+        <div>
+          <p className="mb-2 w-full flex flex-col text-Text">Rating</p>
+          <input onChange={(e) => setRate(e.target.value)} value={rate} className="w-full px-3 py-2 sm:w-[120px]" type="Number" step={0.01} placeholder="0.0" />
+        </div>
+
+        <div>
+          <p className="mb-2 w-full flex flex-col text-Text">Calories (Kcal)</p>
+          <input onChange={(e) => setCalories(e.target.value)} value={calories} className="w-full px-3 py-2 sm:w-[120px]" type="Number" step={0.01} placeholder="0" />
+        </div>
+
+      </div>
+
+      <div>
+        <p className="mb-2 w-full flex flex-col text-Text">Cooking Time (minutes)</p>
+        <div className="flex gap-4 items-center">
+        <div className="flex flex-col items-center">
+          <label className="mb-1 text-sm w-full flex flex-col text-Text">Min Time</label>
+          <input
+            type="number"
+            value={timeRange[0]}
+            min={0}
+            max={timeRange[1]}
+            onChange={(e) =>
+              setTimeRange([Number(e.target.value), timeRange[1]])
+            }
+            className="w-20 px-2 py-1 border rounded"
+          />
+        </div>
+        <span className="text-Text">_</span>
+        <div className="flex flex-col items-center">
+          <label className="mb-1 text-sm w-full flex flex-col text-Text">Max Time</label>
+          <input
+            type="number"
+            value={timeRange[1]}
+            min={timeRange[0]}
+            onChange={(e) =>
+              setTimeRange([timeRange[0], Number(e.target.value)])
+            }
+            className="w-20 px-2 py-1 border rounded"
+          />
+        </div>
+      </div>
+
+      <div>
+        <p className="text-Text mb-2">Upload Image</p>
         <div className="flex gap-2">
           <label htmlFor="image1">
             <img className="w-20" src={!image1 ? assets.upload : URL.createObjectURL(image1)} alt="" />
@@ -100,83 +170,13 @@ const CreateMenu = ({token,role}) => {
         </div>
       </div>
 
-      <div className="w-full">
-        <p className="mb-2">Product name</p>
-        <input onChange={(e)=>setName(e.target.value)} value={name} className="w-full max-w-[500px] px-3 py-2" type="text" placeholder="Type here" required />
-      </div>
-
-      <div className="w-full">
-        <p className="mb-2">Product description</p>
-        <textarea onChange={(e)=>setDescription(e.target.value)} value={description} className="w-full max-w-[500px] px-3 py-2" type="text" placeholder="Write content here" required />
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
-        <div>
-          <p className="mb-2">Product category</p>
-          <select onChange={(e) => setCategory(e.target.value)} value={category} className="w-full px-3 py-2">
-            <option value="MainDish">MainDish</option>
-            <option value="Healthy">Healthy</option>
-            <option value="Drinks">Drinks</option>
-            <option value="Dessert">Dessert</option>
-            <option value="Appitizer">Appitizer</option>
-          </select>
-        </div>
-
-        <div>
-          <p className="mb-2">Product Price</p>
-          <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full px-3 py-2 sm:w-[120px]" type="Number" placeholder="25" />
-        </div>
-
-        <div>
-          <p className="mb-2">Product Rating</p>
-          <input onChange={(e) => setRate(e.target.value)} value={rate} className="w-full px-3 py-2 sm:w-[120px]" type="Number" step={0.01} placeholder="0.0" />
-        </div>
-
-        <div>
-          <p className="mb-2">Calories</p>
-          <input onChange={(e) => setCalories(e.target.value)} value={calories} className="w-full px-3 py-2 sm:w-[120px]" type="Number" step={0.01} placeholder="0.0" />
-        </div>
-
-      </div>
-
-      <div>
-        <p className="mb-2">Cooking Time</p>
-        <div className="flex gap-4 items-center">
-        <div className="flex flex-col items-center">
-          <label className="mb-1 text-sm">Min Time</label>
-          <input
-            type="number"
-            value={timeRange[0]}
-            min={0}
-            max={timeRange[1]}
-            onChange={(e) =>
-              setTimeRange([Number(e.target.value), timeRange[1]])
-            }
-            className="w-20 px-2 py-1 border rounded"
-          />
-        </div>
-        <span>-</span>
-        <div className="flex flex-col items-center">
-          <label className="mb-1 text-sm">Max Time</label>
-          <input
-            type="number"
-            value={timeRange[1]}
-            min={timeRange[0]}
-            onChange={(e) =>
-              setTimeRange([timeRange[0], Number(e.target.value)])
-            }
-            className="w-20 px-2 py-1 border rounded"
-          />
-        </div>
-      </div>
       </div>
 
       <div className="flex gap-2 mt-2">
         <input onChange={() => setBestseller(prev => !prev)} checked={bestseller} type="checkbox" id='bestseller' />
-        <label className="cursor-pointer" htmlFor="bestseller">Add to Recommend</label>
+        <label className="text-Text cursor-pointer" htmlFor="bestseller">Add to Recommendation</label>
       </div>
-
-      <button type="submit" className="w-28 py-3 mt-4 bg-black text-white active:bg-gray-500">ADD</button>
+        <button type="submit" className="w-28 py-3 mt-4 bg-black text-white active:bg-gray-500">ADD</button>
     </form>
   )
 }
