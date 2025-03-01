@@ -76,98 +76,186 @@ const CreateMenu = ({ token, role }) => {
   }
 
   return (
-    <div className="flex">
-      <form onSubmit={onSubmitHandler} className="flex flex-col w-full items-start gap-7 p-7 bg-BG rounded-xl">
+    <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
+      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Create Menu</h1>
+      <form onSubmit={onSubmitHandler} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch">
+        {/* Left Column: Basic Info & Attributes */}
+        <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
+          <h1 className="text-2xl font-bold mb-5 text-Text">Basic Information</h1>
 
-        <h1 className="text-2xl md:text-4xl font-bold self-start ml-1 text-Text">Create Menu</h1>
-
-        <div className="w-full flex flex-col">
-          <p className="mb-2 text-Text">Dish Name</p>
-          <input onChange={(e) => setName(e.target.value)} value={name} className="w-full max-w-[575px] px-3 py-2 rounded-2xl bg-gray-100 border" type="text" placeholder="Name" required />
-        </div>
-
-        <div className="w-full flex flex-col">
-          <p className="mb-2 text-Text">Description</p>
-          <textarea onChange={(e) => setDescription(e.target.value)} value={description} className="w-full max-h-[125px] max-w-[575px] px-3 py-2 rounded-2xl bg-gray-100 border" type="text" placeholder="Description" required />
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
-
+          {/* Basic Info Section */}
           <div>
-            <p className="mb-2 w-full flex flex-col text-Text">Category</p>
-            <select
-              onChange={(e) => setCategory(e.target.value)}
-              value={category}
-              className="w-full px-3 py-2 rounded-2xl dark:bg-gray-100 dark:text-gray-900 border">
-              <option value="MainDish">MainDish</option>
-              <option value="Healthy">Healthy</option>
-              <option value="Drinks">Drinks</option>
-              <option value="Dessert">Dessert</option>
-              <option value="Appitizer">Appitizer</option>
-            </select>
-          </div>
-
-          <div>
-            <p className="mb-2 w-full flex flex-col text-Text">Price</p>
-            <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full px-3 py-2 sm:w-[120px] rounded-2xl bg-gray-100 border no-spinner" type="Number" placeholder="0" />
-          </div>
-
-          <div>
-            <p className="mb-2 w-full flex flex-col text-Text">Rating</p>
-            <input onChange={(e) => setRate(e.target.value)} value={rate} className="w-full px-3 py-2 sm:w-[120px] rounded-2xl bg-gray-100 border no-spinner" type="Number" step={0.01} placeholder="0.0" />
-          </div>
-
-          <div>
-            <p className="mb-2 w-full flex flex-col text-Text">Calories (Kcal)</p>
-            <input onChange={(e) => setCalories(e.target.value)} value={calories} className="w-full px-3 py-2 sm:w-[120px] rounded-2xl bg-gray-100 border no-spinner" type="Number" step={0.01} placeholder="0" />
-          </div>
-
-        </div>
-
-        <div>
-          <p className="mb-2 w-full flex flex-col text-Text">Cooking Time (minutes)</p>
-          <div className="flex gap-4 items-center">
-            <div className="flex flex-col items-center">
-              <label className="mb-1 text-sm w-full flex flex-col text-Text">Min Time</label>
+            {/* Dish Name */}
+            <div className="flex flex-col w-full mb-5">
+              <p className="mb-2 text-Text">Dish Name</p>
               <input
-                type="Number"
-                value={timeRange[0]}
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                className="w-full px-3 py-2 rounded-2xl text-Text bg-Text/10 placeholder-Text/50"
+                type="text"
+                placeholder="Name"
+                required
+              />
+            </div>
+
+            {/* Dish Description */}
+            <div className="flex flex-col w-full mb-7">
+              <p className="mb-2 text-Text">Description</p>
+              <textarea
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+                className="w-full h-28 px-3 py-2 mb-1 rounded-2xl text-Text bg-Text/10 placeholder-Text/50 resize-none"
+                placeholder="Description"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Attributes Section */}
+          <h1 className="text-2xl font-bold mb-5 text-Text">Attributes</h1>
+          <div className="grid grid-rows-4 gap-2 w-full">
+            {/* Category */}
+            <div>
+              <p className="flex w-full text-Text mb-2">Category</p>
+              <select
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+                className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50"
+              >
+                <option value="MainDish">MainDish</option>
+                <option value="Healthy">Healthy</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Appitizer">Appitizer</option>
+              </select>
+            </div>
+
+            {/* Price */}
+            <div>
+              <p className="flex mb-2 w-full text-Text">Price</p>
+              <input
+                onChange={(e) => setPrice(e.target.value)}
+                value={price}
                 min={0}
+                className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
+                type="Number"
                 placeholder="0"
-                max={timeRange[1]}
-                onChange={(e) =>
-                  setTimeRange([Number(e.target.value), timeRange[1]])
-                }
-                className="w-20 px-2 py-1 border rounded-2xl bg-gray-100 no-spinner"
+                step={0.01}
               />
             </div>
-            <span>_</span>
-            <div className="flex flex-col items-center">
-              <label className="mb-1 text-sm w-full flex flex-col text-Text">Max Time</label>
+
+            {/* Rating */}
+            <div>
+              <p className="mb-2 w-full text-Text">Rating</p>
               <input
+                onChange={(e) => setRate(e.target.value)}
+                value={rate}
+                min={0}
+                className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
                 type="Number"
-                value={timeRange[1]}
-                min={timeRange[0]}
-                placeholder="60"
-                onChange={(e) =>
-                  setTimeRange([timeRange[0], Number(e.target.value)])
-                }
-                className="w-20 px-2 py-1 border rounded-2xl bg-gray-100 no-spinner"
+                placeholder="0.0"
+                step={0.1}
               />
+            </div>
+
+            {/* Calories */}
+            <div>
+              <p className="mb-2 w-full text-Text">Calories (Kcal)</p>
+              <input
+                onChange={(e) => setCalories(e.target.value)}
+                value={calories}
+                min={0}
+                className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
+                type="Number"
+                placeholder="0"
+              />
+            </div>
+
+            {/* Cooking Time & Recommendation in one row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+              {/* Cooking Time */}
+              <div>
+                <p className="mb-2 w-full text-Text">Cooking Time</p>
+                <div className="flex gap-4 items-end">
+                  {/* Min Time */}
+                  <div className="flex flex-col">
+                    <label className="mb-1 text-sm text-Text">Min Time</label>
+                    <input
+                      type="number"
+                      value={timeRange[0]}
+                      min={0}
+                      placeholder="0"
+                      max={timeRange[1]}
+                      onChange={(e) =>
+                        setTimeRange([Number(e.target.value), timeRange[1]])
+                      }
+                      className="w-20 px-2 py-1 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
+                    />
+                  </div>
+                  <span className="text-Text">‾</span>
+                  {/* Max Time */}
+                  <div className="flex flex-col">
+                    <label className="mb-1 text-sm text-Text">Max Time</label>
+                    <input
+                      type="number"
+                      value={timeRange[1]}
+                      min={timeRange[0]}
+                      placeholder="60"
+                      onChange={(e) =>
+                        setTimeRange([timeRange[0], Number(e.target.value)])
+                      }
+                      className="w-20 px-2 py-1 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
+                    />
+                  </div>
+                  <span className="text-Text">mins</span>
+                </div>
+              </div>
+
+              {/* Recommendation */}
+              <div className="mt-5">
+                <label className="inline-flex items-center" htmlFor="bestseller">
+                  <span className="mr-5 font-medium text-Text">
+                    Add to Recommendation (Optional)
+                  </span>
+                  <input
+                    onChange={() => setBestseller((prev) => !prev)}
+                    checked={bestseller}
+                    type="checkbox"
+                    id="bestseller"
+                    className="sr-only peer"
+                  />
+                  <div
+                    className="
+                cursor-pointer relative w-11 h-6 rounded-full peer
+                dark:bg-gray-700 peer-checked:after:translate-x-full
+                rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white
+                after:content-[''] after:absolute after:top-[2px] after:start-[2px]
+                after:bg-white after:border-gray-300 after:border after:rounded-full
+                after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600
+                dark:peer-checked:bg-green-600
+              "
+                  ></div>
+                </label>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Uploading Images */}
-          <div className="mt-7">
-            <p className="mb-2 text-Text">Upload Image (Max: 4)</p>
-            <div className="grid grid-cols-2 my-5">
+        {/* Right Column: Upload Images & Button */}
+        <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
+          <h1 className="text-2xl font-bold text-Text">Upload Images</h1>
+
+          {/* Main content area grows to fill space */}
+          <div className="flex-grow w-full">
+            {/* Row 1 of images */}
+            <div className="grid grid-cols-2 gap-4 my-5">
               {/* Image 1 */}
               <label htmlFor="image1">
                 {!image1 ? (
-                  <ImageUp className="w-20 h-20 cursor-pointer rounded-xl text-Text" />
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-20 h-20 cursor-pointer rounded-xl"
+                    className="w-full h-full cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image1)}
                     alt=""
                   />
@@ -179,13 +267,14 @@ const CreateMenu = ({ token, role }) => {
                   hidden
                 />
               </label>
+
               {/* Image 2 */}
               <label htmlFor="image2">
                 {!image2 ? (
-                  <ImageUp className="w-20 h-20 cursor-pointer rounded-xl text-Text" />
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-20 h-20 cursor-pointer rounded-xl"
+                    className="w-full h-full cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image2)}
                     alt=""
                   />
@@ -198,14 +287,16 @@ const CreateMenu = ({ token, role }) => {
                 />
               </label>
             </div>
-            <div className="grid grid-cols-2">
+
+            {/* Row 2 of images */}
+            <div className="grid grid-cols-2 gap-4">
               {/* Image 3 */}
               <label htmlFor="image3">
                 {!image3 ? (
-                  <ImageUp className="w-20 h-20 cursor-pointer rounded-xl text-Text" />
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-20 h-20 cursor-pointer rounded-xl"
+                    className="w-full h-full cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image3)}
                     alt=""
                   />
@@ -217,13 +308,14 @@ const CreateMenu = ({ token, role }) => {
                   hidden
                 />
               </label>
+
               {/* Image 4 */}
               <label htmlFor="image4">
                 {!image4 ? (
-                  <ImageUp className="w-20 h-20 cursor-pointer rounded-xl text-Text" />
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-20 h-20 cursor-pointer rounded-xl"
+                    className="w-full h-full cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image4)}
                     alt=""
                   />
@@ -238,23 +330,16 @@ const CreateMenu = ({ token, role }) => {
             </div>
           </div>
 
+          {/* Button at bottom of right column */}
+          <div className="flex justify-center mt-4">
+            <button
+              type="submit"
+              className="w-32 md:p-5 py-3 bg-Button text-BG active:bg-Button/75 rounded-xl shadow"
+            >
+              Create
+            </button>
+          </div>
         </div>
-
-        <label class="inline-flex items-center" htmlFor="bestseller">
-          <input
-            onChange={(e) => setBestseller(prev => !prev)}
-            checked={bestseller}
-            type="checkbox"
-            id='bestseller'
-            class="sr-only peer"
-          />
-          <div className="cursor-pointer relative w-11 h-6 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 dark:peer-checked:bg-green-600"></div>
-          <span className="ms-3 text-sm font-medium text-Text">
-            Add to Recommendation
-          </span>
-        </label>
-
-        <button type="submit" className="w-28 py-3 mt-4 bg-Button text-BG active:bg-Button/75 rounded-xl">Add Menu</button>
       </form>
     </div>
   )
