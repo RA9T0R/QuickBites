@@ -7,6 +7,7 @@ import userRouter from './routes/employeeRoute.js';
 import productRouter from './routes/productRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import employeeRouter from './routes/employeeRoute.js';
+import transactionRouterouter from './routes/transactionRoute.js';
 import transactionRouter from './routes/transactionRoute.js';
 
 // App Config

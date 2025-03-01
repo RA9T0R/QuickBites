@@ -26,7 +26,6 @@ const Menu = () => {
     fetchFood();
   },[])
 
-
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <div className='flex flex-col sm:flex-row gap-4 items-center justify-between w-full'>

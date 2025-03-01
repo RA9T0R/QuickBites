@@ -14,7 +14,6 @@ import Employee from './pages/Employee'
 import AddEmployee from './pages/AddEmployee'
 import EditEmployee from './pages/EditEmployee'
 
-
 import { ToastContainer } from 'react-toastify'
 
 export const backendURL = import.meta.env.VITE_BACKEND_URL
@@ -50,8 +49,8 @@ const App = () => {
               <Route path="/create" element={<CreateMenu token={token} role={role}/>} />
               <Route path="/analytics" element={<Analytics role={role}/>} />
               <Route path="/add_employee" element={<AddEmployee token={token} role={role}/>} />
-              <Route path="/list_employee" element={<Employee token={token} role={role}/>} />
               <Route path="/edit_employee/:staffId" element={<EditEmployee token={token} role={role}/>} />
+              <Route path="/list_employee" element={<Employee token={token} role={role}/>} />
               <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
               <Route path="/view_menu" element={<Menu />} />
               <Route path="/order" element={<Order />} />

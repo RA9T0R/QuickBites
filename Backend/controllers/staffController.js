@@ -144,6 +144,16 @@ const updateStaff = async (req, res) => {
     }
 };
 
+const removeStaff = async (req, res) => {
+    try {
+        await staffModel.findByIdAndDelete(req.body.id)
+        res.json({success:true,message:"Staff removed successfully"})
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message})
+    }
+}
+
 const listStaff = async (req, res) => {
     try{ 
         const staff = await staffModel.find({});
@@ -165,14 +175,4 @@ const singleStaff = async (req,res) => {
     }
 }
 
-const removeStaff = async (req, res) => {
-    try {
-        await staffModel.findByIdAndDelete(req.body.id)
-        res.json({success:true,message:"Staff removed successfully"})
-    } catch (error) {
-        console.log(error);
-        res.json({success:false,message:error.message})
-    }
-}
-
-export {registerStaff,login,updateStaff,removeStaff,listStaff,singleStaff};
+export {registerStaff,login,updateStaff,removeStaff,singleStaff,listStaff};

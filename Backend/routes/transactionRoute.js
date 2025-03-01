@@ -3,6 +3,7 @@ import {addTransaction, getAllTransactions,getDailySummary} from "../controllers
 
 const transactionRouter = express.Router();
 
+
 transactionRouter.post("/", addTransaction);
 transactionRouter.get("/", getAllTransactions);
 transactionRouter.get("/summary/daily/:date", getDailySummary);
