@@ -68,7 +68,7 @@ const AddEmployee = ({ token,role }) => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center text-Text p-8">
+    <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Add Employee</h1>
 
       {/* Container Bento Grid */}
@@ -100,7 +100,7 @@ const AddEmployee = ({ token,role }) => {
 
             <div className='w-full mb-4'>
               <p className='mb-2'>Phone Number</p>
-              <input onChange={(e)=> setPhone(e.target.value)} value={phone} type="number" className="w-full rounded-lg p-2 bg-Text/20 placeholder-Text/50" placeholder='Phone Number' required/>
+              <input onChange={(e)=> setPhone(e.target.value)} value={phone} type="text" className="w-full rounded-lg p-2 bg-Text/20 placeholder-Text/50" placeholder='Phone Number' required/>
             </div>
           </div>
           
@@ -143,7 +143,7 @@ const AddEmployee = ({ token,role }) => {
                 <input onChange={(e)=>setImage(e.target.files[0])}  type="file" id='image1' hidden/>
             </label>
           </div>
-          <button type="submit" className='rounded-xl bg-Button flex flex-col items-center justify-center p-5 text-3xl md:text-5xl lg:text-4xl xl:text-5xl text-BG active:bg-Button/50 hover:bg-Button/90'>
+          <button type="submit" className='rounded-xl bg-Button flex flex-col items-center justify-center p-5 text-3xl md:text-5xl lg:text-4xl xl:text-5xl text-BG active:bg-Button/75 hover:bg-Button/90'>
               Add Employee
           </button>
         </div>
