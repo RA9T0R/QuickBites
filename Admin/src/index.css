@@ -4,37 +4,52 @@
 @tailwind components;
 @tailwind utilities;
 
-.light{
-    --main-bg : 245,245,245;
+.light {
+    --main-bg: 245, 245, 245;
     --bg: 255, 255, 255;
     --bg-sec: 251, 146, 60;
-    --bg-card:215, 213, 226;
+    --bg-card: 215, 213, 226;
     --text: 51, 51, 51;
     --button: 255, 174, 0;
     --highlight-text: 255, 69, 0;
     --black: 0, 0, 0;
 }
-.dark{
-    --main-bg : 9,9,9;
-    --bg: 38,38,38; 
+
+.dark {
+    --main-bg: 9, 9, 9;
+    --bg: 38, 38, 38;
     --bg-sec: 195, 90, 4;
-    --bg-card:31, 29, 43;
-    --text: 235, 235, 235; 
-    --button: 255, 174, 0; 
-    --highlight-text: 255, 120, 85; 
+    --bg-card: 31, 29, 43;
+    --text: 235, 235, 235;
+    --button: 255, 174, 0;
+    --highlight-text: 255, 120, 85;
     --black: 255, 255, 255;
 }
 
-*{
+* {
     @apply transition-colors duration-100;
     font-family: Outfit;
 }
-.Kanit{
+
+.Kanit {
     font-family: 'Kanit', sans-serif;
     font-weight: 600;
     font-style: normal;
 }
+
 /* ::-webkit-scrollbar{
     display: none;
 } */
 
+
+.no-spinner {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
