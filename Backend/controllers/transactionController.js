@@ -1,10 +1,10 @@
-import Transaction from "../models/transactionModel.js";
+import transactionModel from "../models/transactionModel.js";
 
 //  เพิ่มรายการรายรับ-รายจ่าย
 export const addTransaction = async (req, res) => {
   try {
     const { date, time, type, amount, description } = req.body;
-    const newTransaction = new Transaction({ date, time, type, amount, description });
+    const newTransaction = new transactionModel({ date, time, type, amount, description });
     await newTransaction.save();
     res.status(201).json(newTransaction);
   } catch (err) {
@@ -15,7 +15,7 @@ export const addTransaction = async (req, res) => {
 //  ดึงข้อมูลทั้งหมด
 export const getAllTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find().sort({ date: -1 });
+    const transactions = await transactionModel.find().sort({ date: -1 });
     res.json(transactions);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -26,7 +26,7 @@ export const getAllTransactions = async (req, res) => {
 export const getDailySummary = async (req, res) => {
   try {
     const { date } = req.params;
-    const transactions = await Transaction.find({ date });
+    const transactions = await transactionModel.find({ date });
 
     const total_income = transactions
       .filter((t) => t.type === "income")
