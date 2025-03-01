@@ -11,4 +11,4 @@ productRouter.post('/update',adminAuth,upload.fields([{name:'image1',maxCount:1}
 productRouter.get('/list',listProducts);
 productRouter.post('/single',singleProducts);
 
-export default productRouter
+export default productRouter;
