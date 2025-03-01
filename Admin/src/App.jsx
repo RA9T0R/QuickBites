@@ -52,7 +52,7 @@ const App = () => {
               <Route path="/edit_employee/:staffId" element={<EditEmployee token={token} role={role}/>} />
               <Route path="/list_employee" element={<Employee token={token} role={role}/>} />
               <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
-              <Route path="/view_menu" element={<Menu />} />
+              <Route path="/view_menu" element={<Menu token={token}/>} />
               <Route path="/order" element={<Order />} />
               <Route path="/Table/:tableNumber" element={<Table />} />
             </Routes>

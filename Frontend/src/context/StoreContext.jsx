@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 // import { foods_list } from '../assets/assets';
 import { useSearchParams } from 'react-router-dom';
-import axiot from 'axios';
+import axios from 'axios';
 import {toast} from 'react-toastify';
 
 export const StoreContext = createContext(null);
@@ -12,6 +12,7 @@ const StoreContextProvider = (props) => {
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [cartItems, setCartItems] = useState({});
   const [orderData, setOrderData] = useState([]);
+  const [totalFoodCount,setTotalFoodCount] = useState(0);
   const [search, setSearch] = useState('');
   const [tableNumber, setTableNumber] = useState(null);
   const [foods_list,setFoods_list] = useState([]);
@@ -134,7 +135,7 @@ const StoreContextProvider = (props) => {
 
   const getFoodData = async () => {
     try {
-      const response = await axiot.get(backendURL + '/api/product/list')
+      const response = await axios.get(backendURL + '/api/product/list')
       if(response.data.success){
         setFoods_list(response.data.product)
       }else{
@@ -170,6 +171,8 @@ const StoreContextProvider = (props) => {
     tableNumber,
     setTableNumber,
     backendURL,
+    totalFoodCount,
+    setTotalFoodCount,
   };
 
   return (

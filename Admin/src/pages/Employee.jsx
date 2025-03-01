@@ -23,11 +23,7 @@ const Employee = ({ token, role }) => {
 
   const removeEmployee = async (id) => {
     try {
-      const response = await axios.post(
-        backendURL + "/api/employee/removeStaff",
-        { id },
-        { headers: { token } }
-      );
+      const response = await axios.post(backendURL + "/api/employee/removeStaff",{ id },{ headers: { token } });
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchEmployee();

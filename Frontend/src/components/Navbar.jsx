@@ -8,7 +8,7 @@ import { Sun, Moon, ShoppingBag, AlignLeft, ArrowLeft, ConciergeBell } from 'luc
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const { getTotalFoodCount, tableNumber} = useContext(StoreContext);
+  const {totalFoodCount, tableNumber} = useContext(StoreContext);
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
 
@@ -113,7 +113,7 @@ const Navbar = () => {
           <div className="w-9 h-9 sm:w-12 sm:h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
             <ShoppingBag className="size-6 sm:size-8 text-Text" alt="Shopping Bag" />
           </div>
-          <p className="absolute right-0 bottom-0 transform translate-x-1/6 translate-y-1/6 w-4 text-center leading-4 bg-BG_Black text-BG aspect-square rounded-full text-[8px] shadow-md">{getTotalFoodCount()}</p>
+          <p className="absolute right-0 bottom-0 transform translate-x-1/6 translate-y-1/6 w-4 text-center leading-4 bg-BG_Black text-BG aspect-square rounded-full text-[8px] shadow-md">{totalFoodCount}</p>
         </Link>
         <div onClick={() => setDarkMode(!darkMode)} className="cursor-pointer">
           <div className="w-9 h-9 sm:w-12 sm:h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">

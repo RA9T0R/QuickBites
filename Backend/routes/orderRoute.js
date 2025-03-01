@@ -4,7 +4,7 @@ import upload from "../middleware/multer.js";
 
 const orderRouter = express.Router();
 
-orderRouter.post('/add',upload.none(), addOrder);
+orderRouter.post('/add',upload.none(),addOrder);
 orderRouter.get('/list',listOrders);
 orderRouter.get('/list/:tableNumber',listOrdersByTable);
 orderRouter.post('/remove',removeOrder);

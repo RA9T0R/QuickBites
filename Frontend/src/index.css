@@ -61,16 +61,17 @@ b{
     border-radius: 12px;
 }
 
-.badge-done {
+.badge-serving {
     background-color: green;
     color: white;
     padding: 4px 8px;
     border-radius: 12px;
 }
 
-.badge-served {
+.badge-completed {
     background-color: blue;
     color: white;
     padding: 4px 8px;
     border-radius: 12px;
 }
+

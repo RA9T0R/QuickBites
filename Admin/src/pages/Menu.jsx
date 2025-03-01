@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { assets } from "../assets/assets.js"
+import { assets,menu_list } from "../assets/assets.js"
 import axios from 'axios'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
@@ -7,42 +7,88 @@ import { Link } from 'react-router-dom';
 
 import { Trash,Pencil,CookingPot,Star  } from 'lucide-react';
 
-const Menu = () => {
-
+const Menu = ({token}) => {
   const [foodList, setFoodList] = useState([]);
+  const [category, setCategory] = useState('All');
 
   const fetchFood = async () => {
-    try{
+    try {
       const response = await axios.get(backendURL + '/api/product/list');
-      if(response.data.success){
+      if (response.data.success) {
         setFoodList(response.data.product);
       }
-    }catch(error){
+    } catch (error) {
       toast.error("Failed to fetch food list");
+    }
+  };
+
+  const removeFood = async (id) => {
+    try {
+      const response = await axios.post(backendURL + '/api/product/remove', { id },{ headers: { token } });
+      if (response.data.success) {
+        toast.success(response.data.message);
+        await fetchFood();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
   }
 
   useEffect(() => {
     fetchFood();
-  },[])
+  }, []);
+
+  const filteredFoodList = category === 'All' 
+    ? foodList 
+    : category === 'Recommend' 
+      ? foodList.filter(food => food.recommend) 
+      : foodList.filter(food => food.category === category);
 
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
-      <div className='flex flex-col sm:flex-row gap-4 items-center justify-between w-full'>
-        <h1 className="text-2xl sm:text-4xl font-bold self-start ml-1">Employee</h1>
-        <Link to="/create" className='flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-green-400 bg-green-600 rounded-2xl '>
-          <CookingPot/>
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">
+        <h1 className="text-2xl sm:text-4xl font-bold self-start ml-1">Menu</h1>
+        <Link to="/create" className="flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-green-400 bg-green-600 rounded-2xl">
+          <CookingPot />
           <p>Add new menu</p>
         </Link>
       </div>
 
+      {/* Scrollable Menu */}
+      <div className="flex w-full overflow-x-auto mt-5">
+        <div className="flex gap-6 sm:gap-8 lg:gap-10 mx-auto max-w-screen-xl">
+          {menu_list.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setCategory(prev => prev === item.menu_name ? 'All' : item.menu_name)}
+              className={`flex items-center gap-2 bg-BG px-2 py-1 rounded-xl shadow-lg shadow-Text/20 transition-all ease-in-out cursor-pointer ${
+                category === item.menu_name ? 'bg-BG_Black text-BG' : 'text-Text'
+              }`}
+            >
+              {/* Icon Section */}
+              <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
+                {React.createElement(item.menu_image, { className: `w-full h-full object-center ${item.color}` })} 
+              </div>
+
+              {/* Text Section */}
+              <div className="flex flex-col">
+                <p className="text-md sm:lg md:text-xl font-bold uppercase">{item.menu_name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Food List */}
       <div className="w-full mt-4 rounded-xl bg-BG p-5">
-        {/* Wrap the content inside a scrollable container */}
         <div className="overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
               <tr className="uppercase text-left text-Text border-b border-Text/10">
-                <th className="py-3 px-4">ID</th>
+                <th className="py-3 px-4">No.</th>
                 <th className="py-3 px-4">Image</th>
                 <th className="py-3 px-4">Name</th>
                 <th className="py-3 px-4">Description</th>
@@ -54,18 +100,16 @@ const Menu = () => {
               </tr>
             </thead>
 
-            {/* foodList List */}
+            {/* Filtered Food List */}
             <tbody>
-              {foodList.map((food, index) => (
-                <tr
-                  className="border-b border-Text/10 text-Text/80"
-                  key={index}
-                >
+              {filteredFoodList.map((food, index) => (
+                <tr className="border-b border-Text/10 text-Text/80" key={index}>
                   {/* ID */}
-                  <td  className="py-3 px-4 text-center">
-                    <div>{food.recommend ? <Star className='fill-yellow-400 text-yellow-400'/> : ' '} </div>
-                    <div>{index} </div>
+                  <td className="py-3 px-4 text-center">
+                    <div>{food.recommend ? <Star className="fill-yellow-400 text-yellow-400" /> : ' '}</div>
+                    <div>{index + 1}</div>
                   </td>
+
                   {/* Image */}
                   <td className="py-3 px-4 min-w-60 flex">
                     {food.image && food.image.length > 0 ? (
@@ -83,19 +127,20 @@ const Menu = () => {
                   </td>
 
                   {/* Name */}
-                  <td className="py-3 px-4 min-w-52">{food.name} </td>
+                  <td className="py-3 px-4 min-w-52">{food.name}</td>
 
-                  {/* description */}
+                  {/* Description */}
                   <td className="py-3 px-4 min-w-72">{food.description}</td>
 
-                  {/* price */}
+                  {/* Price */}
                   <td className="py-3 px-4">{food.price}</td>
 
-                  
                   {/* Rate */}
                   <td className="py-3 px-4">{food.rate}</td>
+
                   {/* Time */}
                   <td className="py-3 px-4 min-w-24">{food.time[0]} - {food.time[1]}</td>
+
                   {/* Kcal */}
                   <td className="py-3 px-4 text-center">{food.Kcal}</td>
 
@@ -105,20 +150,23 @@ const Menu = () => {
                       <Link to={`/edit_menu/${food._id}`}>
                         <Pencil className="cursor-pointer" />
                       </Link>
-                      <Trash
-                        className="cursor-pointer"
-                        // onClick={() => removeEmployee(food._id)}
-                      />
+                      <Trash onClick={() => removeFood(food._id)} className="cursor-pointer" />
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* If no food matches the category */}
+          {filteredFoodList.length === 0 && (
+            <p className="text-center text-gray-500 mt-4">No items available in this category.</p>
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
+

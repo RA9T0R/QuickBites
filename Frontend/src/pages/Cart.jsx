@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../context/StoreContext';
-
+import { toast } from 'react-toastify';
 import { Trash2 } from 'lucide-react';
+import axios from 'axios';
 
 import { assets } from '../assets/assets';
 import CartTotal from '../components/CartTotal';
@@ -11,7 +12,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const Cart = () => {
-  const {foods_list, cartItems, updateQuantity, removeItem,placeOrder } = useContext(StoreContext);
+  const {foods_list, cartItems, updateQuantity, removeItem,placeOrder,tableNumber ,backendURL} = useContext(StoreContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -33,9 +34,31 @@ const Cart = () => {
         })
         .filter((item) => item !== null);
       setCartData(tempData);
+      console.log(cartData);
     }
     AOS.init();
   }, [cartItems, foods_list]);
+
+  const onSubmitHandler = async() => {
+    try {
+      const formData = new FormData();
+
+      formData.append('tableNumber',tableNumber)
+      formData.append('userID','A')
+      formData.append('products',JSON.stringify(cartData))
+
+      const response = await axios.post(backendURL + '/api/order/add', formData);
+
+      if(response.data.success){
+        toast.success(response.data.message);
+      }else{
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
 
   return (
     <div className="flex flex-col max-w-full p-6 space-y-4 sm:p-8 ">
@@ -98,7 +121,7 @@ const Cart = () => {
         <div className="w-full sm:w-[450px] mt-10">
           <CartTotal/>
           <div className="w-full flex justify-center text-end">
-            <Link onClick={() => placeOrder()} to="/orderSummary" className="w-[90%] text-center select-none rounded-lg bg-Button text-white text-sm my-8 px-8 py-3">
+            <Link onClick={() => {placeOrder();onSubmitHandler();}} to="/orderSummary" className="w-[90%] text-center select-none rounded-lg bg-Button text-white text-sm my-8 px-8 py-3">
                 CHECKOUT
             </Link>
           </div>
