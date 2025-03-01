@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import axios from 'axios'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
@@ -41,8 +41,9 @@ const CreateMenu = ({token,role}) => {
       formData.append('rate',rate);
       formData.append('Kcal',calories);
       formData.append('category',category);
-      formData.append('bestseller',bestseller);
+      formData.append('recommend',bestseller);
       formData.append('time',JSON.stringify(timeRange));
+
 
       image1 && formData.append('image1',image1);
       image2 && formData.append('image2',image2);

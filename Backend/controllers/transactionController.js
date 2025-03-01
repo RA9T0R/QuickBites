@@ -1,4 +1,4 @@
-import Transaction from "../models/Transaction.js";
+import Transaction from "../models/transactionModel.js";
 
 //  เพิ่มรายการรายรับ-รายจ่าย
 export const addTransaction = async (req, res) => {
