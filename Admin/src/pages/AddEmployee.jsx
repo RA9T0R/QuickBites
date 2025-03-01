@@ -44,7 +44,7 @@ const AddEmployee = ({ token, role }) => {
       image && formData.append('profilePic', image);
 
       const response = await axios.post(backendURL + '/api/employee/registerStaff', formData, { headers: { token } });
-
+      console.log(response)
       if (response.data.success) {
         toast.success(response.data.message);
         setFirstname('');
@@ -60,7 +60,6 @@ const AddEmployee = ({ token, role }) => {
       } else {
         toast.error(response.data.message);
       }
-
     } catch (error) {
       console.log(error);
       toast.error(error.message);

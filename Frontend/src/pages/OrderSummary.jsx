@@ -90,7 +90,7 @@ const OrderSummary = () => {
                         <img src={item.image[0]} alt={item.name} className="w-32 sm:w-44 object-cover mr-4 rounded-lg" />
                         <div className='flex flex-col gap-2'>
                           <span className='text-md md:text-lg md:w-full lg:text-2xl'>{item.name} (x{item.quantity})</span>
-                          <span className={`w-20 sm:w-28 md:w-36 text-md md:text-lg lg:text-2xl text-center select-none badge-${order.status.toLowerCase()}`}>{order.status}</span>
+                          <span className={`w-24 sm:w-28 md:w-36 text-md md:text-lg lg:text-2xl text-center select-none badge-${order.status.toLowerCase()}`}>{order.status}</span>
                           <p className="text-md md:text-lg lg:text-xl truncate max-w-44 sm:max-w-60 md:max-w-80 lg:max-w-96">
                             <b>Additional  </b> : {item.requirement ? item.requirement : 'No Req'}
                           </p>

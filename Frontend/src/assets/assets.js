@@ -162,7 +162,7 @@ export const foods_list = [
     {
         _id: "2",
         name: "Creamy Mushroom Risotto",
-        description: "A rich and creamy Italian rice dish cooked with sautÃ©ed mushrooms, Parmesan cheese, and a hint of white wine for a savory flavor.",
+        description: "A rich and creamy Italian rice dish cooked with sautéed mushrooms, Parmesan cheese, and a hint of white wine for a savory flavor.",
         price: 209,
         image: [M2,M2_1,M2_2],
         rate: 4.8,

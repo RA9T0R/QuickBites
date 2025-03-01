@@ -46,12 +46,12 @@ const registerStaff = async (req, res) => {
         const profilePic = req.files.profilePic && req.files.profilePic[0];
 
         const exists = await staffModel.findOne({ email });
-        if (exists) return res.status(400).json({ success: false, message: "Staff already exists" });
-        if (!validator.isEmail(email)) return res.status(400).json({ success: false, message: "Please enter a valid email" });
+        if (exists) return res.json({ success: false, message: "Staff already exists" });
+        if (!validator.isEmail(email)) return res.json({ success: false, message: "Please enter a valid email" });
         const phoneExists = await staffModel.findOne({ phone });
-        if (phoneExists) return res.status(400).json({ success: false, message: "Phone number already registered" });
-        if (!/^\d{10,15}$/.test(phone)) return res.status(400).json({ success: false, message: "Invalid phone number format (must be 10-15 digits)" });
-        if (password.length < 8) return res.status(400).json({ success: false, message: "Please enter a strong password (min 8 characters)" });
+        if (phoneExists) return res.json({ success: false, message: "Phone number already registered" });
+        if (!/^\d{10,15}$/.test(phone)) return res.json({ success: false, message: "Invalid phone number format (must be 10-15 digits)" });
+        if (password.length < 8) return res.json({ success: false, message: "Please enter a strong password (min 8 characters)" });
 
         let profilePicUrl = "";
         if (profilePic !== undefined) {
@@ -60,7 +60,7 @@ const registerStaff = async (req, res) => {
                 profilePicUrl = result.secure_url;
             } catch (error) {
                 console.error("Cloudinary Upload Error:", error);
-                return res.status(500).json({ success: false, message: "Error uploading profile picture" });
+                return res.json({ success: false, message: "Error uploading profile picture" });
             }
         }
         
@@ -82,7 +82,7 @@ const registerStaff = async (req, res) => {
         res.json({success: true,message: "Staff registered successfully",});
     } catch (error) {
         console.error("Registration Error:", error);
-        res.status(500).json({ success: false, message: "Server error, please try again." });
+        res.json({ success: false, message: "Server error, please try again." });
     }
 };
 
@@ -92,23 +92,23 @@ const updateStaff = async (req, res) => {
         const profilePic = req.files.profilePic && req.files.profilePic[0]; 
 
         const staff = await staffModel.findById(staffId);
-        if (!staff) return res.status(404).json({ success: false, message: "Staff not found" });
+        if (!staff) return res.json({ success: false, message: "Staff not found" });
 
         if (email && email !== staff.email) {
             const emailExists = await staffModel.findOne({ email });
-            if (emailExists) return res.status(400).json({ success: false, message: "Email already registered" });
-            if (!validator.isEmail(email)) return res.status(400).json({ success: false, message: "Invalid email format" });
+            if (emailExists) return res.json({ success: false, message: "Email already registered" });
+            if (!validator.isEmail(email)) return res.json({ success: false, message: "Invalid email format" });
         }
 
         if (phone && phone !== staff.phone) {
             const phoneExists = await staffModel.findOne({ phone });
-            if (phoneExists) return res.status(400).json({ success: false, message: "Phone number already registered" });
-            if (!/^\d{10,15}$/.test(phone)) return res.status(400).json({ success: false, message: "Invalid phone number format (must be 10-15 digits)" });
+            if (phoneExists) return res.json({ success: false, message: "Phone number already registered" });
+            if (!/^\d{10,15}$/.test(phone)) return res.json({ success: false, message: "Invalid phone number format (must be 10-15 digits)" });
         }
 
         let hashedPassword = staff.password;
         if (password) {
-            if (password.length < 8) return res.status(400).json({ success: false, message: "Password must be at least 8 characters" });
+            if (password.length < 8) return res.json({ success: false, message: "Password must be at least 8 characters" });
             const salt = await bcrypt.genSalt(10);
             hashedPassword = await bcrypt.hash(password, salt);
         }
@@ -120,7 +120,7 @@ const updateStaff = async (req, res) => {
                 profilePicUrl = result.secure_url;
             } catch (error) {
                 console.error("Cloudinary Upload Error:", error);
-                return res.status(500).json({ success: false, message: "Error uploading profile picture" });
+                return res.json({ success: false, message: "Error uploading profile picture" });
             }
         }
 
@@ -135,12 +135,12 @@ const updateStaff = async (req, res) => {
         }
 
         const staffUpdate = await staffModel.findByIdAndUpdate(staffId, updatedStaff, { new: true });
-        if (!staffUpdate) return res.status(404).json({ success: false, message: "Error updating staff" });
+        if (!staffUpdate) return res.json({ success: false, message: "Error updating staff" });
 
         res.json({success: true,message: "Staff updated successfully",updatedStaff});
     } catch (error) {
         console.error("Edit Staff Error:", error);
-        res.status(500).json({ success: false, message: "Server error, please try again." });
+        res.json({ success: false, message: "Server error, please try again." });
     }
 };
 
