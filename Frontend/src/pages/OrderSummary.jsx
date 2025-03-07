@@ -23,20 +23,6 @@ const OrderSummary = () => {
   const handleCheckBill = async () => {
     clearOrders();
     const totalAmount = calculateTotalPrice().toFixed(2);
-
-    try {
-      const response = await axios.post(backendURL + `/api/order/remove`,{ tableNumber: tableNumber })
-      if(response.data.success){
-        toast.success(response.data.message);
-        setTotalFoodCount(0)
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    }
-
     toast.info(`Bill checked! Grand Total: ${currency} ${totalAmount} | Total Food: ${totalFoodCount}`, {
       position: "top-right", 
       autoClose: 5000, 

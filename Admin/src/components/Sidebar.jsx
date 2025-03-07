@@ -19,7 +19,7 @@ const Sidebar = ({expanded, setToken, role}) => {
     >
 
       {/* Menu */}
-      <div className="flex-1 flex flex-col p-3 gap-3 text-Text mt-20">
+      <div className="flex-1 flex flex-col p-3 gap-3 text-Text mt-20 overflow-y-auto">
         {sidemenu
           .filter((item) => item.role === "all" || item.role === role)
           .map((item, index) => {

@@ -58,7 +58,7 @@ const EditEmployee = ({ token, role}) => {
   
   useEffect(() => {
     fetchEmployee();
-  }, []);
+  }, [staffId]);
   
   const onSubmitHandler = async (e) => {
     e.preventDefault();

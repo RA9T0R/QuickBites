@@ -9,6 +9,7 @@ import Order from "./pages/Order"
 import Analytics from "./pages/Analytics"
 import Login from "./pages/Login"
 import CreateMenu from "./pages/CreateMenu"
+import EditMenu from './pages/EditMenu'
 import Table from './pages/Table'
 import Employee from './pages/Employee'
 import AddEmployee from './pages/AddEmployee'
@@ -46,13 +47,14 @@ const App = () => {
           >
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/view_menu" element={<Menu token={token}/>} />
               <Route path="/create" element={<CreateMenu token={token} role={role}/>} />
+              <Route path="/edit_menu/:productId" element={<EditMenu token={token} role={role}/>} />
               <Route path="/analytics" element={<Analytics role={role}/>} />
               <Route path="/add_employee" element={<AddEmployee token={token} role={role}/>} />
               <Route path="/edit_employee/:staffId" element={<EditEmployee token={token} role={role}/>} />
               <Route path="/list_employee" element={<Employee token={token} role={role}/>} />
               <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
-              <Route path="/view_menu" element={<Menu token={token}/>} />
               <Route path="/order" element={<Order />} />
               <Route path="/Table/:tableNumber" element={<Table />} />
             </Routes>

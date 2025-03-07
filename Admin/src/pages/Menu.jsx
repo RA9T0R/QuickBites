@@ -15,12 +15,15 @@ const Menu = ({token}) => {
     try {
       const response = await axios.get(backendURL + '/api/product/list');
       if (response.data.success) {
-        setFoodList(response.data.product);
+        const sortedFood = response.data.product.sort((a, b) => a.category.localeCompare(b.category));
+        setFoodList(sortedFood);
       }
     } catch (error) {
       toast.error("Failed to fetch food list");
     }
   };
+  
+  
 
   const removeFood = async (id) => {
     try {

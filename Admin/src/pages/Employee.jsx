@@ -58,7 +58,7 @@ const Employee = ({ token, role }) => {
         </h1>
         <Link
           to="/add_employee"
-          className="flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-green-400 bg-green-600 rounded-2xl "
+          className="flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-green-400 bg-green-600 rounded-2xl"
         >
           <UserPlus />
           <p>Add new</p>

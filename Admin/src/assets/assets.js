@@ -1,7 +1,8 @@
 import { Home, LayoutDashboard, ShoppingCart, PackagePlus, CookingPot, ChartLine, UserPlus,Users 
   ,Star,Beef,Salad,GlassWater,Cake,Cookie
  } from "lucide-react";
-import upload from "./picture/upload.jpg"
+import upload2 from "./picture/upload.jpg"
+import upload from "./picture/upload2.png"
 
 export const assets = {upload}
 
@@ -70,15 +71,16 @@ export const sidemenu = [
     role: "admin"
   },
   {
-    title: "Add Employee",
-    icon: UserPlus,
-    path: "/add_employee",
-    role: "admin"
-  },
-  {
     title: "List Employee",
     icon: Users ,
     path: "/list_employee",
     role: "admin"
   },
+  {
+    title: "Add Employee",
+    icon: UserPlus,
+    path: "/add_employee",
+    role: "admin"
+  },
+  
 ];
