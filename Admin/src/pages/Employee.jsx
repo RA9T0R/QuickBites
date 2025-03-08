@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { UserPlus } from "lucide-react";
 import { toast } from "react-toastify";
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from "../App";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -19,7 +20,7 @@ const Employee = ({ token, role }) => {
     );
   }
 
-  const [employeeList, setEmployeeList] = useState([]);
+  const {employeeList} = useContext(DashboardContext);
 
   const removeEmployee = async (id) => {
     try {
@@ -35,21 +36,7 @@ const Employee = ({ token, role }) => {
       toast.error(error.message);
     }
   };
-
-  const fetchEmployee = async () => {
-    try {
-      const response = await axios.get(backendURL + "/api/employee/listStaff");
-      if (response.data.success) {
-        setEmployeeList(response.data.staff);
-      }
-    } catch (error) {
-      toast.error("Failed to fetch employee list");
-    }
-  };
-
-  useEffect(() => {
-    fetchEmployee();
-  }, []);
+  
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">

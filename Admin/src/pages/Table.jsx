@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { toast } from "react-toastify";
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from "../App";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import { SkipBack, ChevronDown, ChevronUp,Eraser } from "lucide-react";
 import moment from "moment";
 
 const Table = () => {
+  const {fetchOrders,fecthAnalytics} = useContext(DashboardContext);
   const { tableNumber } = useParams();
   const [orders, setOrders] = useState([]);
   const [expandedRows, setExpandedRows] = useState({});
@@ -33,6 +35,7 @@ const Table = () => {
             i === index ? { ...order, status: newStatus } : order
           )
         );
+        fetchOrders();
       } else {
         toast.error("Failed to update status");
       }
@@ -42,7 +45,7 @@ const Table = () => {
     }
   };
 
-  const fetchOrders = async () => {
+  const fetchOrder = async () => {
     try {
       const response = await axios.get(
         backendURL + `/api/order/list/${tableNumber}`
@@ -65,7 +68,6 @@ const Table = () => {
 
         setTotalPrice(total);  
       }
-      
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -88,6 +90,7 @@ const Table = () => {
         setOrders([]);
         setTotalPrice(0);
         await axios.post(backendURL + `/api/order/remove`,{ tableNumber: tableNumber })
+        fecthAnalytics();
       }else{
         toast.error(response.data.message);
       }
@@ -98,7 +101,7 @@ const Table = () => {
   }
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrder();
   }, [tableNumber]);
 
   

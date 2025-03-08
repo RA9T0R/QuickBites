@@ -1,6 +1,7 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useContext} from 'react'
 import { assets,menu_list } from "../assets/assets.js"
 import axios from 'axios'
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -8,23 +9,9 @@ import { Link } from 'react-router-dom';
 import { Trash,Pencil,CookingPot,Star  } from 'lucide-react';
 
 const Menu = ({token}) => {
-  const [foodList, setFoodList] = useState([]);
+  const {foodList} = useContext(DashboardContext);
   const [category, setCategory] = useState('All');
-
-  const fetchFood = async () => {
-    try {
-      const response = await axios.get(backendURL + '/api/product/list');
-      if (response.data.success) {
-        const sortedFood = response.data.product.sort((a, b) => a.category.localeCompare(b.category));
-        setFoodList(sortedFood);
-      }
-    } catch (error) {
-      toast.error("Failed to fetch food list");
-    }
-  };
   
-  
-
   const removeFood = async (id) => {
     try {
       const response = await axios.post(backendURL + '/api/product/remove', { id },{ headers: { token } });
@@ -39,10 +26,6 @@ const Menu = ({token}) => {
       toast.error(error.message);
     }
   }
-
-  useEffect(() => {
-    fetchFood();
-  }, []);
 
   const filteredFoodList = category === 'All' 
     ? foodList 

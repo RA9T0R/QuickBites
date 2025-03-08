@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { backendURL } from "../App";
-import axios from "axios";
+import React, { useEffect, useState,useContext } from "react";
+import {DashboardContext} from '../context/DashboardContext'
 import { format } from 'date-fns';
 import { Inbox ,ContactRound,Wallet   } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,  PieChart,Pie,Cell} from 'recharts';
+
 
 const Analytics = ({ role }) => {
   if (role !== "admin") {
@@ -18,57 +17,16 @@ const Analytics = ({ role }) => {
       </div>
     );
   }
-
-  const [analyticsData, setAnalyticsData] = useState([]);
-
-  const fecthAnalytics = async () =>{
-    try {
-      const response = await axios.get(backendURL + '/api/analytics/get');
-      if (response.data.success) {
-        console.log(response.data.sales)
-        setAnalyticsData(response.data.sales);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Error updating order status");
-    }
-  }
-
-  useEffect(() => {
-    fecthAnalytics()
-  },[]);
-
-  if (analyticsData.length === 0) {
-    return <div>Loading...</div>;
-  }
-
-  const totalOrders = analyticsData.reduce((sum, entry) => sum + entry.orderAmount, 0);
-  const totalCustomers = analyticsData.reduce((sum, entry) => sum + entry.customerAmount, 0);
-  const totalIncome = analyticsData.reduce((sum, entry) => sum + entry.totalIncome, 0);
-
-  const foodSales = {};
-
-  analyticsData.forEach(entry => {
-    entry.OrderFood.forEach(food => {
-      if (!foodSales[food.name]) {
-        foodSales[food.name] = {
-          quantitySold: food.quantitySold,
-          image: food.image[0] // Use only the first image
-        };
-      } else {
-        foodSales[food.name].quantitySold += food.quantitySold;
-      }
-    });
-  });
   
-  const popularFood = Object.entries(foodSales)
-    .sort((a, b) => b[1].quantitySold - a[1].quantitySold)
-    .slice(0, 5)
-    .map(([name, { quantitySold, image }]) => ({ name, quantitySold, image }));
+  const {totalOrders,totalCustomers,totalIncome,popularFood,analyticsData} = useContext(DashboardContext);
+  const [targetIncome, setTargetIncome] = useState(100000);
   
-  console.log(popularFood);
-  
-  
+  const targetPercentage = (totalIncome / targetIncome) * 100;
+  const pieData = [
+    { name: "Income Achieved", value: totalIncome },
+    { name: "Remaining Income", value: targetIncome - totalIncome }
+  ];
+
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:px-8">
       <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Analytics</h1>
@@ -98,7 +56,7 @@ const Analytics = ({ role }) => {
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-10 py-5 ">
             <div className="flex flex-col gap-3 md:gap-7">
               <h2 className="text-lg sm:text-3xl whitespace-nowrap">Total Income</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-5xl font-bold">$ {totalIncome.toFixed(2)}</p>
+              <p className="text-2xl sm:text-3xl 2xl:text-5xl font-bold">฿ {totalIncome.toFixed(2)}</p>
             </div>
             <div className="flex items-center justify-center">
               <Wallet className="size-16 sm:size-20 2xl:size-36"/>
@@ -112,14 +70,7 @@ const Analytics = ({ role }) => {
           <div className="min-h-96 lg:col-span-2 rounded-xl bg-BG flex flex-col p-4">
             <h2 className="text-lg sm:text-3xl px-4 2xl:px-10 py-5">Sales Figures</h2>
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
-                <defs>
-                  <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                
+              <BarChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="2 2" strokeOpacity={0.5} />
                 <XAxis 
                   dataKey="date"
@@ -134,16 +85,12 @@ const Analytics = ({ role }) => {
                   contentStyle={{ backgroundColor: "#000", borderRadius: 10 }}
                   labelFormatter={(label) => format(new Date(label), "d - MMM : HH:mm")}
                 />
-                
-                <Line 
-                  type="natural" 
+                <Bar 
                   dataKey="totalIncome" 
-                  stroke="#4f46e5" 
-                  strokeWidth={3} 
-                  dot={{ r: 4, fill: "#4f46e5" }} 
-                  activeDot={{ r: 6, fill: "#4f46e5", stroke: "#fff", strokeWidth: 2 }} 
+                  fill="#4f46e5" 
+                  radius={[10, 10, 0, 0]} 
                 />
-              </LineChart>
+              </BarChart>
             </ResponsiveContainer>
           </div>
 
@@ -166,6 +113,41 @@ const Analytics = ({ role }) => {
                 </div>
               ))}
             </ul>
+          </div>
+        </div>
+        
+        {/* 3 Section */}
+        <div className="lg:col-span-3 lg:row-span-2 grid lg:grid-cols-3 rounded-xl gap-3 ">
+          <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
+            <h2 className="text-lg sm:text-3xl self-start ml-5">Target Income</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius="80%"
+                  fill="#4f46e5"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 0 ? "#4f46e5" : "#e5e5e5"} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex flex-col items-center">
+              <p className="text-2xl">฿ {totalIncome.toFixed(2)}</p>
+              <p className="text-md text-Text/50">{targetPercentage.toFixed(2)}% of Target Achieved</p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-1 rounded-xl bg-BG flex items-center justify-center">
+            <h2 className="text-lg">Most Favourite Items</h2>
+          </div>
+          <div className="lg:col-span-1 rounded-xl bg-BG flex items-center justify-center">
+            <h2 className="text-lg">Most Favourite Items</h2>
           </div>
         </div>
       </div>
