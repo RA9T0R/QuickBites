@@ -29,3 +29,8 @@ app.use("/api/analytics",analyticsRouter)
 app.get('/',(req,res)=>{
     res.send("API IS WORK");
 })
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+})
+
