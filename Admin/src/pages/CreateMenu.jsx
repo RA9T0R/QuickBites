@@ -80,7 +80,7 @@ const CreateMenu = ({ token, role }) => {
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Create Menu</h1>
-      <form onSubmit={onSubmitHandler} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch">
+      <form onSubmit={onSubmitHandler} className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch">
         {/* Left Column: Basic Info & Attributes */}
         <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
           <h1 className="text-2xl font-bold mb-5 text-Text">Basic Information</h1>
@@ -122,7 +122,7 @@ const CreateMenu = ({ token, role }) => {
               <select
                 onChange={(e) => setCategory(e.target.value)}
                 value={category}
-                className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50"
+                className="w-full px-3 py-2 placeholder-Text/50 border-2 border-Text/50 p-2 rounded-md bg-BG text-Text"
               >
                 <option value="MainDish">MainDish</option>
                 <option value="Healthy">Healthy</option>
@@ -174,7 +174,7 @@ const CreateMenu = ({ token, role }) => {
             </div>
 
             {/* Cooking Time & Recommendation in one row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+            <div className="grid grid-cols-1  items-center">
               {/* Cooking Time */}
               <div>
                 <p className="mb-2 w-full text-Text">Cooking Time</p>
@@ -215,7 +215,7 @@ const CreateMenu = ({ token, role }) => {
 
               {/* Recommendation */}
               <div className="mt-5">
-                <label className="inline-flex items-center" htmlFor="bestseller">
+                <label className="flex items-center" htmlFor="bestseller">
                   <span className="mr-5 font-medium text-Text">
                     Add to Recommendation (Optional)
                   </span>

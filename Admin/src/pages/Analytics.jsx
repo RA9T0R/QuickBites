@@ -147,7 +147,7 @@ const Analytics = ({ role }) => {
         {/* 3 Section */}
         <div className="lg:col-span-3 lg:row-span-2 grid lg:grid-cols-3 rounded-xl gap-3 ">
           <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
-            <h2 className="text-lg sm:text-3xl self-start ml-5">Target Income</h2>
+            <h2 className="text-lg sm:text-3xl self-start ml-5 mb-2">Target Income</h2>
             <ResponsiveContainer width="100%" height='100%'>
               <PieChart>
                 <Pie
@@ -172,8 +172,8 @@ const Analytics = ({ role }) => {
           </div>
 
           <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
-            <h2 className="text-lg sm:text-3xl self-start ml-5">Average Order Value</h2>
-            <div className="flex flex-col items-center justify-center h-full gap-5">
+            <h2 className="text-lg sm:text-3xl self-start ml-5 mb-2">Average Order Value</h2>
+            <div className="flex flex-col items-center justify-center h-full sm:gap-5 ">
               <p className="text-xl sm:text-3xl font-bold">฿ {totalIncome} / {totalOrders}</p>
               <p className="text-3xl sm:text-6xl  font-bold">฿ {(totalIncome / totalOrders).toFixed(2)}</p>
             </div>

@@ -25,11 +25,11 @@ const Home = () => {
       {/* Container Bento Grid */}
       <div className="grid h-full w-full grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
         {/* 1 Section */}
-        <div className="lg:col-span-3 grid lg:grid-cols-4 rounded-xl gap-3">
+        <div className="lg:col-span-3 grid md:grid-cols-2 xl:grid-cols-4 rounded-xl gap-3">
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-10 py-5">
             <div className="flex flex-col gap-3 lg:gap-7">
-              <h2 className="text-lg sm:text-3xl">Orders</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-4xl font-bold">{totalOrders}</p>
+              <h2 className="text-lg sm:text-2xl">Orders</h2>
+              <p className="text-xl sm:text-2xl 2xl:text-4xl font-bold">{totalOrders}</p>
             </div>
             <div className="flex items-center justify-center">
               <Inbox className="size-14 sm:size-16 2xl:size-24" />
@@ -37,8 +37,8 @@ const Home = () => {
           </div>
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-7 py-5 ">
             <div className="flex flex-col gap-3 lg:gap-7">
-              <h2 className="text-lg sm:text-3xl">Customers</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-4xl font-bold">{totalCustomers}</p>
+              <h2 className="text-lg sm:text-2xl">Customers</h2>
+              <p className="text-xl sm:text-2xl 2xl:text-4xl font-bold">{totalCustomers}</p>
             </div>
             <div className="flex items-center justify-center">
               <ContactRound className="size-14 sm:size-16 2xl:size-24" />
@@ -46,8 +46,8 @@ const Home = () => {
           </div>
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-7 py-5 ">
             <div className="flex flex-col gap-3 lg:gap-7">
-              <h2 className="text-lg sm:text-3xl">Menu</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-4xl font-bold">{amountMenu}</p>
+              <h2 className="text-lg sm:text-2xl">Menu</h2>
+              <p className="text-xl sm:text-2xl 2xl:text-4xl font-bold">{amountMenu}</p>
             </div>
             <div className="flex items-center justify-center">
               <CookingPot className="size-14 sm:size-16 2xl:size-24" />
@@ -55,8 +55,8 @@ const Home = () => {
           </div>
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-7 py-5">
             <div className="flex flex-col gap-3 lg:gap-7">
-              <h2 className="text-lg sm:text-3xl whitespace-nowrap">Total Income</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-4xl font-bold">฿ {totalIncome.toFixed(2)}</p>
+              <h2 className="text-lg sm:text-2xl whitespace-nowrap">Total Income</h2>
+              <p className="text-xl sm:text-2xl 2xl:text-4xl font-bold">฿ {totalIncome.toFixed(2)}</p>
             </div>
             <div className="flex items-center justify-center">
               <Wallet className="size-14 sm:size-16 2xl:size-24" />
@@ -65,8 +65,8 @@ const Home = () => {
         </div>
 
         {/* 2 Section */}
-        <div className="lg:col-span-3 lg:row-span-2 grid lg:grid-cols-3 rounded-xl gap-3">
-          <div className="min-h-96 lg:col-span-2 rounded-xl bg-BG flex flex-col p-4">
+        <div className="lg:col-span-3 lg:row-span-2 grid xl:grid-cols-3 rounded-xl gap-3">
+          <div className="min-h-96 xl:col-span-2 rounded-xl bg-BG flex flex-col p-4">
             <h2 className="text-lg sm:text-3xl px-4 2xl:px-10 py-5">Sales Figures</h2>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
