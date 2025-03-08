@@ -15,7 +15,6 @@ import {
 
 const Home = () => {
   const {amountMenu,totalOrders,totalCustomers,totalIncome,popularFood,analyticsData,orders} = useContext(DashboardContext);
-  console.log(orders)
   
   return (
     <div className="w-full flex flex-col items-center text-Text p-8">

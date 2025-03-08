@@ -6,7 +6,6 @@ const addTransaction = async (req, res) => {
     const { products } = req.body;
 
     let totalIncome = 0, orderAmount = 0;
-
     const FoodData = products.map(product => {
       const { id, name, quantity, totalPrice, image } = product;
       totalIncome += totalPrice;

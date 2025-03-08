@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendURL } from "../App";
@@ -8,20 +7,19 @@ export const DashboardContext = createContext(null);
 
 const DashboardContextProvider = (props) => {
 
-  const dateRange = 'monthly';
-  const [amountMenu , setAmountMenu] = useState(0);
+  const [dateRange, setDateRange] = useState(localStorage.getItem('dateRange') || 'monthly');
+  const [amountMenu, setAmountMenu] = useState(0);
   const [analyticsData, setAnalyticsData] = useState([]);
   const [foodList, setFoodList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
-  const [orders,setOrders] = useState([]);
-  
+  const [orders, setOrders] = useState([]);
 
   const fecthAnalytics = async () => {
     try {
-      const response = await axios.get(backendURL + "/api/analytics/get" , {
+      const response = await axios.get(backendURL + "/api/analytics/get", {
         params: { dateRange }
       });
-  
+
       if (response.data.success) {
         setAnalyticsData(response.data.sales);
       }
@@ -35,7 +33,7 @@ const DashboardContextProvider = (props) => {
     try {
       const response = await axios.get(backendURL + '/api/product/list');
       if (response.data.success) {
-        setAmountMenu(response.data.product.length)
+        setAmountMenu(response.data.product.length);
         const sortedFood = response.data.product.sort((a, b) => a.category.localeCompare(b.category));
         setFoodList(sortedFood);
       }
@@ -73,11 +71,11 @@ const DashboardContextProvider = (props) => {
     fetchOrders();
     fetchEmployee();
     fecthAnalytics();
-  }, []);
+  }, [dateRange]);
 
-  const totalOrders = analyticsData.reduce((sum, entry) => sum + entry.orderAmount,0);
-  const totalCustomers = analyticsData.reduce((sum, entry) => sum + entry.customerAmount,0);
-  const totalIncome = analyticsData.reduce((sum, entry) => sum + entry.totalIncome,0);
+  const totalOrders = analyticsData.reduce((sum, entry) => sum + entry.orderAmount, 0);
+  const totalCustomers = analyticsData.reduce((sum, entry) => sum + entry.customerAmount, 0);
+  const totalIncome = analyticsData.reduce((sum, entry) => sum + entry.totalIncome, 0);
 
   const foodSales = {};
 
@@ -99,13 +97,19 @@ const DashboardContextProvider = (props) => {
     .slice(0, 5)
     .map(([name, { quantitySold, image }]) => ({ name, quantitySold, image }));
 
-
   const contextValue = {
-    amountMenu,setAmountMenu,
-    analyticsData,setAnalyticsData,foodList,
-    totalOrders,totalCustomers,totalIncome,popularFood,
-    employeeList,orders,fetchOrders,fecthAnalytics
+    amountMenu, setAmountMenu,
+    analyticsData, setAnalyticsData, foodList,
+    totalOrders, totalCustomers, totalIncome, popularFood,
+    employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange
   };
+
+  // Persist dateRange to localStorage whenever it changes
+  useEffect(() => {
+    if (dateRange) {
+      localStorage.setItem('dateRange', dateRange);
+    }
+  }, [dateRange]);
 
   return (
     <DashboardContext.Provider value={contextValue}>

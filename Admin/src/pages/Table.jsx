@@ -82,7 +82,6 @@ const Table = () => {
     const products = orders.reduce((acc, order) => {
       return acc.concat(order.products); 
     }, []);
-    console.log(products);
     try {
       const response = await axios.post(backendURL + '/api/analytics/add',{products : products})
       if(response.data.success){
