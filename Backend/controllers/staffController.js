@@ -1,6 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary'
 import validator from "validator";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken'
 import staffModel from "../models/staffModel.js";
 
