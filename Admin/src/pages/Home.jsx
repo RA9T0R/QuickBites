@@ -17,7 +17,7 @@ const Home = () => {
   const {amountMenu,totalOrders,totalCustomers,totalIncome,popularFood,analyticsData,orders} = useContext(DashboardContext);
   
   return (
-    <div className="w-full flex flex-col items-center text-Text p-8">
+    <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">
         Home Pages
       </h1>
