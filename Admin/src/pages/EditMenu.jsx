@@ -124,7 +124,7 @@ const EditMenu = ({ token, role }) => {
 
       <form
         onSubmit={onSubmitHandler}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch"
+        className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch"
       >
         {/* Left Column: Basic Info & Attributes */}
         <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
@@ -221,7 +221,7 @@ const EditMenu = ({ token, role }) => {
             </div>
 
             {/* Cooking Time & Recommendation in one row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+            <div className="grid grid-cols-1 items-center">
               {/* Cooking Time */}
               <div>
                 <p className="mb-2 w-full text-Text">Cooking Time</p>
@@ -262,7 +262,7 @@ const EditMenu = ({ token, role }) => {
 
               {/* Recommendation */}
               <div className="mt-5">
-                <label className="inline-flex items-center" htmlFor="bestseller">
+                <label className="flex items-center" htmlFor="bestseller">
                   <span className="mr-5 font-medium text-Text">
                     Add to Recommendation (Optional)
                   </span>
