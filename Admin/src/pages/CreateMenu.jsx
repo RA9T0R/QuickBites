@@ -255,7 +255,7 @@ const CreateMenu = ({ token, role }) => {
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-full h-full cursor-pointer rounded-xl"
+                    className="size-80 cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image1)}
                     alt=""
                   />
@@ -274,7 +274,7 @@ const CreateMenu = ({ token, role }) => {
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-full h-full cursor-pointer rounded-xl"
+                    className="size-80 cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image2)}
                     alt=""
                   />
@@ -296,7 +296,7 @@ const CreateMenu = ({ token, role }) => {
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-full h-full cursor-pointer rounded-xl"
+                    className="size-80 cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image3)}
                     alt=""
                   />
@@ -315,7 +315,7 @@ const CreateMenu = ({ token, role }) => {
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 ) : (
                   <img
-                    className="w-full h-full cursor-pointer rounded-xl"
+                    className="size-80 cursor-pointer rounded-xl"
                     src={URL.createObjectURL(image4)}
                     alt=""
                   />

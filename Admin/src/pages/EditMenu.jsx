@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
-import { assets } from "../assets/assets.js";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+// Import the icon from lucide-react:
+import { ImageUp } from 'lucide-react';
 
 const EditMenu = ({ token, role }) => {
   if (role !== "admin") {
@@ -16,14 +17,23 @@ const EditMenu = ({ token, role }) => {
       </div>
     );
   }
+
   const navigate = useNavigate();
   const { productId } = useParams();
 
+  // Local file states
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
 
+  // Existing data from DB
+  const [food1, setFood1] = useState('');
+  const [food2, setFood2] = useState('');
+  const [food3, setFood3] = useState('');
+  const [food4, setFood4] = useState('');
+
+  // Other fields
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -33,44 +43,39 @@ const EditMenu = ({ token, role }) => {
   const [bestseller, setBestseller] = useState(false);
   const [timeRange, setTimeRange] = useState([0, 60]);
 
-  const [food1, setFood1] = useState('')
-  const [food2, setFood2] = useState('')
-  const [food3, setFood3] = useState('')
-  const [food4, setFood4] = useState('')
-
   const fetchFood = async () => {
     try {
-        const response = await axios.post(backendURL + '/api/product/single', { productId });
-        console.log(response.data)
-        if(response.data.success){
-            const product = response.data.product;
+      const response = await axios.post(backendURL + '/api/product/single', { productId });
+      if (response.data.success) {
+        const product = response.data.product;
 
-            setName(product.name || '');
-            setDescription(product.description || '');
-            setPrice(product.price || '');
-            setRate(product.rate || '');
-            setCalories(product.Kcal || '');
-            setCategory(product.category || 'MainDish');
-            setBestseller(product.recommend || false);
-            setTimeRange(product.time || [0, 60]);
-      
-            setFood1(product.image?.[0] || '');
-            setFood2(product.image?.[1] || '');
-            setFood3(product.image?.[2] || '');
-            setFood4(product.image?.[3] || '');
-        }else {
-            toast.error(response.data.message);
-        }
+        setName(product.name || '');
+        setDescription(product.description || '');
+        setPrice(product.price || '');
+        setRate(product.rate || '');
+        setCalories(product.Kcal || '');
+        setCategory(product.category || 'MainDish');
+        setBestseller(product.recommend || false);
+        setTimeRange(product.time || [0, 60]);
+
+        // Existing DB images
+        setFood1(product.image?.[0] || '');
+        setFood2(product.image?.[1] || '');
+        setFood3(product.image?.[2] || '');
+        setFood4(product.image?.[3] || '');
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-        console.log(error);
-        toast.error(error.message);
+      console.log(error);
+      toast.error(error.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchFood();
+    // eslint-disable-next-line
   }, [productId]);
-  
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -87,16 +92,20 @@ const EditMenu = ({ token, role }) => {
       formData.append('recommend', bestseller);
       formData.append('time', JSON.stringify(timeRange));
 
-      image1 && formData.append('image1', image1);
-      image2 && formData.append('image2', image2);
-      image3 && formData.append('image3', image3);
-      image4 && formData.append('image4', image4);
+      if (image1) formData.append('image1', image1);
+      if (image2) formData.append('image2', image2);
+      if (image3) formData.append('image3', image3);
+      if (image4) formData.append('image4', image4);
 
-      const response = await axios.post(backendURL + '/api/product/update', formData, { headers: { token } });
+      const response = await axios.post(
+        backendURL + '/api/product/update',
+        formData,
+        { headers: { token } }
+      );
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate('/view_menu')
+        navigate('/view_menu');
       } else {
         toast.error(response.data.message);
       }
@@ -104,15 +113,23 @@ const EditMenu = ({ token, role }) => {
       console.log(error);
       toast.error(error.message);
     }
-  }
+  };
 
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Edit Menu</h1>
-      <form onSubmit={onSubmitHandler} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch">
+      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">
+        Edit Menu
+      </h1>
+
+      <form
+        onSubmit={onSubmitHandler}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch"
+      >
         {/* Left Column: Basic Info & Attributes */}
         <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
-          <h1 className="text-2xl font-bold mb-5 text-Text">Basic Information</h1>
+          <h1 className="text-2xl font-bold mb-5 text-Text">
+            Basic Information
+          </h1>
 
           {/* Basic Info Section */}
           <div>
@@ -245,7 +262,9 @@ const EditMenu = ({ token, role }) => {
               {/* Recommendation */}
               <div className="mt-5">
                 <label className="inline-flex items-center" htmlFor="bestseller">
-                  <span className="mr-5 font-medium text-Text"> Add to Recommendation (Optional) </span>
+                  <span className="mr-5 font-medium text-Text">
+                    Add to Recommendation (Optional)
+                  </span>
                   <input
                     onChange={() => setBestseller((prev) => !prev)}
                     checked={bestseller}
@@ -255,14 +274,14 @@ const EditMenu = ({ token, role }) => {
                   />
                   <div
                     className="
-                cursor-pointer relative w-11 h-6 rounded-full peer
-                dark:bg-gray-700 peer-checked:after:translate-x-full
-                rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white
-                after:content-[''] after:absolute after:top-[2px] after:start-[2px]
-                after:bg-white after:border-gray-300 after:border after:rounded-full
-                after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600
-                dark:peer-checked:bg-green-600
-              "
+                      cursor-pointer relative w-11 h-6 rounded-full peer
+                      dark:bg-gray-700 peer-checked:after:translate-x-full
+                      rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white
+                      after:content-[''] after:absolute after:top-[2px] after:start-[2px]
+                      after:bg-white after:border-gray-300 after:border after:rounded-full
+                      after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600
+                      dark:peer-checked:bg-green-600
+                    "
                   ></div>
                 </label>
               </div>
@@ -280,14 +299,52 @@ const EditMenu = ({ token, role }) => {
             <div className="grid grid-cols-2 gap-4 my-5">
               {/* Image 1 */}
               <label htmlFor="image1">
-                <img className="w-full rounded-2xl cursor-pointer" src={image1 ? URL.createObjectURL(image1) : food1 || assets.upload} alt=""/>
-                <input onChange={(e) => setImage1(e.target.files[0])} type="file" id="image1" hidden/>
+                {image1 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={URL.createObjectURL(image1)}
+                    alt=""
+                  />
+                ) : food1 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={food1}
+                    alt=""
+                  />
+                ) : (
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                )}
+                <input
+                  onChange={(e) => setImage1(e.target.files[0])}
+                  type="file"
+                  id="image1"
+                  hidden
+                />
               </label>
 
               {/* Image 2 */}
               <label htmlFor="image2">
-                <img className="w-full rounded-2xl cursor-pointer" src={image2 ? URL.createObjectURL(image2) : food2 || assets.upload} alt=""/>
-                <input onChange={(e) => setImage2(e.target.files[0])} type="file" id="image2" hidden/>
+                {image2 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={URL.createObjectURL(image2)}
+                    alt=""
+                  />
+                ) : food2 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={food2}
+                    alt=""
+                  />
+                ) : (
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                )}
+                <input
+                  onChange={(e) => setImage2(e.target.files[0])}
+                  type="file"
+                  id="image2"
+                  hidden
+                />
               </label>
             </div>
 
@@ -295,28 +352,69 @@ const EditMenu = ({ token, role }) => {
             <div className="grid grid-cols-2 gap-4">
               {/* Image 3 */}
               <label htmlFor="image3">
-                <img className="w-full rounded-2xl cursor-pointer" src={image3 ? URL.createObjectURL(image3) : food3 || assets.upload} alt=""/>
-                <input onChange={(e) => setImage3(e.target.files[0])} type="file" id="image3" hidden/>
+                {image3 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={URL.createObjectURL(image3)}
+                    alt=""
+                  />
+                ) : food3 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={food3}
+                    alt=""
+                  />
+                ) : (
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                )}
+                <input
+                  onChange={(e) => setImage3(e.target.files[0])}
+                  type="file"
+                  id="image3"
+                  hidden
+                />
               </label>
 
               {/* Image 4 */}
               <label htmlFor="image4">
-                <img className="w-full rounded-2xl cursor-pointer" src={image4 ? URL.createObjectURL(image4) : food4 || assets.upload} alt=""/>
-                <input onChange={(e) => setImage4(e.target.files[0])} type="file" id="image4" hidden/>
+                {image4 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={URL.createObjectURL(image4)}
+                    alt=""
+                  />
+                ) : food4 ? (
+                  <img
+                    className="size-80 cursor-pointer rounded-xl"
+                    src={food4}
+                    alt=""
+                  />
+                ) : (
+                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                )}
+                <input
+                  onChange={(e) => setImage4(e.target.files[0])}
+                  type="file"
+                  id="image4"
+                  hidden
+                />
               </label>
             </div>
           </div>
 
           {/* Button at bottom of right column */}
           <div className="flex justify-center mt-4">
-            <button type="submit" className="rounded-xl bg-Button p-5 text-3xl text-BG hover:bg-Button/90">
-              Update Menu
+            <button
+              type="submit"
+              className="w-32 md:p-5 py-3 bg-Button text-BG active:bg-Button/75 rounded-xl shadow"
+            >
+              Update
             </button>
           </div>
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default EditMenu
+export default EditMenu;
