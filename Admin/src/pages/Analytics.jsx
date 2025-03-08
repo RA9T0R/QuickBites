@@ -18,18 +18,47 @@ const Analytics = ({ role }) => {
     );
   }
   
-  const {totalOrders,totalCustomers,totalIncome,popularFood,analyticsData} = useContext(DashboardContext);
-  const [targetIncome, setTargetIncome] = useState(100000);
-  
+  const {foodList,totalOrders,totalCustomers,totalIncome,popularFood,analyticsData,dateRange,setDateRange} = useContext(DashboardContext);
+  const [targetIncome, setTargetIncome] = useState(() => {
+    const savedIncome = localStorage.getItem('targetIncome');
+    return savedIncome ? parseFloat(savedIncome) : 10000;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('targetIncome', targetIncome);
+  }, [targetIncome]);
+
   const targetPercentage = (totalIncome / targetIncome) * 100;
   const pieData = [
     { name: "Income Achieved", value: totalIncome },
     { name: "Remaining Income", value: targetIncome - totalIncome }
   ];
-
+  console.log(analyticsData);
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:px-8">
-      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Analytics</h1>
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">
+        <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Analytics</h1>
+        <div className="flex gap-5">
+          <input
+            type="number"
+            value={targetIncome}
+            onChange={(e) => setTargetIncome(parseFloat(e.target.value))}
+            className="border-2 p-2 rounded-md bg-BG text-Text"
+            placeholder="Set Target Income"
+            min="0"
+          />
+
+          <select
+            value={dateRange}
+            onChange={(e) => setDateRange(e.target.value)}
+            className="border-2 p-2 rounded-md bg-BG text-Text"
+          >
+            <option value="daily" >Daily</option>
+            <option value="monthly" >Monthly</option>
+            <option value="yearly" >Yearly</option>
+          </select>
+        </div>
+      </div>
 
       {/* Container Grid */}
       <div className="grid h-full w-full grid-cols-1 lg:grid-cols-3 gap-4 mt-4"> 
@@ -120,7 +149,7 @@ const Analytics = ({ role }) => {
         <div className="lg:col-span-3 lg:row-span-2 grid lg:grid-cols-3 rounded-xl gap-3 ">
           <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
             <h2 className="text-lg sm:text-3xl self-start ml-5">Target Income</h2>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height='100%'>
               <PieChart>
                 <Pie
                   data={pieData}
@@ -143,11 +172,24 @@ const Analytics = ({ role }) => {
             </div>
           </div>
 
-          <div className="lg:col-span-1 rounded-xl bg-BG flex items-center justify-center">
-            <h2 className="text-lg">Most Favourite Items</h2>
+          <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
+            <h2 className="text-lg sm:text-3xl self-start ml-5">Average Order Value</h2>
+            <div className="flex flex-col items-center justify-center h-full gap-5">
+              <p className="text-xl sm:text-3xl font-bold">฿ {totalIncome} / {totalOrders}</p>
+              <p className="text-3xl sm:text-6xl  font-bold">฿ {(totalIncome / totalOrders).toFixed(2)}</p>
+            </div>
           </div>
-          <div className="lg:col-span-1 rounded-xl bg-BG flex items-center justify-center">
-            <h2 className="text-lg">Most Favourite Items</h2>
+
+
+          <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
+            <h2 className="text-lg sm:text-3xl self-start ml-5">The latest new menu</h2>
+            <div className="flex flex-col items-center justify-center h-full gap-5 mt-5">
+              <div className="flex flex-col items-center justify-center h-full gap-5">
+                <div className="text-xl font-bold">{foodList[foodList.length - 1].name}</div>
+                <p className="text-md text-Text/50">{foodList[foodList.length - 1].description}</p>
+                <img src={foodList[foodList.length - 1].image[0]} alt={foodList[foodList.length - 1].name} className="rounded-xl"/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
