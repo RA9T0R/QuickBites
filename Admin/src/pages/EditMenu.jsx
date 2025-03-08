@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { useParams, useNavigate } from "react-router-dom";
@@ -17,7 +18,7 @@ const EditMenu = ({ token, role }) => {
       </div>
     );
   }
-
+  const {fetchFood} = useContext(DashboardContext);
   const navigate = useNavigate();
   const { productId } = useParams();
 
@@ -43,7 +44,7 @@ const EditMenu = ({ token, role }) => {
   const [bestseller, setBestseller] = useState(false);
   const [timeRange, setTimeRange] = useState([0, 60]);
 
-  const fetchFood = async () => {
+  const fetchFoodSingle = async () => {
     try {
       const response = await axios.post(backendURL + '/api/product/single', { productId });
       if (response.data.success) {
@@ -73,8 +74,7 @@ const EditMenu = ({ token, role }) => {
   };
 
   useEffect(() => {
-    fetchFood();
-    // eslint-disable-next-line
+    fetchFoodSingle();
   }, [productId]);
 
   const onSubmitHandler = async (e) => {
@@ -105,6 +105,7 @@ const EditMenu = ({ token, role }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchFood()
         navigate('/view_menu');
       } else {
         toast.error(response.data.message);

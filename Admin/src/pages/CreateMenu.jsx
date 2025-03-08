@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import axios from 'axios'
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from "../assets/assets.js"
@@ -16,7 +17,7 @@ const CreateMenu = ({ token, role }) => {
       </div>
     );
   }
-
+  const {fetchFood} = useContext(DashboardContext);
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
@@ -54,6 +55,7 @@ const CreateMenu = ({ token, role }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchFood();
         setImage1(false);
         setImage2(false);
         setImage3(false);

@@ -9,12 +9,14 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
 
   const currency = '฿';
+
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [cartItems, setCartItems] = useState({});
   const [orderData, setOrderData] = useState([]);
   const [totalFoodCount,setTotalFoodCount] = useState(0);
   const [search, setSearch] = useState('');
-  const [tableNumber, setTableNumber] = useState(null);
+  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1'); // Default to '1'
+  const [userID,setUserID] = useState('AA');
   const [foods_list,setFoods_list] = useState([]);
 
   const [searchParams] = useSearchParams();
@@ -173,6 +175,8 @@ const StoreContextProvider = (props) => {
     backendURL,
     totalFoodCount,
     setTotalFoodCount,
+    userID,
+    setUserID
   };
 
   return (

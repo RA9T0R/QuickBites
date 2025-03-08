@@ -8,6 +8,12 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [darkMode, setDarkMode] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifications = [
+    "New menu added!",
+    "Customer feedback received.",
+    "System update available.",
+  ];
 
   useEffect(() => {
     setActiveMenu(location.pathname);
@@ -74,16 +80,29 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
             {darkMode ? <Sun className="md:size-8 text-Text" /> : <Moon className="md:size-8 text-Text" />}
           </div>
         </div>
-        <div className="cursor-pointer">
-          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-            <Bell className="md:size-8 text-Text" />
-          </div>
+        <div onClick={() => setShowNotifications(!showNotifications)} className="cursor-pointer">
+        <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+          <Bell className="md:size-8 text-Text" />
         </div>
-        <div className="cursor-pointer">
-          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-            <User className="md:size-8 text-Text" />
-          </div>
+      </div>
+
+      {/* Notifications dropdown */}
+      {showNotifications && (
+        <div className="absolute top-16 right-4 bg-Text text-BG rounded-lg shadow-lg p-4 w-64 mt-3">
+          <h3 className="font-bold text-lg mb-2">Notifications</h3>
+          {notifications.length > 0 ? (
+            <ul>
+              {notifications.map((notification, index) => (
+                <li key={index} className="py-2 border-b">
+                  {notification}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No new notifications.</p>
+          )}
         </div>
+      )}
       </div>
 
 

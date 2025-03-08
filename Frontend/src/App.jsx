@@ -15,10 +15,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from 'react';
 import { StoreContext } from './context/StoreContext'; // Import context
 
+const encodeTableNumber = (tableNumber) => {
+  return btoa(tableNumber); // Base64 encode the table number
+};
+
+const decodeTableNumber = (encodedTableNumber) => {
+  return atob(encodedTableNumber); // Base64 decode the encoded table number
+};
+
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { tableNumber} = useContext(StoreContext); // Access tableNumber from context
+  const { tableNumber,setTableNumber} = useContext(StoreContext); // Access tableNumber from context
   const hideNavbarRoutes = ["/ThankYou"];
 
   // Update URL and context when the table number is set or changes

@@ -32,7 +32,7 @@ const Navbar = () => {
     };
   }, [visible]);
 
-  const handleCheckBill = () => {
+  const handleCall = () => {
     //Sent Data to the backend  
     toast.success(`Just call the waiter`, {
       position: "top-center", 
@@ -104,7 +104,7 @@ const Navbar = () => {
 
 
       <div className="flex items-center gap-2 sm:gap-4 md:gap-6 justify-end">
-        <div onClick={handleCheckBill} className="cursor-pointer">
+        <div onClick={handleCall} className="cursor-pointer">
           <div className='w-9 h-9 sm:w-12 sm:h-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center'>
             <ConciergeBell className="size-6 sm:size-8 text-Text" alt="Concierge Bell"/>
           </div>

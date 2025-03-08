@@ -20,7 +20,7 @@ const Employee = ({ token, role }) => {
     );
   }
 
-  const {employeeList} = useContext(DashboardContext);
+  const {employeeList,fetchEmployee} = useContext(DashboardContext);
 
   const removeEmployee = async (id) => {
     try {
@@ -36,7 +36,7 @@ const Employee = ({ token, role }) => {
       toast.error(error.message);
     }
   };
-  
+
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">

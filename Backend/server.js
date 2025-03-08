@@ -26,7 +26,6 @@ app.use('/api/order',orderRouter);
 app.use('/api/employee',employeeRouter);
 app.use("/api/analytics",analyticsRouter)
 
-
 app.get('/',(req,res)=>{
     res.send("API IS WORK");
 })

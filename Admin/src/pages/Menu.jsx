@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Trash,Pencil,CookingPot,Star  } from 'lucide-react';
 
 const Menu = ({token}) => {
-  const {foodList} = useContext(DashboardContext);
+  const {foodList,fetchFood} = useContext(DashboardContext);
   const [category, setCategory] = useState('All');
   
   const removeFood = async (id) => {

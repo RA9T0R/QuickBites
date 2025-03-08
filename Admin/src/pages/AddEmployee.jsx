@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { assets } from "../assets/assets.js"
+import React, { useState,useContext } from 'react'
 import axios from 'axios'
+import {DashboardContext} from '../context/DashboardContext'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { SquareUserRound } from 'lucide-react';
@@ -16,7 +16,7 @@ const AddEmployee = ({ token, role }) => {
       </div>
     );
   }
-
+  const {fetchEmployee} = useContext(DashboardContext);
   const [image, setImage] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -46,6 +46,7 @@ const AddEmployee = ({ token, role }) => {
       const response = await axios.post(backendURL + '/api/employee/registerStaff', formData, { headers: { token } });
       console.log(response)
       if (response.data.success) {
+        fetchEmployee();
         toast.success(response.data.message);
         setFirstname('');
         setLastname('');

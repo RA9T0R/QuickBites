@@ -10,7 +10,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const OrderSummary = () => {
-  const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber } = useContext(StoreContext);
+  const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber,userID } = useContext(StoreContext);
   const [orderData, setOrderData] = useState([]);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
@@ -67,7 +67,7 @@ const OrderSummary = () => {
         <div>
           {orderData.map((order, index) => (
             <div key={index} className="mb-4 border-b pb-4 text-Text">
-              <h3 className="font-medium text-lg">Order #{index + 1}</h3>
+              <h3 className="font-medium text-lg">Order #{index + 1} : {userID}</h3>
               <ul className="mt-2">
                 {order.products.map((item, idx) => {
                   return (

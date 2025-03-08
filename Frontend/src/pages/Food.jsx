@@ -33,12 +33,10 @@ const Food = () => {
     }
   }
 
-
   const fetchProductData = () => {
     const product = foods_list.find((item) => item._id === foodId);
     if (product) setProductData(product);
   };
-  
   
   useEffect(() => {
     fetchProductData();

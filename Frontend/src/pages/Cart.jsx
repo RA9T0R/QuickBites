@@ -12,7 +12,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const Cart = () => {
-  const {foods_list, cartItems, updateQuantity, removeItem,placeOrder,tableNumber ,backendURL} = useContext(StoreContext);
+  const {foods_list, cartItems, updateQuantity, removeItem,placeOrder,tableNumber ,backendURL,userID} = useContext(StoreContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Cart = () => {
       const formData = new FormData();
 
       formData.append('tableNumber',tableNumber)
-      formData.append('userID','A')
+      formData.append('userID',userID)
       formData.append('products',JSON.stringify(cartData))
 
       const response = await axios.post(backendURL + '/api/order/add', formData);

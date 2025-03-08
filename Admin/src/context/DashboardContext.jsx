@@ -99,8 +99,8 @@ const DashboardContextProvider = (props) => {
 
   const contextValue = {
     amountMenu, setAmountMenu,
-    analyticsData, setAnalyticsData, foodList,
-    totalOrders, totalCustomers, totalIncome, popularFood,
+    analyticsData, setAnalyticsData, foodList,fetchFood,
+    totalOrders, totalCustomers, totalIncome, popularFood,fetchEmployee,
     employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange
   };
 
