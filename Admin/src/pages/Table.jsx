@@ -90,6 +90,7 @@ const Table = () => {
         setTotalPrice(0);
         await axios.post(backendURL + `/api/order/remove`,{ tableNumber: tableNumber })
         fecthAnalytics();
+        fetchOrders();
       }else{
         toast.error(response.data.message);
       }
@@ -102,8 +103,6 @@ const Table = () => {
   useEffect(() => {
     fetchOrder();
   }, [tableNumber]);
-
-  
   
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">

@@ -33,7 +33,6 @@ const Analytics = ({ role }) => {
     { name: "Income Achieved", value: totalIncome },
     { name: "Remaining Income", value: targetIncome - totalIncome }
   ];
-  console.log(analyticsData);
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:px-8">
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">
@@ -184,11 +183,19 @@ const Analytics = ({ role }) => {
           <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
             <h2 className="text-lg sm:text-3xl self-start ml-5">The latest new menu</h2>
             <div className="flex flex-col items-center justify-center h-full gap-5 mt-5">
-              <div className="flex flex-col items-center justify-center h-full gap-5">
-                <div className="text-xl font-bold">{foodList[foodList.length - 1].name}</div>
-                <p className="text-md text-Text/50">{foodList[foodList.length - 1].description}</p>
-                <img src={foodList[foodList.length - 1].image[0]} alt={foodList[foodList.length - 1].name} className="rounded-xl"/>
-              </div>
+              {foodList && foodList.length > 0 ? (
+                <div className="flex flex-col items-center justify-center h-full gap-5">
+                  <div className="text-xl font-bold">{foodList[foodList.length - 1].name}</div>
+                  <p className="text-md text-Text/50">{foodList[foodList.length - 1].description}</p>
+                  <img
+                    src={foodList[foodList.length - 1].image[0]}
+                    alt={foodList[foodList.length - 1].name}
+                    className="rounded-xl"
+                  />
+                </div>
+              ) : (
+                <p className="text-lg text-Text/50">No menu available</p>
+              )}
             </div>
           </div>
         </div>
