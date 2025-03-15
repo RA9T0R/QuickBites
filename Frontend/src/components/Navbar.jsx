@@ -8,7 +8,7 @@ import { Sun, Moon, ShoppingBag, AlignLeft, ArrowLeft, ConciergeBell } from 'luc
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {totalFoodCount, tableNumber} = useContext(StoreContext);
+  const {totalFoodCount, tableNumber,userID} = useContext(StoreContext);
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
 
@@ -137,6 +137,7 @@ const Navbar = () => {
           <div className="flex flex-col gap-2 mt-6 text-center p-4 bg-BG border border-Text rounded-lg shadow-lg">
             <img className='w-16 sm:w-24 md:w-32 mx-auto' src={assets.logo} alt="" />
             <h1 className="text-lg sm:text-xl font-semibold text-Text">🪑 Table : <span className="font-bold">{tableNumber}</span></h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-Text">😇 UserID : <span className="font-bold">{userID}</span></h1>
             <p className="text-sm text-Text/90">⏰ Access Time : <span id="accessTime"></span></p>
           </div>
         </div>

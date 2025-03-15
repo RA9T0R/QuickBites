@@ -84,6 +84,7 @@ const Table = () => {
     }, []);
     try {
       const response = await axios.post(backendURL + '/api/analytics/add',{products : products})
+      await axios.post(backendURL + '/api/table/clear',{table : tableNumber})
       if(response.data.success){
         toast.success(response.data.message);
         setOrders([]);

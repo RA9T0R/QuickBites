@@ -8,6 +8,7 @@ import productRouter from './routes/productRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import employeeRouter from './routes/employeeRoute.js';
 import analyticsRouter from './routes/analyticsRoute.js';
+import tableRouter from './routes/tableRoute.js';
 
 // App Config
 const app = express();
@@ -24,7 +25,8 @@ app.use('/api/user', userRouter);
 app.use('/api/product',productRouter);
 app.use('/api/order',orderRouter);
 app.use('/api/employee',employeeRouter);
-app.use("/api/analytics",analyticsRouter)
+app.use('/api/analytics',analyticsRouter)
+app.use('/api/table',tableRouter)
 
 app.get('/',(req,res)=>{
     res.send("API IS WORK");

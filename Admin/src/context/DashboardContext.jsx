@@ -13,6 +13,7 @@ const DashboardContextProvider = (props) => {
   const [foodList, setFoodList] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [tables, setTables] = useState([]);
 
   const fecthAnalytics = async () => {
     try {
@@ -66,9 +67,22 @@ const DashboardContextProvider = (props) => {
     }
   };
 
+  const fetchTable = async () => {
+    try {
+      const response = await axios.get(backendURL + '/api/table/list');
+      if(response.data.success){
+        setTables(response.data.tables)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }
+
   useEffect(() => {
     fetchFood();
     fetchOrders();
+    fetchTable();
     fetchEmployee();
     fecthAnalytics();
   }, [dateRange]);
@@ -101,7 +115,8 @@ const DashboardContextProvider = (props) => {
     amountMenu, setAmountMenu,
     analyticsData, setAnalyticsData, foodList,fetchFood,
     totalOrders, totalCustomers, totalIncome, popularFood,fetchEmployee,
-    employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange
+    employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange,
+    tables,setTables,fetchTable
   };
 
   // Persist dateRange to localStorage whenever it changes

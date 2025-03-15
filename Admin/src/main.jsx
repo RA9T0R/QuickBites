@@ -6,11 +6,9 @@ import { BrowserRouter } from 'react-router-dom';
 import DashboardContextProvider from './context/DashboardContext.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <DashboardContextProvider>
-        <App />
-      </DashboardContextProvider>
-    </BrowserRouter>
-  </StrictMode>
+  <BrowserRouter>
+    <DashboardContextProvider>
+      <App />
+    </DashboardContextProvider>
+  </BrowserRouter>
 );
