@@ -36,6 +36,7 @@ const OrderSummary = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(backendURL + `/api/order/list/${tableNumber}`);
+      console.log(response.data.orders);
       if (response.data.success) {
         setOrderData(response.data.orders); 
         setTotalFoodCount(response.data.totalFoodCount)
@@ -67,7 +68,7 @@ const OrderSummary = () => {
         <div>
           {orderData.map((order, index) => (
             <div key={index} className="mb-4 border-b pb-4 text-Text">
-              <h3 className="font-medium text-lg">Order #{index + 1} : {userID}</h3>
+              <h3 className="font-medium text-lg">Order #{index + 1} : {order.userID}</h3>
               <ul className="mt-2">
                 {order.products.map((item, idx) => {
                   return (
