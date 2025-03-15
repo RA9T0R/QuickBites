@@ -107,6 +107,29 @@ const listTables = async (req, res) => {
     }
 };
 
+const getTable = async (req, res) => {
+    try {
+      const { table } = req.query;
+  
+      let tableData = await tableModel.findOne({ table });
+  
+      if (!tableData) {
+        return res.json({ success: false, message: "Table not found." });
+      }
+  
+      if (!tableData.available) {
+        return res.json({ success: false, message: "Table is not available." });
+      }
+  
+      res.json({ success: true, table: tableData });
+    } catch (error) {
+      console.log(error);
+      res.json({ success: false, message: error.message });
+    }
+  };
+  
+
+
 const deleteTable = async (req, res) => {
     try {
     const { tableNumber } = req.body;
@@ -134,4 +157,5 @@ const deleteTable = async (req, res) => {
 
 
 
-export {addTable,joinTable,availableTable,clearTable,listTables,deleteTable}
+
+export {addTable,joinTable,availableTable,clearTable,listTables,deleteTable,getTable}

@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react';
-// import { foods_list } from '../assets/assets';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,14 +8,14 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
 
   const currency = '฿';
-
   const backendURL = import.meta.env.VITE_BACKEND_URL;
+
   const [cartItems, setCartItems] = useState({});
   const [orderData, setOrderData] = useState([]);
   const [totalFoodCount, setTotalFoodCount] = useState(0);
   const [search, setSearch] = useState('');
-  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1'); 
-  const [userID, setUserID] = useState(localStorage.getItem('userID') || ""); 
+  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1'); // Default to '1'
+  const [userID, setUserID] = useState(localStorage.getItem('userID') || ""); // Retrieve userID from localStorage
   const [foods_list, setFoods_list] = useState([]);
   const [available, setAvailable] = useState(false);
 
@@ -24,7 +23,6 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     const tableFromURL = searchParams.get('table');
-
     if (tableFromURL && tableNumber !== tableFromURL) {
       setTableNumber(tableFromURL);
     } else if (!tableNumber) {
@@ -33,42 +31,56 @@ const StoreContextProvider = (props) => {
   }, [searchParams, tableNumber]);
 
   useEffect(() => {
-    if (tableNumber && !userID) { 
+    if(tableNumber){
       checkTable();
     }
-  }, [tableNumber, userID]); 
+  }, [userID, tableNumber]); // Dependency on tableNumber and userID
   
   const checkTable = async () => {
     try {
-      if (localStorage.getItem('userID')) {
-        setUserID(localStorage.getItem('userID')); 
-        setAvailable(true); 
-        return;  
+      // Check if userID is already in localStorage
+      const storedUserID = localStorage.getItem('userID');
+      if (storedUserID) {
+        setUserID(storedUserID); 
+  
+        const response = await axios.get(backendURL + "/api/table/get", {
+          params: { table: tableNumber },
+        });
+        
+  
+        if (!response.data.success || !response.data.table.available) {
+          setUserID('');
+          localStorage.removeItem('userID'); 
+          setAvailable(false);  
+        } else {
+          setAvailable(true);  
+        }
+  
+        return;
       }
-
+  
+      // Proceed with API call to join the table if userID does not exist
       const response = await axios.post(backendURL + "/api/table/join", { table: tableNumber });
-
+  
       if (response.data.success) {
         const newUserID = response.data.userID;
-        setUserID(newUserID);  
-        localStorage.setItem('userID', newUserID);  
-        setAvailable(true); 
+        setUserID(newUserID);  // Store the new userID in state
+        localStorage.setItem('userID', newUserID);  // Persist userID to localStorage
+        setAvailable(true);  // Mark the table as available
       } else {
-        setAvailable(false); 
+        setAvailable(false);  // If the table is not available
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error updating order status");
+      toast.error("Error checking table status");
     }
   };
+  
 
   const setToCart = (itemId, itemsCount, requirement = '') => {
-    console.log("Adding to cart:", { itemId, itemsCount, requirement });
-
     let cartData = structuredClone(cartItems);
 
     if (itemsCount === 0) {
-      console.log("Removing item:", itemId);
       removeItem(itemId);
     } else {
       cartData[itemId] = { quantity: itemsCount, requirement };
@@ -125,7 +137,7 @@ const StoreContextProvider = (props) => {
         };
       }),
     };
-    
+
     setOrderData((prevOrders) => [...prevOrders, order]);
     setCartItems({});
   };
