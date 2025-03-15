@@ -1,14 +1,12 @@
-// tableController.js
-
 import tableModel from "../models/tableModel.js";
 
 const addTable = async (req, res) => {
   try {
     const { table } = req.body;
 
-    // Strictly allow table numbers 1..7
-    if (parseInt(table, 10) < 1 || parseInt(table, 10) > 7) {
-      return res.status(400).json({
+    // Check if the table number is valid (must be a number)
+    if (!table || isNaN(table)) {
+      return res.json({
         success: false,
         message: "Invalid table number.",
       });
@@ -17,14 +15,14 @@ const addTable = async (req, res) => {
     // Check if table already exists
     let existingTable = await tableModel.findOne({ table });
     if (existingTable) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: "Table already exists.",
       });
     }
 
     // Create new table with no users and set as unavailable
-    const newTable = new tableModel({ table, users: [], available: false });
+    const newTable = new tableModel({ table, users: [], available: false, callWaiter: false });
     await newTable.save();
 
     res.json({
@@ -41,18 +39,10 @@ const joinTable = async (req, res) => {
   try {
     const { table } = req.body;
 
-    // Strictly allow table numbers 1..7
-    if (parseInt(table, 10) < 1 || parseInt(table, 10) > 7) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid table number.",
-      });
-    }
-
     let tableData = await tableModel.findOne({ table });
 
     if (!tableData) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: `Table ${table} does not exist.`,
       });
@@ -90,18 +80,10 @@ const availableTable = async (req, res) => {
   try {
     const { table, available } = req.body;
 
-    // Strictly allow table numbers 1..7
-    if (parseInt(table, 10) < 1 || parseInt(table, 10) > 7) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid table number.",
-      });
-    }
-
     let tableData = await tableModel.findOne({ table });
 
     if (!tableData) {
-      return res.status(404).json({
+      return res.json({
         success: false,
         message: "Table not found.",
       });
@@ -124,18 +106,10 @@ const clearTable = async (req, res) => {
   try {
     const { table } = req.body;
 
-    // Strictly allow table numbers 1..7
-    if (parseInt(table, 10) < 1 || parseInt(table, 10) > 7) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid table number.",
-      });
-    }
-
     let tableData = await tableModel.findOne({ table });
 
     if (!tableData) {
-      return res.status(404).json({
+      return res.json({
         success: false,
         message: "Table not found.",
       });
@@ -144,6 +118,7 @@ const clearTable = async (req, res) => {
     // Clear users and set availability to false
     tableData.users = [];
     tableData.available = false;
+    tableData.callWaiter = false; // Reset callWaiter flag
     await tableData.save();
 
     res.json({
@@ -169,14 +144,6 @@ const listTables = async (req, res) => {
 const getTable = async (req, res) => {
   try {
     const { table } = req.query;
-
-    // Strictly allow table numbers 1..7
-    if (parseInt(table, 10) < 1 || parseInt(table, 10) > 7) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid table number.",
-      });
-    }
 
     let tableData = await tableModel.findOne({ table });
 
@@ -208,18 +175,10 @@ const deleteTable = async (req, res) => {
   try {
     const { tableNumber } = req.body;
 
-    // Strictly allow table numbers 1..7
-    if (parseInt(tableNumber, 10) < 1 || parseInt(tableNumber, 10) > 7) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid table number.",
-      });
-    }
-
     const table = await tableModel.findOne({ table: tableNumber });
 
     if (!table) {
-      return res.status(404).json({
+      return res.json({
         success: false,
         message: `Table with number ${tableNumber} not found.`,
       });
@@ -227,7 +186,7 @@ const deleteTable = async (req, res) => {
 
     await tableModel.deleteOne({ table: tableNumber });
 
-    return res.status(200).json({
+    return res.json({
       success: true,
       message: `Table ${tableNumber} has been deleted successfully.`,
     });
@@ -237,6 +196,61 @@ const deleteTable = async (req, res) => {
   }
 };
 
+// New callWaiter function
+const callWaiter = async (req, res) => {
+  try {
+    const { table } = req.body;
+
+    let tableData = await tableModel.findOne({ table });
+
+    if (!tableData) {
+      return res.json({
+        success: false,
+        message: `Table ${table} does not exist.`,
+      });
+    }
+
+    // Set the callWaiter flag to true
+    tableData.callWaiter = true;
+    await tableData.save();
+
+    res.json({
+      success: true,
+      message: `A waiter has been notified for table ${table}.`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+const attendToCall = async (req, res) => {
+  try {
+    const { table } = req.body;
+
+    let tableData = await tableModel.findOne({ table });
+
+    if (!tableData) {
+      return res.json({
+        success: false,
+        message: `Table ${table} does not exist.`,
+      });
+    }
+
+    tableData.callWaiter = false;
+    await tableData.save();
+
+    res.json({
+      success: true,
+      message: `The waiter has attended to the call for table ${table}.`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
 export {
   addTable,
   joinTable,
@@ -245,4 +259,6 @@ export {
   listTables,
   deleteTable,
   getTable,
+  callWaiter,
+  attendToCall
 };

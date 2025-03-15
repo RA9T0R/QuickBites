@@ -1,19 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { DashboardContext } from "../context/DashboardContext";
 import { Link,useLocation } from "react-router-dom";
 import { sidemenu } from "../assets/assets";
 import { Sun, Moon ,AlignLeft , AlignJustify ,User,Bell,Airplay,LogOut  } from 'lucide-react';
 
 const Navbar = ({ expanded, setExpanded, setToken, role }) => {
   const location = useLocation();
+  const {tables} = useContext(DashboardContext);
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [darkMode, setDarkMode] = useState(false);
   const [visible, setVisible] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const notifications = [
-    "New menu added!",
-    "Customer feedback received.",
-    "System update available.",
-  ];
 
   useEffect(() => {
     setActiveMenu(location.pathname);
@@ -88,24 +85,19 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
 
       {/* Notifications dropdown */}
       {showNotifications && (
-        <div className="absolute top-16 right-4 bg-Text text-BG rounded-lg shadow-lg p-4 w-64 mt-3">
+        <div className="absolute top-16 right-4 bg-Text text-BG rounded-lg shadow-lg p-4 w-64 mt-3 max-h-80 overflow-y-auto">
           <h3 className="font-bold text-lg mb-2">Notifications</h3>
-          {notifications.length > 0 ? (
-            <ul>
-              {notifications.map((notification, index) => (
-                <li key={index} className="py-2 border-b">
-                  {notification}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No new notifications.</p>
-          )}
+          {tables.map((table) => (
+            table.callWaiter && (
+              <div key={table.table} className="flex justify-between items-center mb-3 p-4 border-t-4 border-BG rounded-lg shadow-md">
+                <span className="text-sm font-medium">{`Table ${table.table}: Call Waiter`}</span>
+                <span className="text-sm">Need assistance</span>
+              </div>
+            )
+          ))}
         </div>
       )}
       </div>
-
-
 
       {/* SideBar menu for small screens */}
       <div className={`z-50 fixed top-0 left-0 bottom-0 overflow-hidden bg-BG transition-all  ${visible ? 'w-full' : 'w-0'}`}>

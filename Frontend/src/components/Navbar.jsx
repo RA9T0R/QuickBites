@@ -3,22 +3,15 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { StoreContext } from '../context/StoreContext';
 import { assets } from '../assets/assets';
 import { toast } from 'react-toastify'; 
+import axios from 'axios';
 
 import { Sun, Moon, ShoppingBag, AlignLeft, ArrowLeft, ConciergeBell } from 'lucide-react';
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {totalFoodCount, tableNumber,userID} = useContext(StoreContext);
+  const {totalFoodCount, tableNumber,userID,backendURL} = useContext(StoreContext);
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
-
-  // useEffect(() => {
-  //   const queryParams = new URLSearchParams(location.search);
-  //   const tableFromUrl = queryParams.get('table');
-  //   if (tableFromUrl) {
-  //     setTableNumber(tableFromUrl);
-  //   }
-  // }, [location, setTableNumber]);
   
   useEffect(() => {
     if (visible) {
@@ -32,16 +25,25 @@ const Navbar = () => {
     };
   }, [visible]);
 
-  const handleCall = () => {
-    //Sent Data to the backend  
-    toast.success(`Just call the waiter`, {
-      position: "top-center", 
-      autoClose: 3000, 
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-    });
+  const handleCall = async () => {
+    try {
+      const response = await axios.post(backendURL + '/api/table/call' , {table : tableNumber});
+      if (response.data.success) {
+        toast.success(response.data.message, {
+          position: "top-center", 
+          autoClose: 3000, 
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -49,10 +51,6 @@ const Navbar = () => {
     if (savedMode === 'dark') {
       setDarkMode(true);
     }
-
-    const now = new Date();
-    const formattedTime = now.toLocaleTimeString();
-    document.getElementById('accessTime').textContent = formattedTime;
   }, []);
 
   useEffect(() => {
@@ -138,7 +136,6 @@ const Navbar = () => {
             <img className='w-16 sm:w-24 md:w-32 mx-auto' src={assets.logo} alt="" />
             <h1 className="text-lg sm:text-xl font-semibold text-Text">🪑 Table : <span className="font-bold">{tableNumber}</span></h1>
             <h1 className="text-lg sm:text-xl font-semibold text-Text">😇 UserID : <span className="font-bold">{userID}</span></h1>
-            <p className="text-sm text-Text/90">⏰ Access Time : <span id="accessTime"></span></p>
           </div>
         </div>
       </div>

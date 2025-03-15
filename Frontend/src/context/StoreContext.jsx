@@ -1,108 +1,68 @@
-// StoreContext.jsx
 import { createContext, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Cookies from 'js-cookie'; // Make sure to install js-cookie
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-
-  const currency = '฿';
+  const currency = "฿";
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const [cartItems, setCartItems] = useState({});
   const [orderData, setOrderData] = useState([]);
   const [totalFoodCount, setTotalFoodCount] = useState(0);
-  const [search, setSearch] = useState('');
-  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1');
-  const [userID, setUserID] = useState(getStoredUserID() || "");
+  const [search, setSearch] = useState("");
+  const [tableNumber, setTableNumber] = useState(localStorage.getItem("tableNumber") || null);
+  const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
   const [foods_list, setFoods_list] = useState([]);
 
-  // Tracks if the table is valid/available
   const [available, setAvailable] = useState(false);
-  // Tracks if we're currently checking the table (prevents flash of "unavailable")
   const [loading, setLoading] = useState(true);
 
   const [searchParams] = useSearchParams();
 
-  // Utility to check if localStorage is available
-  function isLocalStorageAvailable() {
-    try {
-      const testKey = 'test';
-      localStorage.setItem(testKey, 'testValue');
-      localStorage.removeItem(testKey);
-      return true;
-    } catch (error) {
-      return false;
+  const storeUserID = (newUserID) => {
+    if (newUserID) {
+      localStorage.setItem("userID", newUserID);
     }
-  }
+  };
 
-  // Utility functions for persistent storage of userID
-  function getStoredUserID() {
-    try {
-      if (isLocalStorageAvailable()) {
-        return localStorage.getItem('userID');
-      } else {
-        return Cookies.get('userID');
-      }
-    } catch (err) {
-      console.error("Error reading userID", err);
-      return null;
-    }
-  }
+  const removeUserID = () => {
+    localStorage.removeItem("userID");
+  };
 
-  function storeUserID(newUserID) {
-    try {
-      if (isLocalStorageAvailable()) {
-        localStorage.setItem('userID', newUserID);
-      } else {
-        Cookies.set('userID', newUserID, { expires: 7 });
-      }
-    } catch (err) {
-      console.error("Error storing userID", err);
-    }
-  }
-
-  // Update table number from URL if provided
   useEffect(() => {
-    const tableFromURL = searchParams.get('table');
+    const tableFromURL = searchParams.get("table");
+
     if (tableFromURL && tableNumber !== tableFromURL) {
       setTableNumber(tableFromURL);
-    } else if (!tableNumber) {
-      setTableNumber('1');
+      localStorage.setItem("tableNumber", tableFromURL);
     }
-  }, [searchParams, tableNumber]);
+  }, [searchParams]);
 
-  // Whenever tableNumber or userID changes, check the table status
   useEffect(() => {
-    if (tableNumber) {
+    if (tableNumber !== null) {
       checkTable();
     }
   }, [userID, tableNumber]);
 
   const checkTable = async () => {
-    // Set loading to true so we don't flash the "unavailable" or main page prematurely
+    if (!tableNumber) return;
+
     setLoading(true);
     try {
-      const storedUserID = getStoredUserID();
-
-      if (storedUserID) {
-        setUserID(storedUserID);
-
+      if (userID) {
         const response = await axios.get(`${backendURL}/api/table/get`, {
           params: { table: tableNumber },
         });
 
-        // If not successful or not available, remove userID and mark unavailable
-        if (!response.data.success || !response.data.table.available) {
-          setUserID('');
-          if (isLocalStorageAvailable()) {
-            localStorage.removeItem('userID');
-          } else {
-            Cookies.remove('userID');
-          }
+        console.log("Checking table:", tableNumber);
+        console.log(response.data);
+
+        if (!response.data.success) {
+          removeUserID();
+          setUserID("");
           setAvailable(false);
         } else {
           setAvailable(true);
@@ -110,22 +70,18 @@ const StoreContextProvider = (props) => {
         return;
       }
 
-      // If no stored userID, try to join the table
       const response = await axios.post(`${backendURL}/api/table/join`, { table: tableNumber });
       if (response.data.success) {
-        const newUserID = response.data.userID;
-        setUserID(newUserID);
-        storeUserID(newUserID);
+        setUserID(response.data.userID);
+        storeUserID(response.data.userID);
         setAvailable(true);
       } else {
         setAvailable(false);
       }
     } catch (error) {
       console.error(error);
-      // On error, just mark table as unavailable
       setAvailable(false);
     } finally {
-      // Done loading, so the UI can show the correct page
       setLoading(false);
     }
   };
