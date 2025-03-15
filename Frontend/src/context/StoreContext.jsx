@@ -1,3 +1,4 @@
+// StoreContext.jsx
 import { createContext, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -15,10 +16,14 @@ const StoreContextProvider = (props) => {
   const [orderData, setOrderData] = useState([]);
   const [totalFoodCount, setTotalFoodCount] = useState(0);
   const [search, setSearch] = useState('');
-  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1'); // Default to '1'
-  const [userID, setUserID] = useState(getStoredUserID() || ""); // Retrieve userID from persistent storage
+  const [tableNumber, setTableNumber] = useState(localStorage.getItem('tableNumber') || '1');
+  const [userID, setUserID] = useState(getStoredUserID() || "");
   const [foods_list, setFoods_list] = useState([]);
+
+  // Tracks if the table is valid/available
   const [available, setAvailable] = useState(false);
+  // Tracks if we're currently checking the table (prevents flash of "unavailable")
+  const [loading, setLoading] = useState(true);
 
   const [searchParams] = useSearchParams();
 
@@ -70,7 +75,7 @@ const StoreContextProvider = (props) => {
     }
   }, [searchParams, tableNumber]);
 
-  // Check table when tableNumber or userID changes
+  // Whenever tableNumber or userID changes, check the table status
   useEffect(() => {
     if (tableNumber) {
       checkTable();
@@ -78,9 +83,11 @@ const StoreContextProvider = (props) => {
   }, [userID, tableNumber]);
 
   const checkTable = async () => {
+    // Set loading to true so we don't flash the "unavailable" or main page prematurely
+    setLoading(true);
     try {
-      // Retrieve userID from our helper function
       const storedUserID = getStoredUserID();
+
       if (storedUserID) {
         setUserID(storedUserID);
 
@@ -88,9 +95,9 @@ const StoreContextProvider = (props) => {
           params: { table: tableNumber },
         });
 
+        // If not successful or not available, remove userID and mark unavailable
         if (!response.data.success || !response.data.table.available) {
           setUserID('');
-          // Clear persistent storage
           if (isLocalStorageAvailable()) {
             localStorage.removeItem('userID');
           } else {
@@ -103,25 +110,29 @@ const StoreContextProvider = (props) => {
         return;
       }
 
-      // If no stored userID exists, proceed with API call to join the table
+      // If no stored userID, try to join the table
       const response = await axios.post(`${backendURL}/api/table/join`, { table: tableNumber });
       if (response.data.success) {
         const newUserID = response.data.userID;
         setUserID(newUserID);
-        storeUserID(newUserID); // Persist userID
+        storeUserID(newUserID);
         setAvailable(true);
       } else {
         setAvailable(false);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error checking table status");
+      // On error, just mark table as unavailable
+      setAvailable(false);
+    } finally {
+      // Done loading, so the UI can show the correct page
+      setLoading(false);
     }
   };
 
+  // =========== CART & ORDER FUNCTIONS ===========
   const setToCart = (itemId, itemsCount, requirement = '') => {
     let cartData = structuredClone(cartItems);
-
     if (itemsCount === 0) {
       removeItem(itemId);
     } else {
@@ -202,11 +213,11 @@ const StoreContextProvider = (props) => {
   };
 
   const getTotalFoodCount = () => {
-    return orderData.reduce((totalFoodCount, order) => {
+    return orderData.reduce((count, order) => {
       order.items.forEach((item) => {
-        totalFoodCount += item.quantity;
+        count += item.quantity;
       });
-      return totalFoodCount;
+      return count;
     }, 0);
   };
 
@@ -214,6 +225,7 @@ const StoreContextProvider = (props) => {
     setOrderData([]);
   };
 
+  // =========== GET FOOD DATA ===========
   const getFoodData = async () => {
     try {
       const response = await axios.get(`${backendURL}/api/product/list`);
@@ -258,6 +270,8 @@ const StoreContextProvider = (props) => {
     setUserID,
     checkTable,
     available,
+    // Export the loading state
+    loading,
   };
 
   return (
