@@ -65,13 +65,13 @@ export const sidemenu = [
     role: "all"
   },
   {
-    title: "Analytics",
+    title: "Sales Analytics",
     icon: ChartLine,
     path: "/analytics",
     role: "admin"
   },
   {
-    title: "List Employee",
+    title: "Employee List",
     icon: Users ,
     path: "/list_employee",
     role: "admin"
