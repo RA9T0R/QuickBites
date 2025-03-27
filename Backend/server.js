@@ -18,15 +18,17 @@ const port = process.env.PORT || 4000;
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: [
-            'https://quickbites-dashboard.vercel.app',  
-            'https://quickbites-website.vercel.app'   
-          ],
-        methods: ['GET', 'POST'], 
-        allowedHeaders: ['my-custom-header'],
-        credentials: true
-    }
-});
+      origin: [
+        'https://quickbites-dashboard.vercel.app',
+        'https://quickbites-website.vercel.app'
+      ],
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Content-Type'],
+      credentials: true
+    },
+    transports: ['websocket', 'polling'] 
+  });
+  
 
 connectDB(io); 
 connectCloudinary();

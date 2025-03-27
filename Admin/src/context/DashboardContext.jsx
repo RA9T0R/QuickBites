@@ -15,7 +15,7 @@ const DashboardContextProvider = (props) => {
   const [employeeList, setEmployeeList] = useState([]);
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
-  const socket = useState(() => io(backendURL))[0];
+  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'] }))[0];
 
 
   const fecthAnalytics = async () => {
@@ -83,10 +83,14 @@ const DashboardContextProvider = (props) => {
   }
 
   useEffect(() => {
-    socket.on("orderUpdated", () => {fetchOrders();});
-    socket.on("tableUpdated", () => {fetchTable();});
+    socket.on("orderUpdated", fetchOrders);
+    socket.on("tableUpdated", fetchTable);
   
-    return () => {socket.disconnect(); };
+    return () => {
+      socket.off("orderUpdated", fetchOrders);
+      socket.off("tableUpdated", fetchTable);
+      socket.disconnect();
+    };
   }, [socket]);
 
   useEffect(() => {

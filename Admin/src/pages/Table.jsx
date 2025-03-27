@@ -6,7 +6,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { SkipBack, ChevronDown, ChevronUp,Eraser } from "lucide-react";
 import moment from "moment";
-import { io } from "socket.io-client";  // Import socket.io-client
+import { io } from "socket.io-client";  
 
 const Table = () => {
   const {fetchOrders,fecthAnalytics} = useContext(DashboardContext);
@@ -14,7 +14,7 @@ const Table = () => {
   const [orders, setOrders] = useState([]);
   const [expandedRows, setExpandedRows] = useState({});
   const [totalPrice,setTotalPrice] = useState(0);
-  const socket = useState(() => io(backendURL))[0];
+  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'] }))[0];
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({
