@@ -9,30 +9,50 @@ import orderRouter from './routes/orderRoute.js';
 import employeeRouter from './routes/employeeRoute.js';
 import analyticsRouter from './routes/analyticsRoute.js';
 import tableRouter from './routes/tableRoute.js';
+import http from 'http';  
+import { Server } from 'socket.io'; 
 
-// App Config
 const app = express();
 const port = process.env.PORT || 4000;
-connectDB();
+
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*', 
+        methods: ['GET', 'POST'], 
+    }
+});
+
+connectDB(io); 
 connectCloudinary();
 
-// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// API Endpoints
 app.use('/api/user', userRouter);
-app.use('/api/product',productRouter);
-app.use('/api/order',orderRouter);
-app.use('/api/employee',employeeRouter);
-app.use('/api/analytics',analyticsRouter)
-app.use('/api/table',tableRouter)
+app.use('/api/product', productRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/employee', employeeRouter);
+app.use('/api/analytics', analyticsRouter);
+app.use('/api/table', tableRouter);
 
-app.get('/',(req,res)=>{
-    res.send("API IS WORK");
-})
+io.on('connection', (socket) => {
+    console.log(`A user connected : ${socket.id}`);
 
-app.listen(port, () => {
+    socket.on('message', (data) => {
+        console.log('Message received:', data);
+        socket.emit('messageResponse', 'Message received');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+app.get('/', (req, res) => {
+    res.send('API IS WORKING');
+});
+
+server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-})
-
+});

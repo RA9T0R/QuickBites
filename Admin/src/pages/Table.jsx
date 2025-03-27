@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { SkipBack, ChevronDown, ChevronUp,Eraser } from "lucide-react";
 import moment from "moment";
+import { io } from "socket.io-client";  // Import socket.io-client
 
 const Table = () => {
   const {fetchOrders,fecthAnalytics} = useContext(DashboardContext);
@@ -13,6 +14,7 @@ const Table = () => {
   const [orders, setOrders] = useState([]);
   const [expandedRows, setExpandedRows] = useState({});
   const [totalPrice,setTotalPrice] = useState(0);
+  const socket = useState(() => io(backendURL))[0];
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({
@@ -83,7 +85,7 @@ const Table = () => {
       return acc.concat(order.products); 
     }, []);
     try {
-      const response = await axios.post(backendURL + '/api/analytics/add',{products : products})
+      const response = await axios.post(backendURL + '/api/analytics/add',{products : products,table : tableNumber})
       await axios.post(backendURL + '/api/table/clear',{table : tableNumber})
       if(response.data.success){
         toast.success(response.data.message);
@@ -100,6 +102,12 @@ const Table = () => {
       toast.error(error.message);
     }
   }
+
+  useEffect(() => {
+    socket.on("orderUpdated", () => {fetchOrder();});
+
+    return () => {socket.disconnect(); };
+  }, [socket]);
 
   useEffect(() => {
     fetchOrder();
@@ -178,6 +186,7 @@ const Table = () => {
                         <option value="Cooking">Cooking</option>
                         <option value="Serving">Serving</option>
                         <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                       </select>
                     </td>
                     <td className="py-3 px-4">
@@ -210,11 +219,11 @@ const Table = () => {
                           <tbody>
                             {order.products.map((product, productIndex) => (
                               <tr key={productIndex} className="text-2xl border-b">
-                                <td className="px-4 py-2 flex justify-center border-r">
+                                <td className="px-4 py-2 min-h-44 flex justify-center items-center mt-auto">
                                   <img
                                     src={product.image[0]}
                                     alt={product.name}
-                                    className="w-20 h-20 object-cover mt-2 rounded-xl"
+                                    className="w-20 h-20 object-cover rounded-xl"
                                   />
                                 </td>
                                 <td className="px-4 py-2 border-r">{product.name}</td>

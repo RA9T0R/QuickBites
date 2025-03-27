@@ -18,7 +18,7 @@ const Analytics = ({ role }) => {
     );
   }
   
-  const {foodList,totalOrders,totalCustomers,totalIncome,popularFood,analyticsData,dateRange,setDateRange} = useContext(DashboardContext);
+  const {totalOrders,totalCustomers,totalIncome,popularFood,analyticsData,dateRange,setDateRange,latestFood} = useContext(DashboardContext);
   const [targetIncome, setTargetIncome] = useState(() => {
     const savedIncome = localStorage.getItem('targetIncome');
     return savedIncome ? parseFloat(savedIncome) : 10000;
@@ -65,8 +65,8 @@ const Analytics = ({ role }) => {
         <div className="lg:col-span-3 grid lg:grid-cols-3 rounded-xl gap-3">
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-10 py-5 ">
             <div className="flex flex-col gap-3 md:gap-7">
-              <h2 className="text-lg sm:text-3xl">Orders</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-5xl font-bold">{totalOrders}</p>
+              <h2 className="text-lg md:text-2xl lg:text-3xl">Orders</h2>
+              <p className="text-2xl md:text-2xl lg:text-3xl 2xl:text-5xl font-bold">{totalOrders}</p>
             </div>
             <div className="flex items-center justify-center">
               <Inbox className="size-16 sm:size-20 2xl:size-36"/>
@@ -74,8 +74,8 @@ const Analytics = ({ role }) => {
           </div>
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-10 py-5 ">
             <div className="flex flex-col gap-3 md:gap-7">
-              <h2 className="text-lg sm:text-3xl">Customers</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-5xl font-bold">{totalCustomers}</p>
+              <h2 className="text-lg md:text-2xl lg:text-3xl">Customers</h2>
+              <p className="text-2xl md:text-2xl lg:text-3xl 2xl:text-5xl font-bold">{totalCustomers}</p>
             </div>
             <div className="flex items-center justify-center">
               <ContactRound className="size-16 sm:size-20 2xl:size-36"/>
@@ -83,8 +83,8 @@ const Analytics = ({ role }) => {
           </div>
           <div className="rounded-xl bg-BG flex justify-between px-4 2xl:px-10 py-5 ">
             <div className="flex flex-col gap-3 md:gap-7">
-              <h2 className="text-lg sm:text-3xl whitespace-nowrap">Total Income</h2>
-              <p className="text-2xl sm:text-3xl 2xl:text-5xl font-bold">฿ {totalIncome.toFixed(2)}</p>
+              <h2 className="text-lg md:text-2xl lg:text-3xl whitespace-nowrap">Total Income</h2>
+              <p className="text-2xl md:text-2xl lg:text-3xl 2xl:text-5xl font-bold">฿ {totalIncome.toFixed(2)}</p>
             </div>
             <div className="flex items-center justify-center">
               <Wallet className="size-16 sm:size-20 2xl:size-36"/>
@@ -93,9 +93,9 @@ const Analytics = ({ role }) => {
         </div>
 
         {/* Sales Graph & Popular Food */}
-        <div className=" lg:col-span-3 lg:row-span-2 grid lg:grid-cols-3 rounded-xl gap-3">
+        <div className="lg:col-span-3 lg:row-span-2 grid xl:grid-cols-3 rounded-xl gap-3">
           {/* Sales Figures Graph */}
-          <div className="min-h-96 lg:col-span-2 rounded-xl bg-BG flex flex-col p-4">
+          <div className="min-h-96 xl:col-span-2 rounded-xl bg-BG flex flex-col p-4">
             <h2 className="text-lg sm:text-3xl px-4 2xl:px-10 py-5">Sales Figures</h2>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
@@ -183,13 +183,13 @@ const Analytics = ({ role }) => {
           <div className="lg:col-span-1 rounded-xl bg-BG flex flex-col items-center justify-center p-5">
             <h2 className="text-lg sm:text-3xl self-start ml-5">The latest new menu</h2>
             <div className="flex flex-col items-center justify-center h-full gap-5 mt-5">
-              {foodList && foodList.length > 0 ? (
+              {latestFood ? (
                 <div className="flex flex-col items-center justify-center h-full gap-5">
-                  <div className="text-xl font-bold">{foodList[foodList.length - 1].name}</div>
-                  <p className="text-md text-Text/50">{foodList[foodList.length - 1].description}</p>
+                  <div className="text-xl font-bold">{latestFood.name}</div>
+                  <p className="text-md text-Text/50">{latestFood.description}</p>
                   <img
-                    src={foodList[foodList.length - 1].image[0]}
-                    alt={foodList[foodList.length - 1].name}
+                    src={latestFood.image[0]}
+                    alt={latestFood.name}
                     className="rounded-xl"
                   />
                 </div>

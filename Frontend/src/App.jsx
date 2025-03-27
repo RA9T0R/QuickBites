@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useContext } from 'react';
-import { StoreContext } from './context/StoreContext'; // Import context
+import { StoreContext } from './context/StoreContext';
 
 const App = () => {
   const navigate = useNavigate();

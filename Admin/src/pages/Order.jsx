@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { DashboardContext } from "../context/DashboardContext";
 import { Link } from "react-router-dom";
-import { Armchair, PhoneCall } from "lucide-react";
+import { Armchair, PhoneCall,Table  } from "lucide-react";
 import axios from "axios";
 import { backendURL } from "../App";
 import { toast } from "react-toastify";
@@ -9,17 +9,13 @@ import { toast } from "react-toastify";
 const Order = () => {
   const { tables, fetchTable } = useContext(DashboardContext);
 
-  // For the "Add New Table" modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableNumber, setTableNumber] = useState("");
 
-  // For the "Delete Table" confirmation modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [tableToDelete, setTableToDelete] = useState(null);
 
-  // ---------------------------------------
-  // ADD NEW TABLE
-  // ---------------------------------------
+
   const handleAddTable = async () => {
     if (!tableNumber) return;
     try {
@@ -40,15 +36,9 @@ const Order = () => {
     }
   };
 
-  // ---------------------------------------
-  // OPEN TABLE
-  // ---------------------------------------
   const handleOpenTable = async (number) => {
     try {
-      const response = await axios.post(backendURL + "/api/table/available", {
-        table: number,
-        available: true,
-      });
+      const response = await axios.post(backendURL + "/api/table/available", {table: number,available: true,});
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchTable();
@@ -61,15 +51,9 @@ const Order = () => {
     }
   };
 
-  // ---------------------------------------
-  // CLOSE TABLE
-  // ---------------------------------------
   const handleCloseTable = async (number) => {
     try {
-      const response = await axios.post(backendURL + "/api/table/available", {
-        table: number,
-        available: false,
-      });
+      const response = await axios.post(backendURL + "/api/table/available", {table: number,available: false,});
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchTable();
@@ -82,22 +66,14 @@ const Order = () => {
     }
   };
 
-  // ---------------------------------------
-  // DELETE TABLE (show confirmation modal)
-  // ---------------------------------------
   const handleDeleteClick = (number) => {
     setTableToDelete(number);
     setDeleteModalOpen(true);
   };
 
-  // ---------------------------------------
-  // CONFIRM DELETION
-  // ---------------------------------------
   const confirmDeleteTable = async () => {
     try {
-      const response = await axios.post(backendURL + "/api/table/delete", {
-        tableNumber: tableToDelete,
-      });
+      const response = await axios.post(backendURL + "/api/table/delete", {tableNumber: tableToDelete,});
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchTable();
@@ -108,23 +84,16 @@ const Order = () => {
       console.log(error);
       toast.error(error.message);
     } finally {
-      // Close modal regardless of success/fail
       setDeleteModalOpen(false);
       setTableToDelete(null);
     }
   };
 
-  // ---------------------------------------
-  // CANCEL DELETION
-  // ---------------------------------------
   const cancelDelete = () => {
     setDeleteModalOpen(false);
     setTableToDelete(null);
   };
 
-  // ---------------------------------------
-  // ATTEND TO CALL
-  // ---------------------------------------
   const handleAttendTable = async (number) => {
     try {
       const response = await axios.post(backendURL + "/api/table/attend", {
@@ -142,9 +111,6 @@ const Order = () => {
     }
   };
 
-  // ---------------------------------------
-  // RENDER
-  // ---------------------------------------
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between w-full">
@@ -153,6 +119,7 @@ const Order = () => {
           onClick={() => setIsModalOpen(true)}
           className="flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-green-400 bg-green-600 rounded-2xl cursor-pointer"
         >
+          <Table/>
           <p>Add new Table</p>
         </div>
       </div>
@@ -166,13 +133,8 @@ const Order = () => {
                          shadow-lg shadow-Text/20 transition-all duration-300 ease-in-out
                          transform hover:scale-105 hover:shadow-xl w-full"
             >
-              {/* 'X' Button => opens our custom confirmation modal */}
-              <button
-                onClick={() => handleDeleteClick(table.table)}
-                className="flex items-center justify-center self-start px-4 py-2 gap-3
-                           text-white hover:bg-red-400 bg-red-600 rounded-2xl cursor-pointer ml-3"
-              >
-                X
+              <button onClick={() => handleDeleteClick(table.table)} className="flex items-center justify-center self-start px-4 py-2 gap-3text-white hover:bg-red-400 bg-red-600 rounded-2xl cursor-pointer ml-3">
+X
               </button>
 
               <div className="space-y-4 min-w-[70%]">

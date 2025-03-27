@@ -1,9 +1,10 @@
 import analyticsModel from "../models/analyticsModel.js";
+import tableModel from "../models/tableModel.js";
 
 //  เพิ่มรายการรายรับ-รายจ่าย
 const addTransaction = async (req, res) => {
   try {
-    const { products } = req.body;
+    const { products,table } = req.body;
 
     let totalIncome = 0, orderAmount = 0;
     const FoodData = products.map(product => {
@@ -18,12 +19,16 @@ const addTransaction = async (req, res) => {
       };
     });
 
+    let tableData = await tableModel.findOne({ table: table });
+
+    const customerAmount = tableData ? tableData.users.length : 1;
+
     const SalesData = {
       date: new Date().toISOString(),
       totalIncome,
       OrderFood: FoodData,
       orderAmount,
-      customerAmount: 1,
+      customerAmount,
     };
 
     console.log(SalesData);
@@ -38,21 +43,6 @@ const addTransaction = async (req, res) => {
   }
 };
 
-// const getAnalyticsData = async (req, res) => {
-//   try {
-//     const analyticsData = await analyticsModel.find().sort({ date: 1 }); // Sort by ascending date
-
-//     if (!analyticsData.length) {
-//       return res.json({ success: false, message: "No data found" });
-//     }
-
-//     res.json({ success: true, sales: analyticsData });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ success: false, message: error.message });
-//   }
-// };
-
 const getAnalyticsData = async (req, res) => {
   try {
     const { dateRange } = req.query;
@@ -61,23 +51,19 @@ const getAnalyticsData = async (req, res) => {
 
     // Create a date filter based on the dateRange
     if (dateRange === "daily") {
-      const today = new Date();
+      const now = new Date();
       
-      // Start of the day in local time (assuming GMT+7, adjust for your timezone)
-      const localStartOfDay = new Date(today.setHours(0, 0, 0, 0));
-
-      // End of the day in local time
-      const localEndOfDay = new Date(today.setHours(23, 59, 59, 999));
-
-      // Adjust the start and end of the day based on timezone (GMT+7)
-      const offset = 7 * 60; // GMT+7 in minutes
-      const startOfDay = new Date(localStartOfDay.getTime() + offset * 60 * 1000).toISOString();
-      const endOfDay = new Date(localEndOfDay.getTime() + offset * 60 * 1000).toISOString();
-
-      // Apply filter for daily range
+      // Convert to local time in GMT+7
+      const offset = 7 * 60; // 7 hours in minutes
+      const localStartOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      const localEndOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    
+      // Convert to UTC
+      const startOfDay = new Date(localStartOfDay.getTime() - offset * 60 * 1000).toISOString();
+      const endOfDay = new Date(localEndOfDay.getTime() - offset * 60 * 1000).toISOString();
+    
       filter.date = { $gte: startOfDay, $lt: endOfDay };
-
-    } else if (dateRange === "monthly") {
+    }else if (dateRange === "monthly") {
       const firstDayOfMonth = new Date();
       firstDayOfMonth.setDate(1);
 
@@ -109,6 +95,7 @@ const getAnalyticsData = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
 
 
 export {addTransaction,getAnalyticsData};

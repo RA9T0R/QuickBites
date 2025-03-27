@@ -138,10 +138,10 @@ const AddEmployee = ({ token, role }) => {
         <div className="cols-span-4 lg:cols-span-1 grid md:grid-cols-1 rounded-xl gap-3">
           <div className="rounded-xl bg-BG flex flex-col items-center justify-center p-5">
             <h1 className="text-2xl font-bold self-start mb-5">Profile Image</h1>
-            <label htmlFor="image1">
+            <label htmlFor="image1" className='w-full h-full'>
               {!image ? (
                 // Render your icon if there's no uploaded image
-                <SquareUserRound className="w-[375px] h-[375px] cursor-pointer rounded-xl text-Text" />
+                <SquareUserRound className="w-full h-full cursor-pointer rounded-xl text-Text" />
               ) : (
                 // Otherwise, display the uploaded image preview
                 <img

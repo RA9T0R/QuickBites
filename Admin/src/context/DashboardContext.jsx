@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendURL } from "../App";
+import { io } from "socket.io-client";  
 
 export const DashboardContext = createContext(null);
 
@@ -14,6 +15,8 @@ const DashboardContextProvider = (props) => {
   const [employeeList, setEmployeeList] = useState([]);
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
+  const socket = useState(() => io(backendURL))[0];
+
 
   const fecthAnalytics = async () => {
     try {
@@ -80,6 +83,13 @@ const DashboardContextProvider = (props) => {
   }
 
   useEffect(() => {
+    socket.on("orderUpdated", () => {fetchOrders();});
+    socket.on("tableUpdated", () => {fetchTable();});
+  
+    return () => {socket.disconnect(); };
+  }, [socket]);
+
+  useEffect(() => {
     fetchFood();
     fetchOrders();
     fetchTable();
@@ -119,7 +129,6 @@ const DashboardContextProvider = (props) => {
     tables,setTables,fetchTable
   };
 
-  // Persist dateRange to localStorage whenever it changes
   useEffect(() => {
     if (dateRange) {
       localStorage.setItem('dateRange', dateRange);

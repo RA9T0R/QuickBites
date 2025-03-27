@@ -5,14 +5,16 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom'; 
 import { X } from 'lucide-react';
 import { assets } from '../assets/assets';
+import { io } from "socket.io-client";  // Import socket.io-client
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const OrderSummary = () => {
-  const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber,userID } = useContext(StoreContext);
+  const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber} = useContext(StoreContext);
   const [orderData, setOrderData] = useState([]);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const socket = useState(() => io(backendURL))[0];
 
   const calculateTotalPrice = () => {
     return orderData.reduce((total, order) => {
@@ -47,10 +49,16 @@ const OrderSummary = () => {
     }
   };
   
-
   useEffect(() => {
     AOS.init();
   },[]);
+
+  useEffect(() => {
+    socket.on("orderUpdated", () => {fetchOrders();});
+
+    return () => {socket.disconnect(); };
+  }, [socket]);
+  
   useEffect(() => { 
     fetchOrders();
   },[tableNumber]);
