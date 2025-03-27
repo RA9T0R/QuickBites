@@ -14,7 +14,7 @@ const OrderSummary = () => {
   const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber} = useContext(StoreContext);
   const [orderData, setOrderData] = useState([]);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true  }))[0];
+  const socket = useState(() => io('wss://quickbites-backend.vercel.app', { transports: ['websocket', 'polling'],withCredentials: true  }))[0];
 
   const calculateTotalPrice = () => {
     return orderData.reduce((total, order) => {

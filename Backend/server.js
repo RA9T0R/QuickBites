@@ -26,7 +26,8 @@ const io = new Server(server, {
       allowedHeaders: ['Content-Type'],
       credentials: true
     },
-    transports: ['websocket', 'polling'] 
+    transports: ['websocket', 'polling'],
+    debug: true
   });
   
 
