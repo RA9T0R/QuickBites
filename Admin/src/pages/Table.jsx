@@ -14,7 +14,7 @@ const Table = () => {
   const [orders, setOrders] = useState([]);
   const [expandedRows, setExpandedRows] = useState({});
   const [totalPrice,setTotalPrice] = useState(0);
-  const socket = useState(() => io('wss://quickbites-backend.vercel.app', { transports: ['websocket', 'polling'],withCredentials: true  }))[0];
+  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true  }))[0];
 
   const toggleRow = (index) => {
     setExpandedRows((prev) => ({

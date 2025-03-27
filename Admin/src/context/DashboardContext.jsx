@@ -15,7 +15,7 @@ const DashboardContextProvider = (props) => {
   const [employeeList, setEmployeeList] = useState([]);
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
-  const socket = useState(() => io('wss://quickbites-backend.vercel.app', { transports: ['websocket', 'polling'],withCredentials: true }))[0];
+  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true }))[0];
 
 
   const fecthAnalytics = async () => {
