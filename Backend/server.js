@@ -18,7 +18,7 @@ const port = process.env.PORT || 4000;
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: '*', 
+        origin: 'https://quickbites-backend.vercel.app', 
         methods: ['GET', 'POST'], 
     }
 });
