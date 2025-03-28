@@ -39,6 +39,7 @@ const joinTable = async (req, res) => {
   try {
     const { table } = req.body;
 
+    // Find the table data
     let tableData = await tableModel.findOne({ table });
 
     if (!tableData) {
@@ -56,25 +57,38 @@ const joinTable = async (req, res) => {
     }
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    // If the user is already in the table, return the existing userID
+    if (req.body.userID && tableData.users.includes(req.body.userID)) {
+      return res.json({
+        success: true,
+        userID: req.body.userID, // Returning the existing userID
+      });
+    }
+
+    // Otherwise, assign a new userID based on the current users in the table
     let newUserID = alphabet[tableData.users.length] || `U${tableData.users.length + 1}`;
 
+    // Ensure no user conflicts
     if (tableData.users.includes(newUserID)) {
       tableData.users = tableData.users.filter((userID) => userID !== newUserID);
-      console.log(`Removed existing user : ${newUserID}`);
+      console.log(`Removed existing user: ${newUserID}`);
     }
 
     tableData.users.push(newUserID);
     await tableData.save();
 
+    // Respond with the new or existing userID
     res.json({
       success: true,
-      userID: tableData.users[tableData.users.length - 1],
+      userID: newUserID,
     });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
+
 
 const availableTable = async (req, res) => {
   try {
@@ -115,10 +129,9 @@ const clearTable = async (req, res) => {
       });
     }
 
-    // Clear users and set availability to false
     tableData.users = [];
     tableData.available = false;
-    tableData.callWaiter = false; // Reset callWaiter flag
+    tableData.callWaiter = false; 
     await tableData.save();
 
     res.json({

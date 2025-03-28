@@ -53,7 +53,7 @@ const Order = () => {
 
   const handleCloseTable = async (number) => {
     try {
-      const response = await axios.post(backendURL + "/api/table/available", {table: number,available: false,});
+      const response = await axios.post(backendURL + '/api/table/clear',{table : number})
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchTable();

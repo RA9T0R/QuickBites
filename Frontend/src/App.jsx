@@ -35,12 +35,6 @@ const App = () => {
     <div className="px-[2vw] sm:px-[3vw] md:px-[5vw] lg:px-[7vw] overflow-hidden bg-BG min-h-screen">
       <ToastContainer position="top-right" autoClose={2000} />
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
-
-      {/* 
-        1) If still loading, show a placeholder/spinner
-        2) If not loading and the table is available, show main Routes
-        3) Otherwise, show the "unavailable" message
-      */}
       {loading ? (
         <div className="text-center mt-10 text-2xl font-bold text-white">
           <p>Checking table status...</p>

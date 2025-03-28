@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { io } from "socket.io-client";  
 import { toast } from 'react-toastify';
 
 export const StoreContext = createContext(null);
@@ -21,6 +22,8 @@ const StoreContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [searchParams] = useSearchParams();
+
+  const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true }))[0];
 
   const storeUserID = (newUserID) => {
     if (newUserID) {
@@ -49,17 +52,17 @@ const StoreContextProvider = (props) => {
 
   const checkTable = async () => {
     if (!tableNumber) return;
-
+  
     setLoading(true);
     try {
       if (userID) {
         const response = await axios.get(`${backendURL}/api/table/get`, {
           params: { table: tableNumber },
         });
-
+  
         console.log("Checking table:", tableNumber);
         console.log(response.data);
-
+  
         if (!response.data.success) {
           removeUserID();
           setUserID("");
@@ -69,8 +72,13 @@ const StoreContextProvider = (props) => {
         }
         return;
       }
-
-      const response = await axios.post(`${backendURL}/api/table/join`, { table: tableNumber });
+  
+      // When joining the table, send the current userID (if any)
+      const response = await axios.post(`${backendURL}/api/table/join`, { 
+        table: tableNumber,
+        userID: userID, 
+      });
+  
       if (response.data.success) {
         setUserID(response.data.userID);
         storeUserID(response.data.userID);
@@ -85,6 +93,33 @@ const StoreContextProvider = (props) => {
       setLoading(false);
     }
   };
+  
+
+  // Listen for table updates via socket
+  useEffect(() => {
+    socket.on("tableUpdatedStatus", (data) => {
+      console.log("Table updated:", data);
+
+      // Re-check table status when the table becomes available again
+      if (data.available) {
+        // If the table becomes available again, check userID
+        if (!userID) {
+          checkTable(); // Re-join table if no userID is present
+        } else {
+          setAvailable(true); // Otherwise, just mark as available
+        }
+      } else {
+        // If table is unavailable, clear the userID
+        removeUserID();
+        setUserID("");
+        setAvailable(false);
+      }
+    });
+
+    return () => {
+      socket.off("tableUpdatedStatus");
+    };
+  }, [socket, tableNumber, userID]);
 
   // =========== CART & ORDER FUNCTIONS ===========
   const setToCart = (itemId, itemsCount, requirement = '') => {
@@ -226,7 +261,6 @@ const StoreContextProvider = (props) => {
     setUserID,
     checkTable,
     available,
-    // Export the loading state
     loading,
   };
 
