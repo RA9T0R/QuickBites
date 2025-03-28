@@ -4,8 +4,7 @@ import { StoreContext } from '../context/StoreContext';
 import { toast } from 'react-toastify'; 
 import { Link } from 'react-router-dom'; 
 import { X } from 'lucide-react';
-import { assets } from '../assets/assets';
-import { io } from "socket.io-client";  // Import socket.io-client
+import { io } from "socket.io-client";  
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -72,8 +71,12 @@ const OrderSummary = () => {
   }, [socket]);
   
   useEffect(() => { 
-    fetchOrders();
-  },[tableNumber]);
+    const timer = setTimeout(() => {
+      fetchOrders();  
+    }, 1000); 
+  
+    return () => {clearTimeout(timer);  };
+  }, [tableNumber]);  
 
   return (
     <div className="p-6 mt-5 bg-BG shadow-xl shadow-Text/20 border-t rounded-lg relative pb-20 md:pb-28">
@@ -121,7 +124,6 @@ const OrderSummary = () => {
         </div>
       )}
 
-      {/* Grand Total section at the bottom */}
       {totalFoodCount > 0 && (
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 bg-BG shadow-xl shadow-Text/20 rounded-lg z-50">
           <div className='flex items-center justify-center'>
