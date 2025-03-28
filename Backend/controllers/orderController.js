@@ -9,7 +9,7 @@ const addOrder = async (req, res) => {
 
         const productsData = productsArray.map(product => {
             const { id, name, price, quantity, requirement, image } = product;
-            const totalPrice = Number(price) * Number(quantity);  // Calculate the total price for each product
+            const totalPrice = Number(price) * Number(quantity);  
 
             return {
                 id,
@@ -22,18 +22,16 @@ const addOrder = async (req, res) => {
             };
         });
 
-        // Prepare the order data
         const orderData = {
             tableNumber,
             userID,
-            products: productsData,  // Store the array of products
+            products: productsData, 
             status: 'Ordering',
             createdAt: Date.now(),
         };
 
         console.log(orderData);
 
-        // Create a new order with the data and save it to the database
         const order = new orderModel(orderData);
         await order.save();
 

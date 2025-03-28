@@ -10,7 +10,9 @@ import employeeRouter from './routes/employeeRoute.js';
 import analyticsRouter from './routes/analyticsRoute.js';
 import tableRouter from './routes/tableRoute.js';
 import http from 'http';  
-import { Server } from 'socket.io'; 
+import { Server } from 'socket.io';  
+import QRCode from 'qrcode';
+import generatePayload from 'promptpay-qr';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -28,8 +30,7 @@ const io = new Server(server, {
     },
     transports: ['websocket', 'polling'],
     debug: true
-  });
-  
+});
 
 connectDB(io); 
 connectCloudinary();
@@ -43,6 +44,25 @@ app.use('/api/order', orderRouter);
 app.use('/api/employee', employeeRouter);
 app.use('/api/analytics', analyticsRouter);
 app.use('/api/table', tableRouter);
+app.post('/api/promptpay', async (req, res) => {
+  try {
+      const amount = parseFloat(req.body.amount);
+      const mobileNumber = '0944178866';
+      const payload = generatePayload(mobileNumber, {amount});
+
+      QRCode.toDataURL(payload, (err, url) => {
+          if (err) {
+              console.log('Generate QR code error : ', err);
+              return res.json({ success: false, message: err.message });
+          }
+          res.json({ qrImage: url }); 
+      });
+      
+  } catch (error) {
+      console.log(error);
+      res.json({ success: false, message: error.message });
+  }
+});
 
 io.on('connection', (socket) => {
     console.log(`A user connected : ${socket.id}`);

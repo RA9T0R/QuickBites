@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { assets } from '../assets/assets';
 import { io } from "socket.io-client";  // Import socket.io-client
-
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -14,6 +13,7 @@ const OrderSummary = () => {
   const {currency,setTotalFoodCount,totalFoodCount, clearOrders,backendURL,tableNumber} = useContext(StoreContext);
   const [orderData, setOrderData] = useState([]);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [imageQrCode, setImageQrCode] = useState('');
   const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true  }))[0];
 
   const calculateTotalPrice = () => {
@@ -35,6 +35,19 @@ const OrderSummary = () => {
     });
   };
 
+  const handlepayment = async (amount) => {
+    try {
+      const response = await axios.post(backendURL + '/api/promptpay', { amount: amount });
+      if (response.data.qrImage) {
+        setImageQrCode(response.data.qrImage);
+        setIsPaymentOpen(true);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }
+
   const fetchOrders = async () => {
     try {
       const response = await axios.get(backendURL + `/api/order/list/${tableNumber}`);
@@ -55,7 +68,6 @@ const OrderSummary = () => {
 
   useEffect(() => {
     socket.on("orderUpdated", () => {fetchOrders();});
-
     return () => {socket.disconnect(); };
   }, [socket]);
   
@@ -114,7 +126,7 @@ const OrderSummary = () => {
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 bg-BG shadow-xl shadow-Text/20 rounded-lg z-50">
           <div className='flex items-center justify-center'>
             <button
-              onClick={() => setIsPaymentOpen(true)}
+              onClick={() => handlepayment(calculateTotalPrice().toFixed(2))}
               className="flex items-center justify-between w-full md:w-[60%] lg:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
             > 
               <p className='text-xl md:text-2xl lg:text-3xl'>{totalFoodCount} Order</p>
@@ -137,8 +149,8 @@ const OrderSummary = () => {
             </div>
 
             <div className='flex flex-col items-center justify-center'>
-              <img src={assets.qr_code} alt="" />
-              <p className="text-xl">Table : {tableNumber}</p>
+              <img src={imageQrCode} alt="QR-Code" className='w-full' />
+              <p className="text-xl mb-2">Table : {tableNumber}</p>
             </div>
             <hr />
             <div className="flex justify-between my-2 text-2xl">
