@@ -12,6 +12,7 @@ const DashboardContextProvider = (props) => {
   const [amountMenu, setAmountMenu] = useState(0);
   const [analyticsData, setAnalyticsData] = useState([]);
   const [foodList, setFoodList] = useState([]);
+  const [latestFood, setLatestFood] = useState(null);
   const [employeeList, setEmployeeList] = useState([]);
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
@@ -38,13 +39,18 @@ const DashboardContextProvider = (props) => {
       const response = await axios.get(backendURL + '/api/product/list');
       if (response.data.success) {
         setAmountMenu(response.data.product.length);
+
+        const latest = response.data.product[response.data.product.length-1];
+        setLatestFood(latest);
+
         const sortedFood = response.data.product.sort((a, b) => a.category.localeCompare(b.category));
         setFoodList(sortedFood);
+      
       }
     } catch (error) {
       toast.error("Failed to fetch food list");
     }
-  };
+};
 
   const fetchEmployee = async () => {
     try {
@@ -130,7 +136,7 @@ const DashboardContextProvider = (props) => {
     analyticsData, setAnalyticsData, foodList,fetchFood,
     totalOrders, totalCustomers, totalIncome, popularFood,fetchEmployee,
     employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange,
-    tables,setTables,fetchTable
+    tables,setTables,fetchTable,latestFood,
   };
 
   useEffect(() => {

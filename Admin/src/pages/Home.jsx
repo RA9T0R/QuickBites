@@ -68,7 +68,7 @@ const Home = () => {
         <div className="lg:col-span-3 lg:row-span-2 grid xl:grid-cols-3 rounded-xl gap-3">
           <div className="min-h-96 xl:col-span-2 rounded-xl bg-BG flex flex-col p-4">
             <h2 className="text-lg sm:text-3xl px-4 2xl:px-10 py-5">Sales Figures</h2>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" className={"text-white"}>
               <LineChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
                 <defs>
                   <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">

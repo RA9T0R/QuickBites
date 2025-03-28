@@ -178,15 +178,12 @@ const Table = () => {
                       <select
                         className="border rounded-lg p-2 bg-BG"
                         value={order.status}
-                        onChange={(e) =>
-                          handleStatusChange(index, e.target.value, order._id)
-                        }
+                        onChange={(e) =>handleStatusChange(index, e.target.value, order._id)}
                       >
                         <option value="Ordering">Ordering</option>
                         <option value="Cooking">Cooking</option>
                         <option value="Serving">Serving</option>
                         <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
                       </select>
                     </td>
                     <td className="py-3 px-4">

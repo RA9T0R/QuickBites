@@ -97,13 +97,13 @@ const Analytics = ({ role }) => {
           {/* Sales Figures Graph */}
           <div className="min-h-96 xl:col-span-2 rounded-xl bg-BG flex flex-col p-4">
             <h2 className="text-lg sm:text-3xl px-4 2xl:px-10 py-5">Sales Figures</h2>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" className={"text-white"}>
               <BarChart data={analyticsData} margin={{ top: 20, right: 40, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="2 2" strokeOpacity={0.5} />
                 <XAxis 
                   dataKey="date"
                   tickFormatter={(date) => format(new Date(date), "d - MMM : HH:mm")}
-                  tick={{ fontSize: 12, fill: "#888" }} 
+                  tick={{ fontSize: 12, fill: "#fff" }} 
                   tickMargin={10} 
                   angle={-15} 
                   dy={5} 
@@ -121,7 +121,6 @@ const Analytics = ({ role }) => {
               </BarChart>
             </ResponsiveContainer>
           </div>
-
           {/* Popular Food List */} 
           <div className="md:col-span-1 rounded-xl bg-BG flex flex-col px-10 py-5">
             <div className="flex justify-between items-center mb-5 gap-2">
