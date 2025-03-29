@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import tableModel from "../models/tableModel.js";
 
 const connectDB = async (io) => {
     mongoose.connection.on("connected", () => {
@@ -13,13 +14,23 @@ const connectDB = async (io) => {
 
     changeStreamOrder.on('change', () => {io.emit('orderUpdated'); });
     changeStreamTables.on('change', () => {io.emit('tableUpdated'); });
-    changeStreamTablesavailable.on('change', (change) => {
-        if (change.updateDescription && change.updateDescription.updatedFields?.hasOwnProperty('available')) {
-            console.log('Table availability updated:', change);
-            
-            io.emit('tableUpdatedStatus', { available: change.updateDescription.updatedFields.available });
+    changeStreamTablesavailable.on('change', async (change) => {
+        if (change.updateDescription?.updatedFields?.available !== undefined) {
+            try {
+                const updatedTable = await tableModel.findById(change.documentKey._id,'table');
+                if (!updatedTable) return;
+    
+                io.emit('tableUpdatedStatus', { 
+                    table: updatedTable.table, 
+                    available: change.updateDescription.updatedFields.available 
+                });
+    
+            } catch (error) {
+                console.error("Error fetching table number : ", error);
+            }
         }
     });
+    
 };
 
 export default connectDB;

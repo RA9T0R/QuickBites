@@ -56,12 +56,7 @@ const StoreContextProvider = (props) => {
     setLoading(true);
     try {
       if (userID) {
-        const response = await axios.get(`${backendURL}/api/table/get`, {
-          params: { table: tableNumber },
-        });
-  
-        console.log("Checking table:", tableNumber);
-        console.log(response.data);
+        const response = await axios.get(`${backendURL}/api/table/get`, {params: { table: tableNumber }});
   
         if (!response.data.success) {
           removeUserID();
@@ -73,7 +68,6 @@ const StoreContextProvider = (props) => {
         return;
       }
   
-      // When joining the table, send the current userID (if any)
       const response = await axios.post(`${backendURL}/api/table/join`, { 
         table: tableNumber,
         userID: userID, 
@@ -95,31 +89,28 @@ const StoreContextProvider = (props) => {
   };
   
 
-  // Listen for table updates via socket
   useEffect(() => {
     socket.on("tableUpdatedStatus", (data) => {
-      console.log("Table updated:", data);
-
-      // Re-check table status when the table becomes available again
-      if (data.available) {
-        // If the table becomes available again, check userID
-        if (!userID) {
-          checkTable(); // Re-join table if no userID is present
+      if (data.table == tableNumber) {
+        if (data.available) {
+          if (!userID) {
+            checkTable();
+          } else {
+            setAvailable(true);
+          }
         } else {
-          setAvailable(true); // Otherwise, just mark as available
+          removeUserID();
+          setUserID("");
+          setAvailable(false);
         }
-      } else {
-        // If table is unavailable, clear the userID
-        removeUserID();
-        setUserID("");
-        setAvailable(false);
       }
     });
-
+  
     return () => {
       socket.off("tableUpdatedStatus");
     };
   }, [socket, tableNumber, userID]);
+  
 
   // =========== CART & ORDER FUNCTIONS ===========
   const setToCart = (itemId, itemsCount, requirement = '') => {
