@@ -1,12 +1,12 @@
-import React, { useEffect, useState,useContext } from "react";
-import { toast } from "react-toastify";
+import React,{useEffect,useState,useContext} from "react";
+import {toast} from "react-toastify";
 import {DashboardContext} from '../context/DashboardContext'
-import { backendURL } from "../App";
-import axios from "axios";
-import { useParams, Link } from "react-router-dom";
-import { SkipBack, ChevronDown, ChevronUp,Eraser } from "lucide-react";
+import {backendURL} from "../App";
+import {useParams, Link} from "react-router-dom";
+import {SkipBack, ChevronDown, ChevronUp,Eraser} from "lucide-react";
+import {io } from "socket.io-client";  
 import moment from "moment";
-import { io } from "socket.io-client";  
+import axios from "axios";
 
 const Table = () => {
   const {fetchOrders,fecthAnalytics} = useContext(DashboardContext);
@@ -25,10 +25,7 @@ const Table = () => {
 
   const handleStatusChange = async (index, newStatus, orderId) => {
     try {
-      const response = await axios.post(backendURL + `/api/order/update`, {
-        id: orderId,
-        status: newStatus,
-      });
+      const response = await axios.post(backendURL + `/api/order/update`, {id: orderId,status: newStatus,});
 
       if (response.data.success) {
         toast.success("Order status updated successfully");
@@ -42,16 +39,13 @@ const Table = () => {
         toast.error("Failed to update status");
       }
     } catch (error) {
-      console.error(error);
       toast.error("Error updating order status");
     }
   };
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get(
-        backendURL + `/api/order/list/${tableNumber}`
-      );
+      const response = await axios.get(backendURL + `/api/order/list/${tableNumber}`);
       if (response.data.success) {
         toast.success(response.data.message);
         setOrders(response.data.orders);
@@ -71,7 +65,6 @@ const Table = () => {
         setTotalPrice(total);  
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -98,7 +91,6 @@ const Table = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   }
@@ -118,10 +110,7 @@ const Table = () => {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
         <div className="flex gap-3 md:gap-6">
-          <Link
-            to="/order"
-            className="flex items-center text-Text hover:text-Highlight"
-          >
+          <Link to="/order"className="flex items-center text-Text hover:text-Highlight">
             <SkipBack className="size-8 md:size-10" />
           </Link>
           <h1 className="text-2xl md:text-4xl font-bold ml-1">
@@ -133,8 +122,7 @@ const Table = () => {
           <h1 className="text-2xl md:text-4xl font-bold ml-1">
             Total Price : {totalPrice} ฿
           </h1>
-          <button
-            onClick={() => handleClearOrder()}
+          <button onClick={() => handleClearOrder()}
             className="flex items-center justify-center self-start w-full sm:w-auto h-full p-4 gap-3 text-white hover:bg-red-400 bg-red-600 rounded-2xl "
           >
             <Eraser />
@@ -187,10 +175,7 @@ const Table = () => {
                       </select>
                     </td>
                     <td className="py-3 px-4">
-                      <button
-                        className="border rounded-lg"
-                        onClick={() => toggleRow(index)}
-                      >
+                      <button className="border rounded-lg" onClick={() => toggleRow(index)}>
                         {expandedRows[index] ? (
                           <ChevronUp className="size-8 text-red-600" />
                         ) : (

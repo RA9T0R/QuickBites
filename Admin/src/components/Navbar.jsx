@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { DashboardContext } from "../context/DashboardContext";
-import { Link,useLocation } from "react-router-dom";
-import { sidemenu } from "../assets/assets";
-import { Sun, Moon ,AlignLeft , AlignJustify ,User,Bell,Airplay,LogOut  } from 'lucide-react';
+import {useContext, useState, useEffect} from 'react';
+import {DashboardContext} from "../context/DashboardContext";
+import {Link,useLocation} from "react-router-dom";
+import {sidemenu} from "../assets/assets";
+import {Sun, Moon ,AlignLeft , AlignJustify,Bell,Airplay,LogOut} from 'lucide-react';
 
 const Navbar = ({ expanded, setExpanded, setToken, role }) => {
   const location = useLocation();
@@ -61,8 +61,7 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
       >
         {expanded ? <AlignLeft className="size-8" /> : <AlignJustify className="size-8" />}
       </button>
-
-
+      
       <Link to="/" className="flex items-center gap-4 font-medium text-Text">
         <div className="p-3">
           <Airplay className="size-8 md:size-11" />
@@ -78,25 +77,25 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
           </div>
         </div>
         <div onClick={() => setShowNotifications(!showNotifications)} className="cursor-pointer">
-        <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
-          <Bell className="md:size-8 text-Text" />
+          <div className="size-9 md:size-12 bg-BG rounded-full shadow-lg shadow-Text/20 flex items-center justify-center">
+            <Bell className="md:size-8 text-Text" />
+          </div>
         </div>
-      </div>
 
-      {/* Notifications dropdown */}
-      {showNotifications && (
+        {/* Notifications dropdown */}
+        {showNotifications && (
         <div className="absolute top-16 right-4 bg-Text text-BG rounded-lg shadow-lg p-4 w-64 mt-3 max-h-80 overflow-y-auto">
           <h3 className="font-bold text-lg mb-2">Notifications</h3>
           {tables.map((table) => (
             table.callWaiter && (
-              <div key={table.table} className="flex justify-between items-center mb-3 p-4 border-t-4 border-BG rounded-lg shadow-md">
+              <div key={table.table} className="flex justify-between items-center mb-3 p-4 border-t-4 border-BG rounded-lgshadow-md">
                 <span className="text-sm font-medium">{`Table ${table.table}: Call Waiter`}</span>
                 <span className="text-sm">Need assistance</span>
               </div>
             )
           ))}
         </div>
-      )}
+        )}
       </div>
 
       {/* SideBar menu for small screens */}
@@ -118,12 +117,7 @@ const Navbar = ({ expanded, setExpanded, setToken, role }) => {
               .map((item, index) => {
               const Icon = item.icon;
               return (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className={`flex gap-4 pl-4 p-3 items-center rounded transition-colors hover:bg-Text/20 ${
-                    activeMenu === item.path ? "text-Highlight bg-Text/20" : ""
-                  }`}
+                <Link key={index} to={item.path} className={`flex gap-4 pl-4 p-3 items-center rounded transition-colors hover:bg-Text/20 ${activeMenu === item.path ? "text-Highlight bg-Text/20" : ""}`}
                 >
                   <Icon className="size-8"/>
                   <span>{item.title}</span>

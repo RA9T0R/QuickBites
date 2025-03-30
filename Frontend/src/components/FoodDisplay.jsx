@@ -1,16 +1,13 @@
-import React, { useContext,useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { StoreContext } from '../context/StoreContext'
-import { menu_list } from '../assets/assets'
+import React,{useContext} from 'react'
+import {StoreContext} from '../context/StoreContext'
+import {Link} from 'react-router-dom'
+import {menu_list} from '../assets/assets'
 import FoodItem from './FoodItem'
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
-import { ShoppingCart , ChefHat } from 'lucide-react'
+import {ShoppingCart,ChefHat} from 'lucide-react'
 
 const FoodDisplay = ({ category }) => {
-  const { foods_list, getCartCount, currency, getCartAmount, search } = useContext(StoreContext)
+  const {foods_list, getCartCount, currency, getCartAmount, search} = useContext(StoreContext)
 
   // Filter foods based on search term and selected category
   const filteredFoods = foods_list.filter(item => 
@@ -28,10 +25,6 @@ const FoodDisplay = ({ category }) => {
     return categories;
   }, {});
 
-  useEffect(() => {
-      AOS.init();
-  },[]);
-
   return (
     <div className="flex flex-col gap-2">
       {Object.keys(groupedFoods).map((categoryName) => (
@@ -39,19 +32,21 @@ const FoodDisplay = ({ category }) => {
           {/* Category Header with Icon */}
           <h2 className="text-xl sm:text-3xl mt-5 sm:mt-1 font-bold text-Text px-4 sm:px-8 flex items-center gap-2">
             <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
-              {(() => {
-                const item = menu_list.find(item => item.menu_name === categoryName) || {};
-                return React.createElement(item.menu_image || ChefHat, {
-                  className: `w-full h-full object-center ${item.color || ''}`
-                });
-              })()}
+              <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
+                {(() => {
+                  const item = menu_list.find(item => item.menu_name === categoryName) || {};
+                  return React.createElement(item.menu_image || ChefHat, {
+                    className: `w-full h-full object-center ${item.color || ''}`
+                  });
+                })()}
+              </div>
             </div>
             {categoryName}
           </h2>
 
 
           {/* Food Items data-aos="fade-up"*/}
-          <div  className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 gap-y-6 sm:py-5 px-4 sm:px-8'>
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 gap-y-6 sm:py-5 px-4 sm:px-8'>
             {groupedFoods[categoryName].map((item, index) => (
               <FoodItem
                 key={index}

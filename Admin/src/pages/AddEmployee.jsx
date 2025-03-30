@@ -1,9 +1,9 @@
-import React, { useState,useContext } from 'react'
-import axios from 'axios'
+import {useState,useContext} from 'react'
 import {DashboardContext} from '../context/DashboardContext'
-import { backendURL } from '../App';
-import { toast } from 'react-toastify';
-import { SquareUserRound } from 'lucide-react';
+import {backendURL} from '../App';
+import {toast} from 'react-toastify';
+import {SquareUserRound} from 'lucide-react';
+import axios from 'axios'
 
 const AddEmployee = ({ token, role }) => {
   if (role !== "admin") {
@@ -16,6 +16,7 @@ const AddEmployee = ({ token, role }) => {
       </div>
     );
   }
+
   const {fetchEmployee} = useContext(DashboardContext);
   const [image, setImage] = useState(false);
   const [firstname, setFirstname] = useState('');
@@ -44,7 +45,6 @@ const AddEmployee = ({ token, role }) => {
       image && formData.append('profilePic', image);
 
       const response = await axios.post(backendURL + '/api/employee/registerStaff', formData, { headers: { token } });
-      console.log(response)
       if (response.data.success) {
         fetchEmployee();
         toast.success(response.data.message);
@@ -62,7 +62,6 @@ const AddEmployee = ({ token, role }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   }
@@ -140,32 +139,17 @@ const AddEmployee = ({ token, role }) => {
             <h1 className="text-2xl font-bold self-start mb-5">Profile Image</h1>
             <label htmlFor="image1" className='w-full h-full'>
               {!image ? (
-                // Render your icon if there's no uploaded image
                 <SquareUserRound className="w-full h-full cursor-pointer rounded-xl text-Text" />
               ) : (
-                // Otherwise, display the uploaded image preview
-                <img
-                  className="w-full rounded-2xl cursor-pointer"
-                  src={URL.createObjectURL(image)}
-                  alt="Uploaded"
-                />
+                <img className="w-full rounded-2xl cursor-pointer" src={URL.createObjectURL(image)}alt="Uploaded"/>
               )}
-              <input
-                onChange={(e) => setImage(e.target.files[0])}
-                type="file"
-                id="image1"
-                hidden
-              />
+              <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image1"hidden/>
             </label>
           </div>
-          <button
-            type="submit"
-            className="rounded-xl bg-Button flex flex-col items-center justify-center p-5 text-3xl md:text-5xl lg:text-4xl xl:text-5xl text-BG active:bg-Button/75 hover:bg-Button/90"
-          >
+          <button type="submit" className="rounded-xl bg-Button flex flex-col items-center justify-center p-5 text-3xl md:text-5xl lg:text-4xl xl:text-5xl text-BG active:bg-Button/75 hover:bg-Button/90">
             Add Employee
           </button>
         </div>
-
       </form>
     </div>
   )

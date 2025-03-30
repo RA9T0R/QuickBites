@@ -1,25 +1,22 @@
-// App.jsx
-import { useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {useEffect,useContext} from 'react';
+import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import OrderSummary from './pages/OrderSummary';
 import Food from './pages/Food';
-import Table from './pages/Table';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Thank from './pages/Thank';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-import { useContext } from 'react';
 import { StoreContext } from './context/StoreContext';
 
 const App = () => {
+  const { tableNumber, available, loading } = useContext(StoreContext); 
   const navigate = useNavigate();
   const location = useLocation();
-  const { tableNumber, available, loading } = useContext(StoreContext); 
   const hideNavbarRoutes = ["/ThankYou"];
 
   // Update URL and context when the table number is set or changes
@@ -36,14 +33,13 @@ const App = () => {
       <ToastContainer position="top-right" autoClose={2000} />
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
       {loading ? (
-        <div className="text-center mt-10 text-2xl font-bold text-white">
+        <div className="text-center mt-10 text-2xl font-bold text-Text">
           <p>Checking table status...</p>
         </div>
       ) : available ? (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/table/:tableNumber" element={<Table />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/orderSummary" element={<OrderSummary />} />

@@ -1,16 +1,13 @@
 import orderModel from '../models/orderModel.js';
 
+// function for add order
 const addOrder = async (req, res) => {
     try {
-
         const { tableNumber, userID, products } = req.body;
-
         const productsArray = JSON.parse(products);
-
         const productsData = productsArray.map(product => {
             const { id, name, price, quantity, requirement, image } = product;
             const totalPrice = Number(price) * Number(quantity);  
-
             return {
                 id,
                 name,
@@ -30,33 +27,28 @@ const addOrder = async (req, res) => {
             createdAt: Date.now(),
         };
 
-        console.log(orderData);
-
         const order = new orderModel(orderData);
         await order.save();
 
         res.json({ success: true, message: "Order Added" });
     } catch (error) {
-        console.log(error);
         res.json({ success: false, message: error.message });
     }
 };
 
-
-
+// function for list order
 const listOrders = async (req,res) => {
     try {
         const order = await orderModel.find({});
         res.json({success:true,order})
     } catch (error) {
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }
 
+// function for list order by table
 const listOrdersByTable = async (req, res) => {
     const { tableNumber } = req.params;
-  
     try {
       const orders = await orderModel.find({ tableNumber: tableNumber });
   
@@ -73,12 +65,11 @@ const listOrdersByTable = async (req, res) => {
   
       res.json({ success: true, orders: orders, totalFoodCount: totalFoodCount });
     } catch (error) {
-      console.log(error);
       res.json({ success: false, message: error.message });
     }
-  };
+};
   
-
+// function for remove order
 const removeOrder = async (req, res) => {
     try {
         const { tableNumber } = req.body;
@@ -90,19 +81,17 @@ const removeOrder = async (req, res) => {
             res.json({ success: false, message: "No orders found for this table number" });
         }
     } catch (error) {
-        console.log(error);
         res.json({ success: false, message: error.message });
     }
 };
 
-
+// function for update order
 const updateOrder = async (req,res) => {
     try{
         const {id,status} = req.body;
         await orderModel.findByIdAndUpdate(id,{status});
-        res.json({success:true,message:"Order Updated"});
+        res.json({success:true,message:"Order Status Updated"});
     }catch(error){
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }

@@ -1,5 +1,4 @@
-import React from "react";
-import { Phone, Check, MapPin, Mail, Heart } from 'lucide-react';
+import {Phone, Check, MapPin, Mail, Heart} from 'lucide-react';
 
 const Thank = () => {
   return (

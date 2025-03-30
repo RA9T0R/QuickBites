@@ -38,8 +38,6 @@ const About = () => {
           <p className='text-Text'>Our team of dedicated customer service representatives is dedicated to providing exceptional customer service and support, ensuring that you have a smooth and enjoyable shopping experience.</p>
         </div>
       </div>
-
-      {/* <NewsletterBox/> */}
     </div>
   )
 }

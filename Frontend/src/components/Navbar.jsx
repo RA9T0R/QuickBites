@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
-import { StoreContext } from '../context/StoreContext';
-import { assets } from '../assets/assets';
-import { toast } from 'react-toastify'; 
+import {useContext,useState,useEffect} from 'react';
+import {NavLink, Link, useLocation} from 'react-router-dom';
+import {StoreContext} from '../context/StoreContext';
+import {assets} from '../assets/assets';
+import {toast} from 'react-toastify'; 
 import axios from 'axios';
 
 import { Sun, Moon, ShoppingBag, AlignLeft, ArrowLeft, ConciergeBell } from 'lucide-react';
@@ -41,7 +41,6 @@ const Navbar = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -66,7 +65,7 @@ const Navbar = () => {
   }, [darkMode]);  
 
   return (
-    <div className="flex items-center justify-between pt-4 sm:py-5 px-4 sm:px-8 font-medium">
+    <nav className="flex items-center justify-between pt-4 sm:py-5 px-4 sm:px-8 font-medium">
       {location.pathname === '/' ? (
         <div className='flex gap-4 pt-2 '>
           <AlignLeft onClick={() => setVisible(true)} className='size-6 sm:size-10 cursor-pointer md:hidden text-Text'/>
@@ -139,7 +138,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

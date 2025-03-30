@@ -1,20 +1,35 @@
-import React,{useState,useContext} from 'react'
-import { assets,menu_list } from "../assets/assets.js"
-import axios from 'axios'
-import {DashboardContext} from '../context/DashboardContext'
+import React, { useState, useContext } from 'react'
+import { menu_list } from "../assets/assets.js"
+import { DashboardContext } from '../context/DashboardContext'
 import { backendURL } from '../App';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
-import { Trash,Pencil,CookingPot,Star  } from 'lucide-react';
+import { Trash, Pencil, CookingPot, Star } from 'lucide-react';
 
-const Menu = ({token}) => {
-  const {foodList,fetchFood} = useContext(DashboardContext);
+const Menu = ({ token }) => {
+  const { foodList, fetchFood } = useContext(DashboardContext);
   const [category, setCategory] = useState('All');
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [MenuToDelete, setMenuToDelete] = useState(null);
+  const [nameMenu, setNameMenu] = useState("");
+
+  const handleDeleteClick = (id,name) => {
+    setNameMenu(name);
+    setMenuToDelete(id);
+    setDeleteModalOpen(true);
+  };
   
-  const removeFood = async (id) => {
+  const cancelDelete = () => {
+    setDeleteModalOpen(false);
+    setMenuToDelete(null);
+    setNameMenu(null);
+  };
+
+  const removeFood = async () => {
     try {
-      const response = await axios.post(backendURL + '/api/product/remove', { id },{ headers: { token } });
+      const response = await axios.post(backendURL + '/api/product/remove', { id: MenuToDelete }, { headers: { token } });
       if (response.data.success) {
         toast.success(response.data.message);
         await fetchFood();
@@ -22,15 +37,15 @@ const Menu = ({token}) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
+    cancelDelete();
   }
 
-  const filteredFoodList = category === 'All' 
-    ? foodList 
-    : category === 'Recommend' 
-      ? foodList.filter(food => food.recommend) 
+  const filteredFoodList = category === 'All'
+    ? foodList
+    : category === 'Recommend'
+      ? foodList.filter(food => food.recommend)
       : foodList.filter(food => food.category === category);
 
   return (
@@ -47,16 +62,14 @@ const Menu = ({token}) => {
       <div className="flex w-full overflow-x-auto mt-5">
         <div className="flex gap-6 sm:gap-8 lg:gap-10 mx-auto max-w-screen-xl">
           {menu_list.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => setCategory(prev => prev === item.menu_name ? 'All' : item.menu_name)}
+            <div key={index} onClick={() => setCategory(prev => prev === item.menu_name ? 'All' : item.menu_name)}
               className={`flex items-center gap-2 bg-BG px-2 py-1 rounded-xl shadow-lg shadow-Text/20 transition-all ease-in-out cursor-pointer ${
                 category === item.menu_name ? 'bg-BG_Black text-BG' : 'text-Text'
               }`}
             >
               {/* Icon Section */}
               <div className="hover:scale-105 relative w-12 h-12 overflow-hidden rounded-full shrink-0">
-                {React.createElement(item.menu_image, { className: `w-full h-full object-center ${item.color}` })} 
+                {React.createElement(item.menu_image, { className: `w-full h-full object-center ${item.color}` })}
               </div>
 
               {/* Text Section */}
@@ -98,14 +111,9 @@ const Menu = ({token}) => {
 
                   {/* Image */}
                   <td className="py-3 px-4 min-w-60 flex">
-                    {food.image && food.image.length > 0 ? (
+                    {food.image?.length > 0 ? (
                       food.image.map((image, imgIndex) => (
-                        <img
-                          key={imgIndex}
-                          src={image}
-                          alt={`Food Image ${imgIndex}`}
-                          className="size-16 rounded-lg object-cover mr-2"
-                        />
+                        <img key={imgIndex} src={image} alt={`Food Image ${imgIndex}`} className="size-16 rounded-lg object-cover mr-2" />
                       ))
                     ) : (
                       <span>No images available</span>
@@ -136,7 +144,7 @@ const Menu = ({token}) => {
                       <Link to={`/edit_menu/${food._id}`}>
                         <Pencil className="cursor-pointer" />
                       </Link>
-                      <Trash onClick={() => removeFood(food._id)} className="cursor-pointer" />
+                      <Trash onClick={() => handleDeleteClick(food._id,food.name)} className="cursor-pointer" />
                     </div>
                   </td>
                 </tr>
@@ -150,9 +158,27 @@ const Menu = ({token}) => {
           )}
         </div>
       </div>
+
+      {/* Confirmation Modal for deleting a table */}
+      {deleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-Text p-6 rounded-lg shadow-lg w-96 text-center">
+            <h2 className="text-xl font-bold mb-4 text-BG">
+              Are you sure you want to delete <br />{nameMenu}?
+            </h2>
+            <div className="flex justify-between text-white">
+              <button onClick={cancelDelete} className="px-4 py-2 bg-red-700 rounded">
+                Cancel
+              </button>
+              <button onClick={removeFood} className="px-4 py-2 bg-green-600 rounded">
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Menu;
-

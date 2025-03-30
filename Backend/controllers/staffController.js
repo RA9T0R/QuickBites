@@ -4,11 +4,12 @@ import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken'
 import staffModel from "../models/staffModel.js";
 
-
+// function for create token
 const createToken = (id) => {
     return jwt.sign({id},process.env.JWT_SECRET);
 }
 
+// function for login
 const login = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -35,11 +36,11 @@ const login = async (req, res) => {
         return res.json({ success: false, message: "Invalid staff credentials" });
       }
     } catch (error) {
-      console.log(error);
       return res.json({ success: false, message: error.message });
     }
-  };
+};
 
+// function for register staff
 const registerStaff = async (req, res) => {
     try {
         const { firstName,lastName, email, password,phone,address } = req.body;
@@ -81,11 +82,11 @@ const registerStaff = async (req, res) => {
 
         res.json({success: true,message: "Staff registered successfully",});
     } catch (error) {
-        console.error("Registration Error:", error);
         res.json({ success: false, message: "Server error, please try again." });
     }
 };
 
+// function for update staff
 const updateStaff = async (req, res) => {
     try {
         const {staffId, firstName,lastName, email, password, phone,address } = req.body;
@@ -139,11 +140,11 @@ const updateStaff = async (req, res) => {
 
         res.json({success: true,message: "Staff updated successfully",updatedStaff});
     } catch (error) {
-        console.error("Edit Staff Error:", error);
         res.json({ success: false, message: "Server error, please try again." });
     }
 };
 
+// function for remove staff
 const removeStaff = async (req, res) => {
     try {
         await staffModel.findByIdAndDelete(req.body.id)
@@ -154,6 +155,7 @@ const removeStaff = async (req, res) => {
     }
 }
 
+// function for list staff
 const listStaff = async (req, res) => {
     try{ 
         const staff = await staffModel.find({});
@@ -164,6 +166,7 @@ const listStaff = async (req, res) => {
     }
 }
 
+// function for single staff
 const singleStaff = async (req,res) => {
     try {
         const {staffId} = req.body

@@ -1,10 +1,11 @@
-import React, { useContext,useEffect, useState } from 'react';
+import {useContext,useEffect,useState} from 'react';
+import {StoreContext} from '../context/StoreContext';
+import {toast} from 'react-toastify'; 
+import {Link} from 'react-router-dom'; 
+import {X} from 'lucide-react';
+import {io} from "socket.io-client";  
 import axios from 'axios';
-import { StoreContext } from '../context/StoreContext';
-import { toast } from 'react-toastify'; 
-import { Link } from 'react-router-dom'; 
-import { X } from 'lucide-react';
-import { io } from "socket.io-client";  
+
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -42,7 +43,6 @@ const OrderSummary = () => {
         setIsPaymentOpen(true);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   }
@@ -56,27 +56,21 @@ const OrderSummary = () => {
         setTotalFoodCount(response.data.totalFoodCount)
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
   
   useEffect(() => {
     AOS.init();
-  },[]);
-
+    fetchOrders();
+    const timer = setTimeout(() => {fetchOrders();}, 1000);
+    return () => {clearTimeout(timer);};
+  }, []);
+  
   useEffect(() => {
     socket.on("orderUpdated", () => {fetchOrders();});
     return () => {socket.disconnect(); };
   }, [socket]);
-  
-  useEffect(() => { 
-    const timer = setTimeout(() => {
-      fetchOrders();  
-    }, 1000); 
-  
-    return () => {clearTimeout(timer);  };
-  }, [tableNumber]);  
 
   return (
     <div className="p-6 mt-5 bg-BG shadow-xl shadow-Text/20 border-t rounded-lg relative pb-20 md:pb-28">
@@ -127,8 +121,7 @@ const OrderSummary = () => {
       {totalFoodCount > 0 && (
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full p-5 pb-8 md:p-10 bg-BG shadow-xl shadow-Text/20 rounded-lg z-50">
           <div className='flex items-center justify-center'>
-            <button
-              onClick={() => handlepayment(calculateTotalPrice().toFixed(2))}
+            <button onClick={() => handlepayment(calculateTotalPrice().toFixed(2))}
               className="flex items-center justify-between w-full md:w-[60%] lg:w-[50%] bg-Button text-white px-6 sm:px-8 py-3 text-sm sm:text-base rounded-lg hover:bg-orange-500 active:bg-orange-700 transition duration-300"
             > 
               <p className='text-xl md:text-2xl lg:text-3xl'>{totalFoodCount} Order</p>

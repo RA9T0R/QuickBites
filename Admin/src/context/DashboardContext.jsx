@@ -1,13 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
-import { toast } from "react-toastify";
+import {createContext,useState,useEffect} from 'react';
+import {toast} from "react-toastify";
+import {backendURL} from "../App";
+import {io} from "socket.io-client";  
 import axios from "axios";
-import { backendURL } from "../App";
-import { io } from "socket.io-client";  
 
 export const DashboardContext = createContext(null);
 
 const DashboardContextProvider = (props) => {
-
   const [dateRange, setDateRange] = useState(localStorage.getItem('dateRange') || 'monthly');
   const [amountMenu, setAmountMenu] = useState(0);
   const [analyticsData, setAnalyticsData] = useState([]);
@@ -18,18 +17,14 @@ const DashboardContextProvider = (props) => {
   const [tables, setTables] = useState([]);
   const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true }))[0];
 
-
   const fecthAnalytics = async () => {
     try {
-      const response = await axios.get(backendURL + "/api/analytics/get", {
-        params: { dateRange }
-      });
+      const response = await axios.get(backendURL + "/api/analytics/get", {params: { dateRange }});
 
       if (response.data.success) {
         setAnalyticsData(response.data.sales);
       }
     } catch (error) {
-      console.error(error);
       toast.error("Error updating order status");
     }
   };
@@ -45,12 +40,11 @@ const DashboardContextProvider = (props) => {
 
         const sortedFood = response.data.product.sort((a, b) => a.category.localeCompare(b.category));
         setFoodList(sortedFood);
-      
       }
     } catch (error) {
       toast.error("Failed to fetch food list");
     }
-};
+  };
 
   const fetchEmployee = async () => {
     try {
@@ -71,7 +65,6 @@ const DashboardContextProvider = (props) => {
         setOrders(response.data.order);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -83,7 +76,6 @@ const DashboardContextProvider = (props) => {
         setTables(response.data.tables)
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   }
@@ -98,6 +90,12 @@ const DashboardContextProvider = (props) => {
       socket.disconnect();
     };
   }, [socket]);
+
+  useEffect(() => {
+    if (dateRange) {
+      localStorage.setItem('dateRange', dateRange);
+    }
+  }, [dateRange]);
 
   useEffect(() => {
     fetchFood();
@@ -138,12 +136,6 @@ const DashboardContextProvider = (props) => {
     employeeList, orders, fetchOrders, fecthAnalytics, dateRange, setDateRange,
     tables,setTables,fetchTable,latestFood,
   };
-
-  useEffect(() => {
-    if (dateRange) {
-      localStorage.setItem('dateRange', dateRange);
-    }
-  }, [dateRange]);
 
   return (
     <DashboardContext.Provider value={contextValue}>

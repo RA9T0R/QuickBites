@@ -1,8 +1,8 @@
-import { createContext, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {createContext, useState, useEffect} from 'react';
+import {useSearchParams} from 'react-router-dom';
+import {io} from "socket.io-client";  
+import {toast} from 'react-toastify';
 import axios from 'axios';
-import { io } from "socket.io-client";  
-import { toast } from 'react-toastify';
 
 export const StoreContext = createContext(null);
 
@@ -17,7 +17,6 @@ const StoreContextProvider = (props) => {
   const [tableNumber, setTableNumber] = useState(localStorage.getItem("tableNumber") || null);
   const [userID, setUserID] = useState(localStorage.getItem("userID") || "");
   const [foods_list, setFoods_list] = useState([]);
-
   const [available, setAvailable] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -26,15 +25,11 @@ const StoreContextProvider = (props) => {
   const socket = useState(() => io(backendURL, { transports: ['websocket', 'polling'],withCredentials: true }))[0];
 
   const storeUserID = (newUserID) => {
-    if (newUserID) {
-      localStorage.setItem("userID", newUserID);
-    }
+    if (newUserID) {localStorage.setItem("userID", newUserID);}
   };
+  const removeUserID = () => {localStorage.removeItem("userID");};
 
-  const removeUserID = () => {
-    localStorage.removeItem("userID");
-  };
-
+  // =========== CHECK TABLE ===========
   useEffect(() => {
     const tableFromURL = searchParams.get("table");
 
@@ -45,9 +40,7 @@ const StoreContextProvider = (props) => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (tableNumber !== null) {
-      checkTable();
-    }
+    if (tableNumber !== null) checkTable();
   }, [userID, tableNumber]);
 
   const checkTable = async () => {
@@ -56,7 +49,7 @@ const StoreContextProvider = (props) => {
     setLoading(true);
     try {
       if (userID) {
-        const response = await axios.get(`${backendURL}/api/table/get`, {params: { table: tableNumber }});
+        const response = await axios.get(backendURL + '/api/table/get', {params: { table: tableNumber }});
   
         if (!response.data.success) {
           removeUserID();
@@ -68,7 +61,7 @@ const StoreContextProvider = (props) => {
         return;
       }
   
-      const response = await axios.post(`${backendURL}/api/table/join`, { 
+      const response = await axios.post(backendURL + '/api/table/join', { 
         table: tableNumber,
         userID: userID, 
       });
@@ -81,7 +74,6 @@ const StoreContextProvider = (props) => {
         setAvailable(false);
       }
     } catch (error) {
-      console.error(error);
       setAvailable(false);
     } finally {
       setLoading(false);
@@ -106,9 +98,7 @@ const StoreContextProvider = (props) => {
       }
     });
   
-    return () => {
-      socket.off("tableUpdatedStatus");
-    };
+    return () => {socket.off("tableUpdatedStatus");};
   }, [socket, tableNumber, userID]);
   
 
@@ -203,21 +193,18 @@ const StoreContextProvider = (props) => {
     }, 0);
   };
 
-  const clearOrders = () => {
-    setOrderData([]);
-  };
+  const clearOrders = () => {setOrderData([]);};
 
   // =========== GET FOOD DATA ===========
   const getFoodData = async () => {
     try {
-      const response = await axios.get(`${backendURL}/api/product/list`);
+      const response = await axios.get(backendURL + '/api/product/list');
       if (response.data.success) {
         setFoods_list(response.data.product);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };

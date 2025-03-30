@@ -46,21 +46,20 @@ app.use('/api/analytics', analyticsRouter);
 app.use('/api/table', tableRouter);
 app.post('/api/promptpay', async (req, res) => {
   try {
-      const amount = parseFloat(req.body.amount);
-      const mobileNumber = '0944178866';
-      const payload = generatePayload(mobileNumber, {amount});
+    const amount = parseFloat(req.body.amount);
+    const mobileNumber = '0944178866';
+    const payload = generatePayload(mobileNumber, {amount});
 
-      QRCode.toDataURL(payload, (err, url) => {
-          if (err) {
-              console.log('Generate QR code error : ', err);
-              return res.json({ success: false, message: err.message });
-          }
-          res.json({ qrImage: url }); 
-      });
+    QRCode.toDataURL(payload, (err, url) => {
+        if (err) {
+            console.log('Generate QR code error : ', err);
+            return res.json({ success: false, message: err.message });
+        }
+        res.json({ qrImage: url }); 
+    });
       
   } catch (error) {
-      console.log(error);
-      res.json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 });
 
@@ -68,7 +67,6 @@ io.on('connection', (socket) => {
     console.log(`A user connected : ${socket.id}`);
 
     socket.on('message', (data) => {
-        console.log('Message received:', data);
         socket.emit('messageResponse', 'Message received');
     });
 

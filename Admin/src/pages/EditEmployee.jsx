@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
+import {DashboardContext} from '../context/DashboardContext'
 import { assets } from "../assets/assets.js";
 import axios from 'axios';
 import { backendURL } from '../App';
@@ -16,6 +17,7 @@ const EditEmployee = ({ token, role}) => {
       </div>
     );
   }
+  const {fetchEmployee} = useContext(DashboardContext);
   const navigate = useNavigate();
   const { staffId } = useParams();
   const [image, setImage] = useState(false);  
@@ -30,7 +32,7 @@ const EditEmployee = ({ token, role}) => {
   const [postalCode, setPostalCode] = useState('');
   const [profilePic, setProfilePic] = useState('');
 
-  const fetchEmployee = async () => {
+  const fetchSingleEmployee = async () => {
     try {
       const response = await axios.post(backendURL + '/api/employee/singleStaff', { staffId });
   
@@ -57,7 +59,7 @@ const EditEmployee = ({ token, role}) => {
   };
   
   useEffect(() => {
-    fetchEmployee();
+    fetchSingleEmployee();
   }, [staffId]);
   
   const onSubmitHandler = async (e) => {
@@ -80,12 +82,12 @@ const EditEmployee = ({ token, role}) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchEmployee();
         navigate('/list_employee')
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };

@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams,Link } from 'react-router-dom';
-import { StoreContext } from '../context/StoreContext';
+import {useContext, useEffect, useState} from 'react';
+import {useParams,Link} from 'react-router-dom';
+import {StoreContext} from '../context/StoreContext';
 import FoodItem from '../components/FoodItem'
 
-import { Star,AlarmClock,Flame   } from 'lucide-react';
+import {Star,AlarmClock,Flame} from 'lucide-react';
+import {assets} from '../assets/assets';
 
-import { assets } from '../assets/assets';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Pagination} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -45,7 +44,6 @@ const Food = () => {
     setRequirement(cartItems[foodId]?.requirement || "");
   }, [foodId]); 
   
-
   return productData ? (
     <div className="my-5 transition-opacity ease-in duration-500 opacity-100">
       {/* Product */}
@@ -61,11 +59,7 @@ const Food = () => {
           >
             {productData.image.map((item, index) => (
               <SwiperSlide key={index}>
-                <img
-                  src={item}
-                  className="object-cover"
-                  alt={`Product Image ${index + 1}`}
-                />
+                <img src={item} className="object-cover" alt={`Product Image ${index + 1}`}/>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -91,9 +85,7 @@ const Food = () => {
           
           {/* Requirement Section */}
           <div className="mt-4">
-              <label htmlFor="requirements" className="block text-Text font-semibold mb-2">
-                Special Instructions :
-              </label>
+              <label htmlFor="requirements" className="block text-Text font-semibold mb-2">Special Instructions :</label>
               <textarea
                 id="requirements"
                 value={requirement}
@@ -107,9 +99,7 @@ const Food = () => {
           <div className="grid grid-cols-[1fr_4fr] gap-4 sm:gap-6 mt-5 ">
             <div className="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full shadow-md z-10 sm:gap-4 sm:px-4 sm:py-2">
               <div className='size-8 md:size-12 bg-white shadow-lg rounded-full p-2'>
-                <img
-                  src={assets.minus}
-                  alt="Minus Button"
+                <img src={assets.minus} alt="Minus Button"
                   onClick={() => {
                     itemsCount > 0 && setItemsCount((prev) => prev - 1);
                   }}
@@ -119,11 +109,8 @@ const Food = () => {
               <div className="flex items-center justify-center w-8 h-8 md:w-12 md:h-12 bg-black shadow-lg rounded-xl">
                 <p className="text-lg md:text-2xl text-white font-extrabold">{itemsCount || 0}</p>
               </div>
-
               <div className='size-8 md:size-12 bg-white shadow-lg rounded-full p-2'>
-                <img
-                  src={assets.add}
-                  alt="Add Button"
+                <img src={assets.add} alt="Add Button"
                   onClick={() => setItemsCount((prev) => prev + 1)}
                   className="w-12 text-2xl cursor-pointer text-green-500 hover:text-green-700"
                 />
@@ -132,8 +119,7 @@ const Food = () => {
 
             {/* Add to Cart Button */}
             <Link to={`/`} className='flex'>
-              <button
-                onClick={() => setToCart(productData._id, itemsCount, requirement)}
+              <button onClick={() => setToCart(productData._id, itemsCount, requirement)}
                 className="flex items-center justify-between w-full bg-Button text-white px-3 sm:px-5 xl:px-7 2xl:px-9 py-3 text-lg sm:text-xl rounded-full hover:bg-orange-500 active:bg-orange-700 transition duration-300"
               >
                 <p className="text-md sm:text-2xl md:text-3xl xl:text-2xl font-medium text-white">
@@ -145,7 +131,6 @@ const Food = () => {
               </button>
             </Link>
           </div>
-
         </div>
       </div>
 

@@ -1,8 +1,5 @@
-import React from 'react';
 import { assets } from '../assets/assets';
 import { menu_list } from '../assets/assets';
-
-
 
 const Hero = ({ category }) => {
   const menuItem = menu_list.find(item => item.menu_name === category);
@@ -10,15 +7,10 @@ const Hero = ({ category }) => {
   return (
     <div className="hidden md:flex relative flex-col sm:flex-row shadow-lg shadow-Text/20  rounded-lg overflow-hidden">
       {/* Image Section */}
-      <img
-        src={menuItem ? menuItem.menu_main : assets.Home}
-        className="w-full h-56 sm:h-96 md:h-[40vh] object-cover"
-        alt=""
-      />
+      <img src={menuItem ? menuItem.menu_main : assets.Home} className="w-full h-56 sm:h-96 md:h-[40vh] object-cover" alt="Image Banner"/>
 
       {/* Overlay Section */}
       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-
         <div className="text-center text-white px-4">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-wide drop-shadow-lg">
             Quick Bites

@@ -1,7 +1,7 @@
 import analyticsModel from "../models/analyticsModel.js";
 import tableModel from "../models/tableModel.js";
 
-//  เพิ่มรายการรายรับ-รายจ่าย
+//  function for add transaction
 const addTransaction = async (req, res) => {
   try {
     const { products,table } = req.body;
@@ -38,11 +38,11 @@ const addTransaction = async (req, res) => {
 
     res.json({ success: true, message: "Clear Order & Save Data" });
   } catch (error) {
-    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
+// function for get analytics data
 const getAnalyticsData = async (req, res) => {
   try {
     const { dateRange } = req.query;
@@ -53,12 +53,10 @@ const getAnalyticsData = async (req, res) => {
     if (dateRange === "daily") {
       const now = new Date();
       
-      // Convert to local time in GMT+7
-      const offset = 7 * 60; // 7 hours in minutes
+      const offset = 7 * 60; 
       const localStartOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
       const localEndOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
     
-      // Convert to UTC
       const startOfDay = new Date(localStartOfDay.getTime() - offset * 60 * 1000).toISOString();
       const endOfDay = new Date(localEndOfDay.getTime() - offset * 60 * 1000).toISOString();
     
@@ -69,7 +67,7 @@ const getAnalyticsData = async (req, res) => {
 
       const lastDayOfMonth = new Date(firstDayOfMonth);
       lastDayOfMonth.setMonth(lastDayOfMonth.getMonth() + 1);
-      lastDayOfMonth.setDate(0); // Get the last date of the current month
+      lastDayOfMonth.setDate(0);
 
       filter.date = { $gte: firstDayOfMonth.toISOString(), $lt: lastDayOfMonth.toISOString() };
 
@@ -80,23 +78,16 @@ const getAnalyticsData = async (req, res) => {
       filter.date = { $gte: firstDayOfYear.toISOString(), $lt: lastDayOfYear.toISOString() };
     }
 
-    // Fetch analytics data from MongoDB using the constructed filter
     const analyticsData = await analyticsModel.find(filter).sort({ date: 1 });
 
     if (!analyticsData.length) {
-      console.log("No data found for filter:", filter);
       return res.json({ success: false, message: "No data found" });
     }
 
-    // Return data if found
     res.json({ success: true, sales: analyticsData });
   } catch (error) {
-    console.log("Error:", error);
     res.json({ success: false, message: error.message });
   }
 };
 
-
-
 export {addTransaction,getAnalyticsData};
-

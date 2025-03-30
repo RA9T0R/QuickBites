@@ -4,8 +4,7 @@ import productModel from '../models/productModel.js';
 // function for add products
 const addProduct = async (req,res) => {
     try {
-        
-        const { name, description, price, rate, time, Kcal, category, recommend } = req.body;
+        const {name, description, price, rate, time, Kcal, category, recommend} = req.body;
 
         const image1 = req.files.image1 && req.files.image1[0]
         const image2 = req.files.image2 && req.files.image2[0]
@@ -41,7 +40,6 @@ const addProduct = async (req,res) => {
 
         res.json({success:true,message:"Product Added"});
     } catch (error) {
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }
@@ -52,7 +50,6 @@ const listProducts = async (req,res) => {
         const product = await productModel.find({});
         res.json({success:true,product})
     } catch (error) {
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }
@@ -63,18 +60,14 @@ const removeProduct = async (req,res) => {
         await productModel.findByIdAndDelete(req.body.id)
         res.json({success:true,message:"Product Removed"})
     } catch (error) {
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }
 
 const updateProduct = async (req, res) => {
     try {
-        console.log(req.body)
-
         const { productId, name, description, price, rate, time, Kcal, category, recommend } = req.body;
 
-        // Handle images if they are updated
         const image1 = req.files && req.files.image1 && req.files.image1[0];
         const image2 = req.files && req.files.image2 && req.files.image2[0];
         const image3 = req.files && req.files.image3 && req.files.image3[0];
@@ -82,7 +75,6 @@ const updateProduct = async (req, res) => {
 
         const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
 
-        // Upload new images if they are provided
         let imageUrl = [];
         if (images.length > 0) {
             imageUrl = await Promise.all(
@@ -93,7 +85,6 @@ const updateProduct = async (req, res) => {
             );
         }
 
-        // Prepare the updated product data
         const updatedData = {
             name,
             description,
@@ -103,23 +94,20 @@ const updateProduct = async (req, res) => {
             Kcal,
             category,
             recommend: recommend === "true" ? true : false,
-            image: imageUrl.length > 0 ? imageUrl : undefined // only include the image array if images are updated
+            image: imageUrl.length > 0 ? imageUrl : undefined
         };
 
-        // Find the product by its ID and update it
         const updatedProduct = await productModel.findByIdAndUpdate(productId, updatedData, { new: true });
 
         if (!updatedProduct) {
-            return res.status(404).json({ success: false, message: "Product not found" });
+            return res.json({ success: false, message: "Product not found" });
         }
 
         res.json({ success: true, message: "Product Updated", updatedProduct });
     } catch (error) {
-        console.log(error);
         res.json({ success: false, message: error.message });
     }
 };
-
 
 // function for single product info
 const singleProducts = async (req,res) => {
@@ -128,7 +116,6 @@ const singleProducts = async (req,res) => {
         const product = await productModel.findById(productId)
         res.json({success:true,product})
     } catch (error) {
-        console.log(error);
         res.json({success:false,message:error.message})
     }
 }

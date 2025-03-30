@@ -1,11 +1,10 @@
-import React, { useState, useEffect,useContext } from 'react';
-import axios from 'axios';
+import {useState,useEffect,useContext} from 'react';
 import {DashboardContext} from '../context/DashboardContext'
-import { backendURL } from '../App';
-import { toast } from 'react-toastify';
-import { useParams, useNavigate } from "react-router-dom";
-// Import the icon from lucide-react:
-import { ImageUp } from 'lucide-react';
+import {backendURL} from '../App';
+import {toast } from 'react-toastify';
+import {useParams, useNavigate} from "react-router-dom";
+import {ImageUp} from 'lucide-react';
+import axios from 'axios';
 
 const EditMenu = ({ token, role }) => {
   if (role !== "admin") {
@@ -111,34 +110,25 @@ const EditMenu = ({ token, role }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
 
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">
-        Edit Menu
-      </h1>
+      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Edit Menu</h1>
 
-      <form
-        onSubmit={onSubmitHandler}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch"
-      >
+      <form onSubmit={onSubmitHandler}className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full h-full mt-4 rounded-xl items-stretch">
         {/* Left Column: Basic Info & Attributes */}
         <div className="bg-BG rounded-xl p-7 shadow flex flex-col h-full">
-          <h1 className="text-2xl font-bold mb-5 text-Text">
-            Basic Information
-          </h1>
+          <h1 className="text-2xl font-bold mb-5 text-Text">Basic Information</h1>
 
           {/* Basic Info Section */}
           <div>
             {/* Dish Name */}
             <div className="flex flex-col w-full mb-5">
               <p className="mb-2 text-Text">Dish Name</p>
-              <input
-                onChange={(e) => setName(e.target.value)}
+              <input onChange={(e) => setName(e.target.value)}
                 value={name}
                 className="w-full px-3 py-2 rounded-2xl text-Text bg-Text/10 placeholder-Text/50"
                 type="text"
@@ -150,8 +140,7 @@ const EditMenu = ({ token, role }) => {
             {/* Dish Description */}
             <div className="flex flex-col w-full mb-7">
               <p className="mb-2 text-Text">Description</p>
-              <textarea
-                onChange={(e) => setDescription(e.target.value)}
+              <textarea onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 className="w-full h-28 px-3 py-2 mb-1 rounded-2xl text-Text bg-Text/10 placeholder-Text/50 resize-none"
                 placeholder="Description"
@@ -166,8 +155,7 @@ const EditMenu = ({ token, role }) => {
             {/* Category */}
             <div>
               <p className="flex w-full text-Text mb-2">Category</p>
-              <select
-                onChange={(e) => setCategory(e.target.value)}
+              <select onChange={(e) => setCategory(e.target.value)}
                 value={category}
                 className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50"
               >
@@ -182,8 +170,7 @@ const EditMenu = ({ token, role }) => {
             {/* Price */}
             <div>
               <p className="flex mb-2 w-full text-Text">Price</p>
-              <input
-                onChange={(e) => setPrice(e.target.value)}
+              <input onChange={(e) => setPrice(e.target.value)}
                 value={price}
                 min={0}
                 className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
@@ -196,8 +183,7 @@ const EditMenu = ({ token, role }) => {
             {/* Rating */}
             <div>
               <p className="mb-2 w-full text-Text">Rating</p>
-              <input
-                onChange={(e) => setRate(e.target.value)}
+              <input onChange={(e) => setRate(e.target.value)}
                 value={rate}
                 min={0}
                 className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
@@ -210,8 +196,7 @@ const EditMenu = ({ token, role }) => {
             {/* Calories */}
             <div>
               <p className="mb-2 w-full text-Text">Calories (Kcal)</p>
-              <input
-                onChange={(e) => setCalories(e.target.value)}
+              <input onChange={(e) => setCalories(e.target.value)}
                 value={calories}
                 min={0}
                 className="w-full px-3 py-2 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
@@ -229,15 +214,12 @@ const EditMenu = ({ token, role }) => {
                   {/* Min Time */}
                   <div className="flex flex-col">
                     <label className="mb-1 text-sm text-Text">Min Time</label>
-                    <input
+                    <input onChange={(e) =>setTimeRange([Number(e.target.value), timeRange[1]])}
                       type="number"
                       value={timeRange[0]}
                       min={0}
                       placeholder="0"
                       max={timeRange[1]}
-                      onChange={(e) =>
-                        setTimeRange([Number(e.target.value), timeRange[1]])
-                      }
                       className="w-20 px-2 py-1 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
                     />
                   </div>
@@ -245,14 +227,11 @@ const EditMenu = ({ token, role }) => {
                   {/* Max Time */}
                   <div className="flex flex-col">
                     <label className="mb-1 text-sm text-Text">Max Time</label>
-                    <input
+                    <input onChange={(e) =>setTimeRange([timeRange[0], Number(e.target.value)])}
                       type="number"
                       value={timeRange[1]}
                       min={timeRange[0]}
                       placeholder="60"
-                      onChange={(e) =>
-                        setTimeRange([timeRange[0], Number(e.target.value)])
-                      }
                       className="w-20 px-2 py-1 rounded-xl text-Text bg-Text/10 placeholder-Text/50 no-spinner"
                     />
                   </div>
@@ -263,18 +242,14 @@ const EditMenu = ({ token, role }) => {
               {/* Recommendation */}
               <div className="mt-5">
                 <label className="flex items-center" htmlFor="bestseller">
-                  <span className="mr-5 font-medium text-Text">
-                    Add to Recommendation (Optional)
-                  </span>
-                  <input
-                    onChange={() => setBestseller((prev) => !prev)}
+                  <span className="mr-5 font-medium text-Text">Add to Recommendation (Optional)</span>
+                  <input onChange={() => setBestseller((prev) => !prev)}
                     checked={bestseller}
                     type="checkbox"
                     id="bestseller"
                     className="sr-only peer"
                   />
-                  <div
-                    className="
+                  <div className="
                       cursor-pointer relative w-11 h-6 rounded-full peer
                       dark:bg-gray-700 peer-checked:after:translate-x-full
                       rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white
@@ -301,51 +276,27 @@ const EditMenu = ({ token, role }) => {
               {/* Image 1 */}
               <label htmlFor="image1">
                 {image1 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={URL.createObjectURL(image1)}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image1)}/>
                 ) : food1 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={food1}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={food1}lt=""/>
                 ) : (
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 )}
-                <input
-                  onChange={(e) => setImage1(e.target.files[0])}
-                  type="file"
-                  id="image1"
-                  hidden
-                />
+
+                <input onChange={(e) => setImage1(e.target.files[0])} type="file" id="image1"hidden/>
               </label>
 
               {/* Image 2 */}
               <label htmlFor="image2">
                 {image2 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={URL.createObjectURL(image2)}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image2)}/>
                 ) : food2 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={food2}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={food2}lt=""/>
                 ) : (
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 )}
-                <input
-                  onChange={(e) => setImage2(e.target.files[0])}
-                  type="file"
-                  id="image2"
-                  hidden
-                />
+                
+                <input onChange={(e) => setImage2(e.target.files[0])} type="file" id="image2"hidden/>
               </label>
             </div>
 
@@ -354,61 +305,34 @@ const EditMenu = ({ token, role }) => {
               {/* Image 3 */}
               <label htmlFor="image3">
                 {image3 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={URL.createObjectURL(image3)}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image3)}/>
                 ) : food3 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={food3}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={food3}lt=""/>
                 ) : (
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 )}
-                <input
-                  onChange={(e) => setImage3(e.target.files[0])}
-                  type="file"
-                  id="image3"
-                  hidden
-                />
+                
+                <input onChange={(e) => setImage3(e.target.files[0])} type="file" id="image3"hidden/>
               </label>
 
               {/* Image 4 */}
               <label htmlFor="image4">
                 {image4 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={URL.createObjectURL(image4)}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image4)}/>
                 ) : food4 ? (
-                  <img
-                    className="size-80 cursor-pointer rounded-xl"
-                    src={food4}
-                    alt=""
-                  />
+                  <img className="size-80 cursor-pointer rounded-xl" src={food4}lt=""/>
                 ) : (
                   <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
                 )}
-                <input
-                  onChange={(e) => setImage4(e.target.files[0])}
-                  type="file"
-                  id="image4"
-                  hidden
-                />
+                
+                <input onChange={(e) => setImage4(e.target.files[0])} type="file" id="image4"hidden/>
               </label>
             </div>
           </div>
 
           {/* Button at bottom of right column */}
           <div className="flex justify-center mt-4">
-            <button
-              type="submit"
-              className="w-32 md:p-5 py-3 bg-Button text-BG active:bg-Button/75 rounded-xl shadow"
-            >
+            <button type="submit" className="w-32 md:p-5 py-3 bg-Button text-BG active:bg-Button/75 rounded-xl shadow">
               Update
             </button>
           </div>

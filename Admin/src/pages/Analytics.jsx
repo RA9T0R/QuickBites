@@ -1,9 +1,9 @@
-import React, { useEffect, useState,useContext } from "react";
+import {useEffect, useState,useContext } from "react";
 import {DashboardContext} from '../context/DashboardContext'
-import { format } from 'date-fns';
-import { Inbox ,ContactRound,Wallet   } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,  PieChart,Pie,Cell} from 'recharts';
+import {format} from 'date-fns';
+import {Inbox ,ContactRound,Wallet} from 'lucide-react';
+import {Link} from 'react-router-dom';
+import {ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart,Pie,Cell} from 'recharts';
 
 
 const Analytics = ({ role }) => {

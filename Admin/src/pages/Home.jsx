@@ -1,8 +1,8 @@
-import React, { useEffect, useState,useContext } from "react";
+import {useContext } from "react";
 import {DashboardContext} from '../context/DashboardContext'
-import { format } from "date-fns";
-import { Inbox, ContactRound, Wallet,CookingPot  } from "lucide-react";
-import { Link } from "react-router-dom";
+import {format} from "date-fns";
+import {Inbox, ContactRound, Wallet,CookingPot  } from "lucide-react";
+import {Link} from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -18,9 +18,7 @@ const Home = () => {
   
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">
-        Home Pages
-      </h1>
+      <h1 className="text-2xl md:text-4xl font-bold self-start ml-1">Home Pages</h1>
 
       {/* Container Bento Grid */}
       <div className="grid h-full w-full grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
@@ -91,7 +89,6 @@ const Home = () => {
                   contentStyle={{ backgroundColor: "#000", borderRadius: 10 }}
                   labelFormatter={(label) => format(new Date(label), "d - MMM : HH:mm")}
                 />
-                
                 <Line 
                   type="natural" 
                   dataKey="totalIncome" 
@@ -111,8 +108,8 @@ const Home = () => {
               </Link>
             </div>
             <ul className="flex flex-col gap-3">
-              {popularFood.map((food) => (
-                <div key={food.name} className="flex items-center gap-5">
+              {popularFood.map((food,index) => (
+                <div key={`${food.name}-${index}`} className="flex items-center gap-5">
                   <img className="w-28 rounded-xl" src={food.image} alt={food.name} />
                   <div>
                     <p className="font-bold">{food.name}</p>
@@ -146,8 +143,8 @@ const Home = () => {
                         <p className="text-Text">Time : {format(new Date(order.createdAt), "HH:mm")}</p>
                       </div>
                       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {order.products.map((product) => (
-                          <div className="shadow-lg shadow-Text/20 text-Text mt-4 rounded-3xl">
+                      {order.products.map((product, index) => (
+                          <div key={`${product.name}-${index}`} className="shadow-lg shadow-Text/20 text-Text mt-4 rounded-3xl">
                             <div className="relative rounded-t-3xl overflow-hidden">
                               <img src={product.image[0]} alt="" className="w-full transition-all ease-in-out" />
                               <div className="absolute top-2 right-2 w-10 h-10 sm:w-12 sm:h-12 bg-BG rounded-full border shadow-lg flex items-center justify-center">
@@ -165,9 +162,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-          {/* <div className="lg:col-span-1 rounded-xl bg-BG flex items-center justify-center">
-            <h2 className="text-lg">Daily Trending Menus</h2>
-          </div> */}
         </div>
       </div>
     </div>

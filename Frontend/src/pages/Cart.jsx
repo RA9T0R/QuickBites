@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StoreContext } from '../context/StoreContext';
-import { toast } from 'react-toastify';
-import { Trash2 } from 'lucide-react';
+import {useContext, useEffect, useState} from 'react';
+import {StoreContext} from '../context/StoreContext';
+import {toast} from 'react-toastify';
+import {Trash2} from 'lucide-react';
 import axios from 'axios';
 
-import { assets } from '../assets/assets';
+import {assets} from '../assets/assets';
 import CartTotal from '../components/CartTotal';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -17,24 +17,21 @@ const Cart = () => {
 
   useEffect(() => {
     if (foods_list.length > 0) {
-      const tempData = Object.keys(cartItems)
-        .map((id) => {
-          const product = foods_list.find((food) => food._id === id);
-          if (product) {
-            return {
-              id,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              requirement: cartItems[id]?.requirement,
-              quantity: cartItems[id]?.quantity,
-            };
-          }
-          return null;
-        })
-        .filter((item) => item !== null);
+      const tempData = Object.keys(cartItems).map((id) => {
+        const product = foods_list.find((food) => food._id === id);
+        if (product) {
+          return {
+            id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            requirement: cartItems[id]?.requirement,
+            quantity: cartItems[id]?.quantity,
+          };
+        }
+        return null;
+      }).filter((item) => item !== null);
       setCartData(tempData);
-      console.log(cartData);
     }
     AOS.init();
   }, [cartItems, foods_list]);
@@ -51,11 +48,11 @@ const Cart = () => {
 
       if(response.data.success){
         toast.success(response.data.message);
-      }else{
+      }
+      else{
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.message)
     }
   }
@@ -70,25 +67,21 @@ const Cart = () => {
         {cartData.length > 0 ? (
           <div>
             {cartData.map((item, index) => (
-              <div key={index}
-                className="py-4 border-t border-b text-Text/80 flex justify-between items-center gap-2">
+              <div key={index} className="py-4 border-t border-b text-Text/80 flex justify-between items-center gap-2">
                 <div data-aos="fade-right" className="flex gap-3 md:gap-6 w-full">
                   <img src={item.image[0]} className="w-28 sm:w-44 rounded-lg" alt="" />
                   <div className='flex flex-col justify-center'>
                     <p className="text-md md:text-2xl font-bold">{item.name}</p>
-                    <div className="flex items-center text-md md:text-2xl gap-5 mt-2">
-                      <p>฿ {item.price}</p>
-                    </div>
+                    <div className="flex items-center text-md md:text-2xl gap-5 mt-2"><p>฿ {item.price}</p></div>
                   </div>
                 </div>
 
                 <div data-aos="fade-left" className='md:w-[25%] p-2 flex flex-col items-center'>
                   <p className='text-lg md:text-2xl '>{item.quantity*item.price}</p>
                   <Trash2 className='size-4 md:size-10 cursor-pointer' onClick={() => removeItem(item.id)}/>
-                  {/* <img className='w-4 md:w-10 cursor-pointer' onClick={() => removeItem(item.id)}  src={assets.bin}alt="Bin" /> */}
                 </div>
 
-                <div   data-aos="fade-left" className='md:w-[25%] flex flex-col gap-2 items-center justify-center'>
+                <div data-aos="fade-left" className='md:w-[25%] flex flex-col gap-2 items-center justify-center'>
                   <div className='flex flex-col gap-3 items-center'>
                     <div className='size-6 md:size-10 bg-white shadow-lg rounded-full p-2'>
                       <img onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -101,9 +94,9 @@ const Cart = () => {
 
                     <div className='size-6 md:size-10 bg-white shadow-lg rounded-full p-2'>
                       <img src={assets.minus} onClick={() =>
-                        item.quantity > 1 && updateQuantity(item.id, item.quantity - 1)
-                      }
-                      className="w-10 cursor-pointer" alt="" />
+                        item.quantity > 1 && updateQuantity(item.id, item.quantity - 1)} 
+                        className="w-10 cursor-pointer" alt="" 
+                      />
                     </div>
                   </div>
                 </div>

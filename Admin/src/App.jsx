@@ -1,5 +1,5 @@
-import { useState, useEffect} from 'react'
-import { Routes, Route } from 'react-router-dom'
+import {useState, useEffect} from 'react'
+import {Routes, Route} from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -32,18 +32,10 @@ const App = () => {
       <ToastContainer/>
       {token === "" ? <Login setToken={setToken} setRole={setRole} /> : 
       <>
-        {/* Navbar */}
         <Navbar expanded={expanded} setExpanded={setExpanded} setToken={setToken} role={role} />
-
         <div className="flex pt-20">
-          {/* Sidebar */}
           <Sidebar expanded={expanded} setToken={setToken} role={role} />
-
-          {/* Main Content */}
-          <div
-            className={`flex-1 p-4 overflow-auto transition-all duration-300 ${expanded ? 'md:ml-64' : 'md:ml-24'
-              }`}
-          >
+          <div className={`flex-1 p-4 overflow-auto transition-all duration-300 ${expanded ? 'md:ml-64' : 'md:ml-24'}`}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/view_menu" element={<Menu token={token}/>} />
@@ -65,4 +57,3 @@ const App = () => {
 };
 
 export default App;
-

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Airplay, LogOut } from "lucide-react";
-import { sidemenu } from "../assets/assets";
+import {useState, useEffect} from "react";
+import {Link, useLocation} from "react-router-dom";
+import {LogOut} from "lucide-react";
+import {sidemenu} from "../assets/assets";
 
 const Sidebar = ({expanded, setToken, role}) => {
   const location = useLocation();
@@ -13,11 +13,8 @@ const Sidebar = ({expanded, setToken, role}) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out bg-BG hidden md:flex flex-col flex-grow-0 border-r-[1px] border-Text/10 ${
-        expanded ? 'w-64' : 'w-24'
-      }`}
+      className={`fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out bg-BG hidden md:flex flex-col flex-grow-0 border-r-[1px] border-Text/10 ${expanded ? 'w-64' : 'w-24'}`}
     >
-
       {/* Menu */}
       <div className="flex-1 flex flex-col p-3 gap-3 text-Text mt-20 overflow-y-auto">
         {sidemenu
@@ -25,12 +22,7 @@ const Sidebar = ({expanded, setToken, role}) => {
           .map((item, index) => {
           const Icon = item.icon;
           return (
-            <Link
-              key={index}
-              to={item.path}
-              className={`flex gap-4 pl-4 p-3 items-center rounded-xl transition-colors hover:bg-Text/20 ${
-                activeMenu === item.path ? "text-Highlight bg-Text/20" : ""
-              }`}
+            <Link key={index} to={item.path}className={`flex gap-4 pl-4 p-3 items-center rounded-xl transition-colors hover:bg-Text/20 ${activeMenu === item.path ? "text-Highlight bg-Text/20" : ""}`}
             >
               <Icon className="size-8" />
               {expanded && <span>{item.title}</span>}
@@ -51,4 +43,3 @@ const Sidebar = ({expanded, setToken, role}) => {
 };
 
 export default Sidebar;
-
