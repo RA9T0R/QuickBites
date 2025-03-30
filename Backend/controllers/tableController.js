@@ -111,6 +111,37 @@ const listTables = async (req, res) => {
   }
 };
 
+// function for get table
+const getTable = async (req, res) => {
+  try {
+    const { table } = req.query;
+
+    let tableData = await tableModel.findOne({ table });
+
+    if (!tableData) {
+      return res.json({
+        success: false,
+        message: "Table not found.",
+      });
+    }
+
+    if (!tableData.available) {
+      return res.json({
+        success: false,
+        message: "Table is not available.",
+      });
+    }
+
+    res.json({
+      success: true,
+      table: tableData,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 const deleteTable = async (req, res) => {
   try {
     const { tableNumber } = req.body;
@@ -174,6 +205,7 @@ export {
   availableTable,
   clearTable,
   listTables,
+  getTable,
   deleteTable,
   callWaiter,
   attendToCall
