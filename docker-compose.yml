@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  backend:
+    image: quickbitesacr.azurecr.io/quickbites_backend:latest
+    container_name: quickbites_backend
+    ports:
+      - "3000:4000" # Host port 3000 => container port 4000
+    env_file:
+      - ./Backend/.env
+    depends_on:
+      - mongo
+    networks:
+      - quickbites-net
+
+  frontend:
+    image: quickbitesacr.azurecr.io/quickbites_frontend:latest
+    container_name: quickbites_frontend
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+    networks:
+      - quickbites-net
+
+  admin:
+    image: quickbitesacr.azurecr.io/quickbites_admin:latest
+    container_name: quickbites_admin
+    ports:
+      - "3002:80"
+    env_file:
+      - ./Admin/.env
+    depends_on:
+      - backend
+    networks:
+      - quickbites-net
+
+  mongo:
+    image: mongo:latest
+    container_name: quickbites_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - quickbites-net
+
+networks:
+  quickbites-net:
+
+volumes:
+  mongo_data:
