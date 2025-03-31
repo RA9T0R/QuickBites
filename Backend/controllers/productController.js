@@ -66,23 +66,41 @@ const removeProduct = async (req,res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { productId, name, description, price, rate, time, Kcal, category, recommend } = req.body;
+        const { productId, name, description, price, rate, time, Kcal, category, recommend, image1, image2, image3, image4 } = req.body;
 
-        const image1 = req.files && req.files.image1 && req.files.image1[0];
-        const image2 = req.files && req.files.image2 && req.files.image2[0];
-        const image3 = req.files && req.files.image3 && req.files.image3[0];
-        const image4 = req.files && req.files.image4 && req.files.image4[0];
+        const uploadedImage1 = req.files && req.files.image1 && req.files.image1[0];
+        const uploadedImage2 = req.files && req.files.image2 && req.files.image2[0];
+        const uploadedImage3 = req.files && req.files.image3 && req.files.image3[0];
+        const uploadedImage4 = req.files && req.files.image4 && req.files.image4[0];
 
-        const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
+        let imageUrls = [];
 
-        let imageUrl = [];
-        if (images.length > 0) {
-            imageUrl = await Promise.all(
-                images.map(async (item) => {
-                    let result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
-                    return result.secure_url;
-                })
-            );
+        if (uploadedImage1) {
+            let result = await cloudinary.uploader.upload(uploadedImage1.path, { resource_type: 'image' });
+            imageUrls.push(result.secure_url);
+        } else if (image1 && image1 !== "") { 
+            imageUrls.push(image1);
+        }
+
+        if (uploadedImage2) {
+            let result = await cloudinary.uploader.upload(uploadedImage2.path, { resource_type: 'image' });
+            imageUrls.push(result.secure_url);
+        } else if (image2 && image2 !== "") { 
+            imageUrls.push(image2);
+        }
+
+        if (uploadedImage3) {
+            let result = await cloudinary.uploader.upload(uploadedImage3.path, { resource_type: 'image' });
+            imageUrls.push(result.secure_url);
+        } else if (image3 && image3 !== "") { 
+            imageUrls.push(image3);
+        }
+
+        if (uploadedImage4) {
+            let result = await cloudinary.uploader.upload(uploadedImage4.path, { resource_type: 'image' });
+            imageUrls.push(result.secure_url);
+        } else if (image4 && image4 !== "") { 
+            imageUrls.push(image4);
         }
 
         const updatedData = {
@@ -94,7 +112,7 @@ const updateProduct = async (req, res) => {
             Kcal,
             category,
             recommend: recommend === "true" ? true : false,
-            image: imageUrl.length > 0 ? imageUrl : undefined
+            image: imageUrls.length > 0 ? imageUrls : undefined 
         };
 
         const updatedProduct = await productModel.findByIdAndUpdate(productId, updatedData, { new: true });
@@ -109,7 +127,6 @@ const updateProduct = async (req, res) => {
     }
 };
 
-// function for single product info
 const singleProducts = async (req,res) => {
     try {
         const { productId } = req.body

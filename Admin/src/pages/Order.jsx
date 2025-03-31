@@ -174,9 +174,11 @@ const Order = () => {
           <div className="bg-Text p-6 rounded-lg shadow-lg w-96 text-center">
             <h2 className="text-xl font-bold mb-4 text-BG">Add New Table</h2>
             <input type="number" placeholder="Enter table number" value={tableNumber}
-              onChange={(e) => setTableNumber(e.target.value)}
-              className="w-full border p-2 rounded mb-4 text-BG"
-            />
+              onChange={(e) => {
+                const value = Math.max(1, Math.min(999999, Math.floor(e.target.value)));
+                setTableNumber(value);
+              }}
+              className="w-full border p-2 rounded mb-4 text-BG" min="1" max="999999"/>
             <div className="flex justify-between">
               <button onClick={() => setIsModalOpen(false)}className="px-4 py-2 bg-red-700 rounded" >
                 Cancel

@@ -49,25 +49,25 @@ b{
 }
 
 .badge-ordering {
-    background-color: yellow;
-    color: black;
+    background-color: gray;
+    color: white;
     padding: 4px 8px;
     border-radius: 12px;
 }
 .badge-cooking {
-    background-color: orange;
+    background-color: #ffc935;
     color: white;
     padding: 4px 8px;
     border-radius: 12px;
 }
 .badge-serving {
-    background-color: green;
+    background-color: #F79824;
     color: white;
     padding: 4px 8px;
     border-radius: 12px;
 }
 .badge-completed {
-    background-color: blue;
+    background-color: green;
     color: white;
     padding: 4px 8px;
     border-radius: 12px;

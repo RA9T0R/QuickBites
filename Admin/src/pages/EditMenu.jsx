@@ -22,10 +22,10 @@ const EditMenu = ({ token, role }) => {
   const { productId } = useParams();
 
   // Local file states
-  const [image1, setImage1] = useState(false);
-  const [image2, setImage2] = useState(false);
-  const [image3, setImage3] = useState(false);
-  const [image4, setImage4] = useState(false);
+  const [image1, setImage1] = useState('');
+  const [image2, setImage2] = useState('');
+  const [image3, setImage3] = useState('');
+  const [image4, setImage4] = useState('');
 
   // Existing data from DB
   const [food1, setFood1] = useState('');
@@ -67,7 +67,6 @@ const EditMenu = ({ token, role }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -80,7 +79,6 @@ const EditMenu = ({ token, role }) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-
       formData.append('productId', productId);
       formData.append('name', name);
       formData.append('description', description);
@@ -90,21 +88,21 @@ const EditMenu = ({ token, role }) => {
       formData.append('category', category);
       formData.append('recommend', bestseller);
       formData.append('time', JSON.stringify(timeRange));
-
-      if (image1) formData.append('image1', image1);
-      if (image2) formData.append('image2', image2);
-      if (image3) formData.append('image3', image3);
-      if (image4) formData.append('image4', image4);
-
+  
+      formData.append('image1', image1 || food1);  
+      formData.append('image2', image2 || food2);  
+      formData.append('image3', image3 || food3);  
+      formData.append('image4', image4 || food4);  
+  
       const response = await axios.post(
         backendURL + '/api/product/update',
         formData,
         { headers: { token } }
       );
-
+  
       if (response.data.success) {
         toast.success(response.data.message);
-        fetchFood()
+        fetchFood();
         navigate('/view_menu');
       } else {
         toast.error(response.data.message);
@@ -113,6 +111,7 @@ const EditMenu = ({ token, role }) => {
       toast.error(error.message);
     }
   };
+  
 
   return (
     <div className="w-full flex flex-col items-center text-Text p-2 sm:p-8">
@@ -272,62 +271,137 @@ const EditMenu = ({ token, role }) => {
           {/* Main content area grows to fill space */}
           <div className="flex-grow w-full">
             {/* Row 1 of images */}
-            <div className="grid grid-cols-2 gap-4 my-5">
+            <div className="grid grid-cols-2 gap-4">
               {/* Image 1 */}
-              <label htmlFor="image1">
-                {image1 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image1)}/>
-                ) : food1 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={food1}lt=""/>
-                ) : (
-                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+              <div className="relative">
+                <label htmlFor="image1" className="block cursor-pointer">
+                  {image1 ? (
+                    <img className="size-80 rounded-xl" src={URL.createObjectURL(image1)} />
+                  ) : food1 ? (
+                    <img className="size-80 rounded-xl" src={food1} />
+                  ) : (
+                    <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                  )}
+                </label>
+
+                {/* Delete Button */}
+                {(image1 || food1) && (
+                  <button
+                    onClick={() => {
+                      setImage1('');
+                      setFood1('');
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    X
+                  </button>
                 )}
 
-                <input onChange={(e) => setImage1(e.target.files[0])} type="file" id="image1"hidden/>
-              </label>
+                <input
+                  onChange={(e) => setImage1(e.target.files[0])}
+                  type="file"
+                  id="image1"
+                  hidden
+                />
+              </div>
 
               {/* Image 2 */}
-              <label htmlFor="image2">
-                {image2 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image2)}/>
-                ) : food2 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={food2}lt=""/>
-                ) : (
-                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
-                )}
-                
-                <input onChange={(e) => setImage2(e.target.files[0])} type="file" id="image2"hidden/>
-              </label>
-            </div>
+              <div className="relative">
+                <label htmlFor="image2" className="block cursor-pointer">
+                  {image2 ? (
+                    <img className="size-80 rounded-xl" src={URL.createObjectURL(image2)} />
+                  ) : food2 ? (
+                    <img className="size-80 rounded-xl" src={food2} />
+                  ) : (
+                    <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                  )}
+                </label>
 
-            {/* Row 2 of images */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* Image 3 */}
-              <label htmlFor="image3">
-                {image3 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image3)}/>
-                ) : food3 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={food3}lt=""/>
-                ) : (
-                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                {(image2 || food2) && (
+                  <button
+                    onClick={() => {
+                      setImage2('');
+                      setFood2('');
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    X
+                  </button>
                 )}
-                
-                <input onChange={(e) => setImage3(e.target.files[0])} type="file" id="image3"hidden/>
-              </label>
+
+                <input
+                  onChange={(e) => setImage2(e.target.files[0])}
+                  type="file"
+                  id="image2"
+                  hidden
+                />
+              </div>
+
+              {/* Image 3 */}
+              <div className="relative">
+                <label htmlFor="image3" className="block cursor-pointer">
+                  {image3 ? (
+                    <img className="size-80 rounded-xl" src={URL.createObjectURL(image3)} />
+                  ) : food3 ? (
+                    <img className="size-80 rounded-xl" src={food3} />
+                  ) : (
+                    <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                  )}
+                </label>
+
+                {(image3 || food3) && (
+                  <button
+                    onClick={() => {
+                      setImage3('');
+                      setFood3('');
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    X
+                  </button>
+                )}
+
+                <input
+                  onChange={(e) => setImage3(e.target.files[0])}
+                  type="file"
+                  id="image3"
+                  hidden
+                />
+              </div>
 
               {/* Image 4 */}
-              <label htmlFor="image4">
-                {image4 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={URL.createObjectURL(image4)}/>
-                ) : food4 ? (
-                  <img className="size-80 cursor-pointer rounded-xl" src={food4}lt=""/>
-                ) : (
-                  <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+              <div className="relative">
+                <label htmlFor="image4" className="block cursor-pointer">
+                  {image4 ? (
+                    <img className="size-80 rounded-xl" src={URL.createObjectURL(image4)} />
+                  ) : food4 ? (
+                    <img className="size-80 rounded-xl" src={food4} />
+                  ) : (
+                    <ImageUp className="w-full h-full cursor-pointer rounded-xl text-Text" />
+                  )}
+                </label>
+
+                {(image4 || food4) && (
+                  <button
+                    onClick={() => {
+                      setImage4('');
+                      setFood4('');
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 text-white text-sm px-2 py-1 rounded-full"
+                  >
+                    X
+                  </button>
                 )}
-                
-                <input onChange={(e) => setImage4(e.target.files[0])} type="file" id="image4"hidden/>
-              </label>
+
+                <input
+                  onChange={(e) => setImage4(e.target.files[0])}
+                  type="file"
+                  id="image4"
+                  hidden
+                />
+              </div>
             </div>
+
           </div>
 
           {/* Button at bottom of right column */}

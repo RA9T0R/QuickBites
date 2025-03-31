@@ -110,11 +110,20 @@ const Menu = ({ token }) => {
                   </td>
 
                   {/* Image */}
-                  <td className="py-3 px-4 min-w-60 flex">
-                    {food.image?.length > 0 ? (
-                      food.image.map((image, imgIndex) => (
-                        <img key={imgIndex} src={image} alt={`Food Image ${imgIndex}`} className="size-16 rounded-lg object-cover mr-2" />
-                      ))
+                  <td className="py-3 px-4 min-w-80 flex">
+                    {food.image &&
+                    Array.isArray(food.image) &&
+                    food.image.filter((img) => img && img !== "null").length > 0 ? (
+                      food.image
+                        .filter((img) => img && img !== "null")
+                        .map((image, imgIndex) => (
+                          <img
+                            key={imgIndex}
+                            src={image}
+                            alt={`Food Image ${imgIndex}`}
+                            className="size-16 rounded-lg object-cover mr-2"
+                          />
+                        ))
                     ) : (
                       <span>No images available</span>
                     )}
